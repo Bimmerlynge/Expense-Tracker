@@ -1,0 +1,107 @@
+[
+  {
+    "id": 1,
+    "amount": 2500,
+    "createdTime": "2025-07-24T12:00:00Z",
+    "category": "Groceries",
+    "type": "expense"
+  },
+  {
+    "id": 2,
+    "amount": 8000,
+    "createdTime": "2025-07-23T08:30:00Z",
+    "category": "Salary",
+    "type": "income"
+  },
+  {
+    "id": 3,
+    "amount": 1200,
+    "createdTime": "2025-07-22T18:15:00Z",
+    "category": "Transport",
+    "type": "expense"
+  },
+  {
+    "id": 4,
+    "amount": 300,
+    "createdTime": "2025-07-21T14:45:00Z",
+    "category": "Snacks",
+    "type": "expense"
+  },
+  {
+    "id": 5,
+    "amount": 500,
+    "createdTime": "2025-07-20T19:10:00Z",
+    "category": "Coffee",
+    "type": "expense"
+  },
+  {
+    "id": 6,
+    "amount": 15000,
+    "createdTime": "2025-07-19T10:00:00Z",
+    "category": "Freelance",
+    "type": "income"
+  },
+  {
+    "id": 7,
+    "amount": 2200,
+    "createdTime": "2025-07-18T13:20:00Z",
+    "category": "Utilities",
+    "type": "expense"
+  },
+  {
+    "id": 8,
+    "amount": 1000,
+    "createdTime": "2025-07-17T16:45:00Z",
+    "category": "Internet",
+    "type": "expense"
+  },
+  {
+    "id": 9,
+    "amount": 450,
+    "createdTime": "2025-07-16T11:30:00Z",
+    "category": "Parking",
+    "type": "expense"
+  },
+  {
+    "id": 10,
+    "amount": 620,
+    "createdTime": "2025-07-15T09:15:00Z",
+    "category": "Dining Out",
+    "type": "expense"
+  },
+  {
+    "id": 11,
+    "amount": 7200,
+    "createdTime": "2025-07-14T07:00:00Z",
+    "category": "Bonus",
+    "type": "income"
+  },
+  {
+    "id": 12,
+    "amount": 980,
+    "createdTime": "2025-07-13T15:30:00Z",
+    "category": "Subscriptions",
+    "type": "expense"
+  },
+  {
+    "id": 13,
+    "amount": 360,
+    "createdTime": "2025-07-12T17:45:00Z",
+    "category": "Books",
+    "type": "expense"
+  },
+  {
+    "id": 14,
+    "amount": 150,
+    "createdTime": "2025-07-11T12:25:00Z",
+    "category": "Apps",
+    "type": "expense"
+  },
+  {
+    "id": 15,
+    "amount": 2000,
+    "createdTime": "2025-07-10T20:00:00Z",
+    "category": "Fitness",
+    "type": "expense"
+  }
+]

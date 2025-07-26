@@ -1,0 +1,5 @@
+import 'package:expense_tracker/domain/transaction.dart';
+
+abstract class TransactionApi {
+  Future<List<Transaction>> getAllTransactions();
+}
