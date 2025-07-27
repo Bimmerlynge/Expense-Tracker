@@ -14,6 +14,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return TransactionListView();
+    return const Center(child: Text('Home Page'));
   }
 }
