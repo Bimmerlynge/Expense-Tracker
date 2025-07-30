@@ -1,57 +1,50 @@
 import 'package:expense_tracker/app/network/dio_api_client.dart';
+import 'package:expense_tracker/app/providers/app_providers.dart';
 import 'package:expense_tracker/features/transactions/service/transaction_service.dart';
 import 'package:expense_tracker/features/transactions/view_model/transaction_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../app/network/mock/mock_dio_setup.dart';
 import '../../../domain/transaction.dart';
 
-class TransactionListView extends StatefulWidget {
+class TransactionListView extends ConsumerWidget {
   const TransactionListView({super.key});
 
   @override
-  State<TransactionListView> createState() => _TransactionListViewState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final viewModelAsync = ref.watch(transactionViewModelProvider);
 
-class _TransactionListViewState extends State<TransactionListView> {
-  late final TransactionViewModel viewModel;
-  bool isLoading = true;
+    return viewModelAsync.when(
+      loading: () => const Center(child: CircularProgressIndicator()),
+      error: (error, stack) => Center(child: Text('Error: $error')),
+      data: (viewModel) {
+        // If you want to load transactions once when data is ready,
+        // you can trigger it here using a FutureBuilder or a hook.
+        // For simplicity, assuming transactions are pre-loaded or you can add a button to refresh.
 
-  @override
-  void initState() {
-    super.initState();
-    viewModel = TransactionViewModel(TransactionService(DioApiClient(dio)));
-    loadTransactions();
-  }
+        final transactions = viewModel.transactions;
 
-  Future<void> loadTransactions() async {
-    print("loading data");
-    await viewModel.loadTransactions();
-    setState(() {
-      isLoading = false;
-    });
-  }
+        if (transactions.isEmpty) {
+          return const Center(child: Text('No transactions found.'));
+        }
 
-  @override
-  Widget build(BuildContext context) {
-    if (isLoading) {
-      return const Center(child: CircularProgressIndicator());
-    }
-
-    return ListView.builder(
-      itemCount: viewModel.transactions.length,
-      itemBuilder: (context, index) {
-        final tx = viewModel.transactions[index];
-        return ListTile(
-          leading: Icon(
-            tx.type == TransactionType.expense
-                ? Icons.arrow_upward
-                : Icons.arrow_downward,
-            color: tx.type == TransactionType.expense ? Colors.red : Colors.green,
-          ),
-          title: Text(tx.category.name),
-          subtitle: Text(tx.createdTime?.toIso8601String() ?? ''),
-          trailing: Text('${tx.amount} DKK'),
+        return ListView.builder(
+          itemCount: transactions.length,
+          itemBuilder: (context, index) {
+            final tx = transactions[index];
+            return ListTile(
+              leading: Icon(
+                tx.type == TransactionType.expense
+                    ? Icons.arrow_upward
+                    : Icons.arrow_downward,
+                color: tx.type == TransactionType.expense ? Colors.red : Colors.green,
+              ),
+              title: Text(tx.category.name),
+              subtitle: Text(tx.createdTime?.toIso8601String() ?? ''),
+              trailing: Text('${tx.amount} DKK'),
+            );
+          },
         );
       },
     );

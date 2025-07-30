@@ -1,107 +1,107 @@
 [
   {
     "id": 1,
-    "amount": 2500,
+    "amount": 112.0,
     "createdTime": "2025-07-24T12:00:00Z",
-    "category": "Groceries",
+    "category": "Mad",
     "type": "expense"
   },
   {
     "id": 2,
-    "amount": 8000,
+    "amount": 152.0,
     "createdTime": "2025-07-23T08:30:00Z",
-    "category": "Salary",
-    "type": "income"
+    "category": "Mad",
+    "type": "expense"
   },
   {
     "id": 3,
-    "amount": 1200,
+    "amount": 566.0,
     "createdTime": "2025-07-22T18:15:00Z",
-    "category": "Transport",
+    "category": "Bil",
     "type": "expense"
   },
   {
     "id": 4,
-    "amount": 300,
+    "amount": 300.0,
     "createdTime": "2025-07-21T14:45:00Z",
     "category": "Snacks",
     "type": "expense"
   },
   {
     "id": 5,
-    "amount": 500,
+    "amount": 300.0,
     "createdTime": "2025-07-20T19:10:00Z",
-    "category": "Coffee",
+    "category": "Snacks",
     "type": "expense"
   },
   {
     "id": 6,
-    "amount": 15000,
+    "amount": 79.0,
     "createdTime": "2025-07-19T10:00:00Z",
-    "category": "Freelance",
+    "category": "Husholdning",
     "type": "income"
   },
   {
     "id": 7,
-    "amount": 2200,
+    "amount": 112.0,
     "createdTime": "2025-07-18T13:20:00Z",
-    "category": "Utilities",
+    "category": "Husholdning",
     "type": "expense"
   },
   {
     "id": 8,
-    "amount": 1000,
+    "amount": 231.0,
     "createdTime": "2025-07-17T16:45:00Z",
-    "category": "Internet",
+    "category": "Takeout",
     "type": "expense"
   },
   {
     "id": 9,
-    "amount": 450,
+    "amount": 450.0,
     "createdTime": "2025-07-16T11:30:00Z",
-    "category": "Parking",
+    "category": "Oplevelser",
     "type": "expense"
   },
   {
     "id": 10,
-    "amount": 620,
+    "amount": 620.0,
     "createdTime": "2025-07-15T09:15:00Z",
-    "category": "Dining Out",
+    "category": "Tøj",
     "type": "expense"
   },
   {
     "id": 11,
-    "amount": 7200,
+    "amount": 98.0,
     "createdTime": "2025-07-14T07:00:00Z",
-    "category": "Bonus",
-    "type": "income"
+    "category": "Medicin",
+    "type": "expense"
   },
   {
     "id": 12,
-    "amount": 980,
+    "amount": 412.0,
     "createdTime": "2025-07-13T15:30:00Z",
-    "category": "Subscriptions",
+    "category": "Oplevelser",
     "type": "expense"
   },
   {
     "id": 13,
-    "amount": 360,
+    "amount": 360.0,
     "createdTime": "2025-07-12T17:45:00Z",
-    "category": "Books",
+    "category": "Hobby",
     "type": "expense"
   },
   {
     "id": 14,
-    "amount": 150,
+    "amount": 150.0,
     "createdTime": "2025-07-11T12:25:00Z",
-    "category": "Apps",
+    "category": "Bar",
     "type": "expense"
   },
   {
     "id": 15,
-    "amount": 2000,
+    "amount": 152.0,
     "createdTime": "2025-07-10T20:00:00Z",
-    "category": "Fitness",
+    "category": "Pleje",
     "type": "expense"
   }
 ]
