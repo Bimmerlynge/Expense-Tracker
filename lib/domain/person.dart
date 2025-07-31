@@ -1,4 +1,6 @@
-class Person {
+import 'package:equatable/equatable.dart';
+
+class Person extends Equatable {
   String id;
   String name;
   String? householdId;
@@ -10,4 +12,9 @@ class Person {
     name: json['name'],
     householdId: json['householdId']
   );
+
+  @override
+  List<Object?> get props => [id];
+
+
 }

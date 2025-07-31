@@ -1,6 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_firestore/cloud_firestore.dart' hide Transaction;
 import 'package:expense_tracker/app/providers/current_user_notifier.dart';
+import 'package:expense_tracker/domain/category.dart';
 import 'package:expense_tracker/domain/person.dart';
+import 'package:expense_tracker/domain/transaction.dart';
+import 'package:expense_tracker/features/categories/service/category_firebase_service.dart';
 import 'package:expense_tracker/features/transactions/service/transaction_firebase_service.dart';
 import 'package:expense_tracker/features/transactions/view_model/transaction_view_model.dart';
 import 'package:expense_tracker/features/users/service/user_firestore_service.dart';
@@ -14,9 +17,13 @@ final authStateProvider = StreamProvider<User?>(
 
 final firestoreProvider = Provider((ref) => FirebaseFirestore.instance);
 
-final currentUserProvider = AsyncNotifierProvider<CurrentUserNotifier, Person>(
-  CurrentUserNotifier.new,
-);
+// final currentUserProvider = AsyncNotifierProvider<CurrentUserNotifier, Person>(
+//   CurrentUserNotifier.new,
+// );
+
+final currentUserProvider = StateProvider<Person>((ref) {
+  return Person(id: "", name: "", householdId: "");
+});
 
 final userFirestoreServiceProvider = Provider<UserFirestoreService>((ref) {
   final firestore = ref.watch(firestoreProvider);
@@ -28,16 +35,38 @@ final userViewModelProvider = Provider<UserViewModel>((ref) {
   return UserViewModel(userFirestoreService);
 });
 
-final transactionFirestoreServiceProvider = FutureProvider<TransactionFirebaseService>((ref) async {
+final transactionFirestoreServiceProvider = Provider<TransactionFirebaseService>((ref) {
   final firestore = ref.read(firestoreProvider);
-  final currentUserAsync = await ref.watch(currentUserProvider.future);
-
-  return TransactionFirebaseService(firestore, currentUserAsync);
+  return TransactionFirebaseService(firestore, ref);
 });
 
-final transactionViewModelProvider = FutureProvider<TransactionViewModel>((ref) async {
-  final transactionFirestoreService = await ref.watch(transactionFirestoreServiceProvider.future);
-  return await TransactionViewModel.create(transactionFirestoreService);
+final transactionViewModelProvider = StateNotifierProvider<TransactionViewModel, AsyncValue<List<Transaction>>>(
+      (ref) => TransactionViewModel(ref.watch(transactionFirestoreServiceProvider)),
+);
+
+final categoryFirebaseServiceProvider = Provider<CategoryFirebaseService>((ref) {
+  final firestore = FirebaseFirestore.instance;
+  return CategoryFirebaseService(firestore, ref);
 });
+
+final householdCategoriesProvider = FutureProvider<List<Category>>((ref) async {
+  final service = ref.watch(categoryFirebaseServiceProvider);
+  return await service.getHouseholdCategories();
+});
+
+final combinedHouseholdDataProvider = FutureProvider<(List<Category>, List<Person>)>((ref) async {
+  final categoriesFuture = ref.watch(householdCategoriesProvider.future);
+
+  final results = await Future.wait([categoriesFuture]);
+
+  final categories = results[0] as List<Category>;
+  final persons = [
+    Person(id: "7roAszxuATYOjRYYunZFB2Bi02y1", name: "Freja"),
+    Person(id: "hAVigm8dcjMXPQqdJDFYYW3Zys83", name: "Mathias")
+  ];
+  return (categories, persons);
+});
+
+
 
 

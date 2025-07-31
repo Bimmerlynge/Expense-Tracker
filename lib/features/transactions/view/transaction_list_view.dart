@@ -13,18 +13,13 @@ class TransactionListView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final viewModelAsync = ref.watch(transactionViewModelProvider);
+    final transactionsAsync = ref.watch(transactionViewModelProvider);
+    final viewModel = ref.watch(transactionViewModelProvider.notifier);
 
-    return viewModelAsync.when(
+    return transactionsAsync.when(
       loading: () => const Center(child: CircularProgressIndicator()),
       error: (error, stack) => Center(child: Text('Error: $error')),
-      data: (viewModel) {
-        // If you want to load transactions once when data is ready,
-        // you can trigger it here using a FutureBuilder or a hook.
-        // For simplicity, assuming transactions are pre-loaded or you can add a button to refresh.
-
-        final transactions = viewModel.transactions;
-
+      data: (transactions) {
         if (transactions.isEmpty) {
           return const Center(child: Text('No transactions found.'));
         }

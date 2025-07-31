@@ -37,7 +37,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final viewModelAsync = ref.watch(transactionViewModelProvider);
+    final viewModel = ref.watch(transactionViewModelProvider.notifier);
 
     return Scaffold(
       appBar: AppBar(
@@ -50,21 +50,18 @@ class _MainScreenState extends ConsumerState<MainScreen> {
         onSelect: onPageSelect,
       ),
       body: _pages[_currentPageIndex],
-      floatingActionButton: viewModelAsync.when(
-        loading: () => null,
-        error: (error, stack) => null,
-        data: (viewModel) => FloatingActionButton(
-          onPressed: () => showDialog(
-            context: context,
-            builder: (_) => AddEntryForm(
-              onSubmit: (transaction) {
-                viewModel.addTransaction(transaction);
-              },
-            ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => showDialog(
+          context: context,
+          builder: (_) => AddEntryForm(
+            onSubmit: (transaction) {
+              viewModel.addTransaction(transaction);
+            },
           ),
+        ),
           child: const Icon(Icons.add),
         ),
-      ),
-    );
+      );
+
   }
 }
