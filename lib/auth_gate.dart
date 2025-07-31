@@ -13,6 +13,12 @@ class AuthGate extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final authState = ref.watch(authStateProvider);
+    final userViewModel = ref.watch(userViewModelProvider);
+
+    Future<void> setCurrentUser(User user) async {
+      final person = await userViewModel.getCurrentUser();
+      ref.read(currentUserProvider.notifier).state = person;
+    }
 
     return authState.when(
       loading: () => const Scaffold(
@@ -23,7 +29,22 @@ class AuthGate extends ConsumerWidget {
       ),
       data: (user) {
         if (user != null) {
-          return const MainScreen();
+          return FutureBuilder(
+            future: setCurrentUser(user),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Scaffold(
+                  body: Center(child: CircularProgressIndicator()),
+                );
+              } else if (snapshot.hasError) {
+                return Scaffold(
+                  body: Center(child: Text('Error: ${snapshot.error}')),
+                );
+              } else {
+                return const MainScreen();
+              }
+            },
+          );
         } else {
           return const LoginScreen();
         }

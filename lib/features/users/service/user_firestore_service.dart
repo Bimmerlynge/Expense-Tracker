@@ -1,6 +1,7 @@
 import 'package:expense_tracker/app/network/user_api.dart';
 import 'package:expense_tracker/domain/person.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class UserFirestoreService implements UserApi {
   final String collection = 'users';
@@ -9,11 +10,14 @@ class UserFirestoreService implements UserApi {
   UserFirestoreService(this.firestore);
 
   @override
-  Future<Person> getCurrentUser(String uid) async {
-    var response = await firestore.collection(collection).doc(uid).get();
+  Future<Person?> getCurrentUser() async {
+    try {
+      var authedUser = FirebaseAuth.instance.currentUser;
+      var response = await firestore.collection(collection).doc(authedUser!.uid).get();
 
-    return Person.fromJson(response.data()!);
+      return Person.fromJson(response.data()!);
+    } catch (e) {
+      return null;
+    }
   }
-
-
 }

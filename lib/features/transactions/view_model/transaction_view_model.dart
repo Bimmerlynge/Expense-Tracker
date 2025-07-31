@@ -1,7 +1,6 @@
-import 'package:expense_tracker/app/network/transaction_api.dart';
-import 'package:expense_tracker/domain/category.dart';
 import 'package:expense_tracker/domain/transaction.dart';
 import 'package:expense_tracker/features/transactions/service/transaction_firebase_service.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class CategorySpending {
   String name;
@@ -15,46 +14,31 @@ class CategorySpending {
   });
 }
 
-class TransactionViewModel {
-  final TransactionFirebaseService service;
+class TransactionViewModel extends StateNotifier<AsyncValue<List<Transaction>>> {
+  final TransactionFirebaseService _transactionService;
 
-  List<Transaction> transactions = [];
-
-  TransactionViewModel(this.service);
-
-  static Future<TransactionViewModel> create(TransactionFirebaseService service) async {
-    final viewModel = TransactionViewModel(service);
-    await viewModel._loadTransactions();
-    return viewModel;
+  TransactionViewModel(this._transactionService) : super(const AsyncValue.loading()) {
+    loadTransactions();
   }
 
-  Future<void> _loadTransactions() async {
-    transactions = await service.getAllTransactions();
+  Future<void> loadTransactions() async {
+    try {
+      final list = await _transactionService.getAllTransactions();
+      state = AsyncValue.data(list);
+    } catch (e, st) {
+      state = AsyncValue.error(e, st);
+    }
   }
 
-  List<CategorySpending> getCategorySpendingList() {
-    print('Getting category spendings');
-    final Map<Category, double> categoryTotals = {};
+  Future<void> addTransaction(Transaction transaction) async {
+    try {
+      await _transactionService.postTransaction(transaction);
 
-    for (var transaction in transactions) {
-      categoryTotals.update(
-          transaction.category,
-          (existing) => existing + transaction.amount,
-          ifAbsent: () => transaction.amount
-      );
+      await loadTransactions();
+    } catch(e) {
+      // no-op
     }
 
-    final double totalAmount = categoryTotals.values.fold(0, (sum, value) => sum + value);
 
-    return categoryTotals.entries.map((entry) {
-      return CategorySpending(
-          name: entry.key.name,
-          total: entry.value,
-          percentage: entry.value / totalAmount);
-    }).toList();
-  }
-
-  void addTransaction(Transaction transaction) {
-    service.postTransaction(transaction);
   }
 }
