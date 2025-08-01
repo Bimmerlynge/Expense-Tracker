@@ -1,5 +1,5 @@
 
-import 'package:expense_tracker/app/shared/util/app_colors.dart';
+import 'package:expense_tracker/app/config/theme/app_colors.dart';
 import 'package:flutter/cupertino.dart';
 
 Widget text24Normal({String text = "", Color color = AppColors.primaryText}) {
