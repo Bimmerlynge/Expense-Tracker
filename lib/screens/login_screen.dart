@@ -1,4 +1,4 @@
-import 'package:expense_tracker/screens/main_screen.dart';
+import 'package:expense_tracker/auth_gate.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -12,9 +12,6 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-
-
-
 
   Future<void> onLogin() async {
     final navigator = Navigator.of(context);
@@ -31,12 +28,10 @@ class _LoginScreenState extends State<LoginScreen> {
       );
 
       navigator.pushReplacement(
-          MaterialPageRoute(builder: (context) => const MainScreen()));
+          MaterialPageRoute(builder: (context) => const AuthGate()));
     } catch (e) {
       debugPrint(e.toString());
     }
-
-
   }
 
   @override

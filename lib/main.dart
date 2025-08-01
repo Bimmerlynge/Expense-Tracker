@@ -5,6 +5,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'app/config/environment/environment.dart';
+import 'app/config/theme/app_theme.dart';
 import 'app/network/mock/mock_dio_setup.dart';
 import 'firebase_options.dart';
 
@@ -27,9 +28,10 @@ class App extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: AuthGate(),
+      theme: AppTheme.mainTheme,
+      home: const AuthGate(),
     );
   }
 }

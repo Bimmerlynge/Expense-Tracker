@@ -13,14 +13,14 @@ class HomePage extends ConsumerWidget {
     return Scaffold(
         body: Column(
           children: [
-            Text(
-              'Hello, ${currentUser.name}',
-              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
+            // Text(
+            //   'Hello, ${currentUser.name}',
+            //   style: Theme.of(context).textTheme.titleLarge,
+            // ),
             const SizedBox(height: 20),
-            Expanded(
-              child: TotalExpenseChart(), // Or TransactionListView(), etc.
-            ),
+            // Expanded(
+            //   child: TotalExpenseChart(), // Or TransactionListView(), etc.
+            // ),
           ],
         )
     );

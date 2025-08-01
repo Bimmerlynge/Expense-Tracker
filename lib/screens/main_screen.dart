@@ -23,6 +23,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
   final List<Widget> _pages = [
     const HomePage(),
     const TransactionListView(),
+    const Scaffold(),
     const SettingsPage()
   ];
 
@@ -37,9 +38,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
     final viewModel = ref.watch(transactionViewModelProvider.notifier);
 
     return Scaffold(
-      resizeToAvoidBottomInset: true,
       appBar: AppBar(
-        backgroundColor: Colors.blue,
         title: Text(Environment.apiUrl),
         centerTitle: true,
       ),
@@ -48,7 +47,9 @@ class _MainScreenState extends ConsumerState<MainScreen> {
         onSelect: onPageSelect,
       ),
       body: _pages[_currentPageIndex],
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
+        elevation: 4,
         onPressed: () => showDialog(
           context: context,
           builder: (_) => AddEntryForm(
