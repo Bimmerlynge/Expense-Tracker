@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart' hide Transaction;
-import 'package:expense_tracker/app/providers/current_user_notifier.dart';
 import 'package:expense_tracker/domain/category.dart';
 import 'package:expense_tracker/domain/person.dart';
 import 'package:expense_tracker/domain/transaction.dart';
@@ -41,7 +40,7 @@ final transactionFirestoreServiceProvider = Provider<TransactionFirebaseService>
 });
 
 final transactionViewModelProvider = StateNotifierProvider<TransactionViewModel, AsyncValue<List<Transaction>>>(
-      (ref) => TransactionViewModel(ref.watch(transactionFirestoreServiceProvider)),
+      (ref) => TransactionViewModel(ref.watch(transactionFirestoreServiceProvider), ref),
 );
 
 final categoryFirebaseServiceProvider = Provider<CategoryFirebaseService>((ref) {
@@ -59,7 +58,7 @@ final combinedHouseholdDataProvider = FutureProvider<(List<Category>, List<Perso
 
   final results = await Future.wait([categoriesFuture]);
 
-  final categories = results[0] as List<Category>;
+  final categories = results[0];
   final persons = [
     Person(id: "7roAszxuATYOjRYYunZFB2Bi02y1", name: "Freja"),
     Person(id: "hAVigm8dcjMXPQqdJDFYYW3Zys83", name: "Mathias")
@@ -67,6 +66,10 @@ final combinedHouseholdDataProvider = FutureProvider<(List<Category>, List<Perso
   return (categories, persons);
 });
 
+final transactionStreamProvider = StreamProvider<List<Transaction>>((ref) {
+  final service = ref.watch(transactionFirestoreServiceProvider);
+  return service.getTransactionsStream();
+});
 
 
 

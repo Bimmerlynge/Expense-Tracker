@@ -1,8 +1,5 @@
 import 'package:expense_tracker/app/network/user_api.dart';
-import 'package:expense_tracker/app/providers/app_providers.dart';
 import 'package:expense_tracker/domain/person.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class UserViewModel {
   final UserApi userApi;
