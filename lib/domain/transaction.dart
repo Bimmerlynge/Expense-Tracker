@@ -50,4 +50,23 @@ class Transaction {
       createdTime: (data['createdTime'] as Timestamp).toDate(),
     );
   }
+
+  factory Transaction.fromFire(DocumentSnapshot doc) {
+    final data = doc.data()  as Map<String, dynamic>;
+
+    return Transaction(
+      id: doc.id,
+      user: Person(
+          id: data['user']['id'],
+          name: data['user']['name']
+      ),
+      amount: (data['amount'] as num).toDouble(),
+      category: Category(name: data['category'] as String),
+      type: TransactionType.values.firstWhere(
+            (e) => e.toString() == 'TransactionType.${data['type']}',
+      ),
+      createdTime: (data['createdTime'] as Timestamp).toDate(),
+    );
+
+  }
 }

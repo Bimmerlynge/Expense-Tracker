@@ -1,4 +1,3 @@
-import 'package:expense_tracker/domain/person.dart';
 import 'package:expense_tracker/screens/login_screen.dart';
 import 'package:expense_tracker/screens/main_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';

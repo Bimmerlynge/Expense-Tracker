@@ -1,6 +1,4 @@
-import 'package:expense_tracker/main.dart';
 import 'package:expense_tracker/screens/main_screen.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -19,21 +17,23 @@ class _LoginScreenState extends State<LoginScreen> {
 
 
   Future<void> onLogin() async {
+    final navigator = Navigator.of(context);
+    final scaffold = ScaffoldMessenger.of(context);
+
     try {
-      var userCredentials = await FirebaseAuth.instance.signInWithEmailAndPassword(
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: _emailController.text.trim(),
           password: _passwordController.text.trim()
       );
 
-      ScaffoldMessenger.of(context).showSnackBar(
+      scaffold.showSnackBar(
         const SnackBar(content: Text('Signed in successfully')),
       );
 
-      Navigator.pushReplacement(
-          context,
+      navigator.pushReplacement(
           MaterialPageRoute(builder: (context) => const MainScreen()));
     } catch (e) {
-      print(e);
+      debugPrint(e.toString());
     }
 
 

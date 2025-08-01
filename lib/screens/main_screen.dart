@@ -1,8 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expense_tracker/app/shared/components/add_entry_form.dart';
-import 'package:expense_tracker/features/transactions/service/transaction_firebase_service.dart';
 import 'package:expense_tracker/features/transactions/view/transaction_list_view.dart';
-import 'package:expense_tracker/features/transactions/view_model/transaction_view_model.dart';
 import 'package:expense_tracker/views/home_page.dart';
 import 'package:expense_tracker/views/settings_page.dart';
 import 'package:flutter/material.dart';
@@ -40,6 +37,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
     final viewModel = ref.watch(transactionViewModelProvider.notifier);
 
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(
         backgroundColor: Colors.blue,
         title: Text(Environment.apiUrl),
@@ -56,6 +54,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
           builder: (_) => AddEntryForm(
             onSubmit: (transaction) {
               viewModel.addTransaction(transaction);
+              // Navigator.of(context).pop();
             },
           ),
         ),

@@ -1,13 +1,10 @@
-import 'package:dio/dio.dart';
 import 'package:expense_tracker/app/providers/app_providers.dart';
 import 'package:expense_tracker/app/shared/components/text_input.dart';
 import 'package:expense_tracker/domain/category.dart';
 import 'package:expense_tracker/domain/person.dart';
 import 'package:expense_tracker/domain/transaction.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../network/mock/mock_dio_setup.dart';
 
 class AddEntryForm extends ConsumerStatefulWidget {
   final void Function(Transaction) onSubmit;

@@ -1,11 +1,7 @@
-import 'package:expense_tracker/app/network/dio_api_client.dart';
 import 'package:expense_tracker/app/providers/app_providers.dart';
-import 'package:expense_tracker/features/transactions/service/transaction_service.dart';
-import 'package:expense_tracker/features/transactions/view_model/transaction_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../app/network/mock/mock_dio_setup.dart';
 import '../../../domain/transaction.dart';
 
 class TransactionListView extends ConsumerWidget {
@@ -13,8 +9,8 @@ class TransactionListView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final transactionsAsync = ref.watch(transactionViewModelProvider);
-    final viewModel = ref.watch(transactionViewModelProvider.notifier);
+    // final transactionsAsync = ref.watch(transactionViewModelProvider);
+    final transactionsAsync = ref.watch(transactionStreamProvider);
 
     return transactionsAsync.when(
       loading: () => const Center(child: CircularProgressIndicator()),

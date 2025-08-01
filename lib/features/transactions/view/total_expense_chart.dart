@@ -1,13 +1,5 @@
-import 'package:expense_tracker/app/network/dio_api_client.dart';
-import 'package:expense_tracker/app/network/mock/mock_dio_setup.dart';
 import 'package:expense_tracker/app/providers/app_providers.dart';
 import 'package:expense_tracker/app/shared/components/text_widgets.dart';
-import 'package:expense_tracker/features/transactions/components/total_bar_chart.dart';
-import 'package:expense_tracker/features/transactions/components/total_bar_hori_chart.dart';
-import 'package:expense_tracker/features/transactions/components/total_pie_chart.dart';
-import 'package:expense_tracker/features/transactions/service/transaction_service.dart';
-import 'package:expense_tracker/features/transactions/view_model/transaction_view_model.dart';
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
