@@ -2,7 +2,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class Environment {
-
   static String get environmentConfig {
     if (kReleaseMode) {
       return 'lib/app/config/environment/.env-prod';

@@ -11,7 +11,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:riverpod/riverpod.dart';
 
 final authStateProvider = StreamProvider<User?>(
-      (ref) => FirebaseAuth.instance.authStateChanges(),
+  (ref) => FirebaseAuth.instance.authStateChanges(),
 );
 
 final firestoreProvider = Provider((ref) => FirebaseFirestore.instance);
@@ -34,16 +34,23 @@ final userViewModelProvider = Provider<UserViewModel>((ref) {
   return UserViewModel(userFirestoreService);
 });
 
-final transactionFirestoreServiceProvider = Provider<TransactionFirebaseService>((ref) {
-  final firestore = ref.read(firestoreProvider);
-  return TransactionFirebaseService(firestore, ref);
-});
+final transactionFirestoreServiceProvider =
+    Provider<TransactionFirebaseService>((ref) {
+      final firestore = ref.read(firestoreProvider);
+      return TransactionFirebaseService(firestore, ref);
+    });
 
-final transactionViewModelProvider = StateNotifierProvider<TransactionViewModel, AsyncValue<List<Transaction>>>(
-      (ref) => TransactionViewModel(ref.watch(transactionFirestoreServiceProvider), ref),
-);
+final transactionViewModelProvider =
+    StateNotifierProvider<TransactionViewModel, AsyncValue<List<Transaction>>>(
+      (ref) => TransactionViewModel(
+        ref.watch(transactionFirestoreServiceProvider),
+        ref,
+      ),
+    );
 
-final categoryFirebaseServiceProvider = Provider<CategoryFirebaseService>((ref) {
+final categoryFirebaseServiceProvider = Provider<CategoryFirebaseService>((
+  ref,
+) {
   final firestore = FirebaseFirestore.instance;
   return CategoryFirebaseService(firestore, ref);
 });
@@ -53,23 +60,21 @@ final householdCategoriesProvider = FutureProvider<List<Category>>((ref) async {
   return await service.getHouseholdCategories();
 });
 
-final combinedHouseholdDataProvider = FutureProvider<(List<Category>, List<Person>)>((ref) async {
-  final categoriesFuture = ref.watch(householdCategoriesProvider.future);
+final combinedHouseholdDataProvider =
+    FutureProvider<(List<Category>, List<Person>)>((ref) async {
+      final categoriesFuture = ref.watch(householdCategoriesProvider.future);
 
-  final results = await Future.wait([categoriesFuture]);
+      final results = await Future.wait([categoriesFuture]);
 
-  final categories = results[0];
-  final persons = [
-    Person(id: "7roAszxuATYOjRYYunZFB2Bi02y1", name: "Freja"),
-    Person(id: "hAVigm8dcjMXPQqdJDFYYW3Zys83", name: "Mathias")
-  ];
-  return (categories, persons);
-});
+      final categories = results[0];
+      final persons = [
+        Person(id: "7roAszxuATYOjRYYunZFB2Bi02y1", name: "Freja"),
+        Person(id: "hAVigm8dcjMXPQqdJDFYYW3Zys83", name: "Mathias"),
+      ];
+      return (categories, persons);
+    });
 
 final transactionStreamProvider = StreamProvider<List<Transaction>>((ref) {
   final service = ref.watch(transactionFirestoreServiceProvider);
   return service.getTransactionsStream();
 });
-
-
-

@@ -7,8 +7,6 @@ class TextInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      decoration: InputDecoration(labelText: label),
-    );
+    return TextFormField(decoration: InputDecoration(labelText: label));
   }
 }

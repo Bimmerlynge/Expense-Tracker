@@ -9,13 +9,6 @@ class HorizontalBarChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return RotatedBox(
-      quarterTurns: 1,
-      child: BarChart(
-        BarChartData(
-
-    )
-    ),
-    );
+    return RotatedBox(quarterTurns: 1, child: BarChart(BarChartData()));
   }
 }

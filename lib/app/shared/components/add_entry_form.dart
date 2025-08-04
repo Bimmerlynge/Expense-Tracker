@@ -39,69 +39,83 @@ class _AddEntryFormState extends ConsumerState<AddEntryForm> {
         return AlertDialog(
           title: Text('Add transaction'),
           content: Form(
-              key: _formKey,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  TextFormField(
-                      decoration: InputDecoration(labelText: 'Amount'),
-                      keyboardType: TextInputType.numberWithOptions(decimal: false),
-                      onChanged: (val) => _amount = double.tryParse(val) ?? 0,
-                      validator: (val) => val == null
-                          || double.tryParse(val) == null
-                          || double.parse(val) < 0 ? 'Enter a valid amount' : null
-                  ),
-                  DropdownButtonFormField<Category>(
-                    value: _category,
-                      items: categories.map((c) => DropdownMenuItem(value: c, child: Text(c.name))).toList(),
-                      onChanged: (val) {
-                        if (val != null) _category = val;
-                      }
-                  ),
-                  DropdownButtonFormField<TransactionType>(
-                      value: _type,
-                      items: TransactionType.values
-                          .map((e) => DropdownMenuItem(value: e, child: Text(e.name)))
-                          .toList(),
-                      onChanged: (val) {
-                        if (val != null) setState(() => _type = val);
-                      }),
-                  DropdownButtonFormField<Person>(
-                    value: ref.watch(currentUserProvider),
-                    onChanged: (value) {
-                      _person = value as Person;
-                    },
-                    items: persons.map((p) => DropdownMenuItem(
-                      value: p, child: Text(p.name))
-                    ).toList(),
-                    decoration: InputDecoration(labelText: 'Select Person'),
-                  ),
-                  TextInput(label: "Description",)
-                ],
-              )
+            key: _formKey,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextFormField(
+                  decoration: InputDecoration(labelText: 'Amount'),
+                  keyboardType: TextInputType.numberWithOptions(decimal: false),
+                  onChanged: (val) => _amount = double.tryParse(val) ?? 0,
+                  validator: (val) =>
+                      val == null ||
+                          double.tryParse(val) == null ||
+                          double.parse(val) < 0
+                      ? 'Enter a valid amount'
+                      : null,
+                ),
+                DropdownButtonFormField<Category>(
+                  value: _category,
+                  items: categories
+                      .map(
+                        (c) => DropdownMenuItem(value: c, child: Text(c.name)),
+                      )
+                      .toList(),
+                  onChanged: (val) {
+                    if (val != null) _category = val;
+                  },
+                ),
+                DropdownButtonFormField<TransactionType>(
+                  value: _type,
+                  items: TransactionType.values
+                      .map(
+                        (e) => DropdownMenuItem(value: e, child: Text(e.name)),
+                      )
+                      .toList(),
+                  onChanged: (val) {
+                    if (val != null) setState(() => _type = val);
+                  },
+                ),
+                DropdownButtonFormField<Person>(
+                  value: ref.watch(currentUserProvider),
+                  onChanged: (value) {
+                    _person = value as Person;
+                  },
+                  items: persons
+                      .map(
+                        (p) => DropdownMenuItem(value: p, child: Text(p.name)),
+                      )
+                      .toList(),
+                  decoration: InputDecoration(labelText: 'Select Person'),
+                ),
+                TextInput(label: "Description"),
+              ],
+            ),
           ),
           actions: [
             TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: Text('Cancel')
+              onPressed: () => Navigator.pop(context),
+              child: Text('Cancel'),
             ),
             ElevatedButton(
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    _formKey.currentState!.save();
-                    widget.onSubmit(Transaction(
-                        user: _person,
-                        amount: _amount,
-                        category: _category,
-                        type: _type)
-                    );
-                  }
-                },
-                child: Text('Tilføj')
-            )
+              onPressed: () {
+                if (_formKey.currentState!.validate()) {
+                  _formKey.currentState!.save();
+                  widget.onSubmit(
+                    Transaction(
+                      user: _person,
+                      amount: _amount,
+                      category: _category,
+                      type: _type,
+                    ),
+                  );
+                }
+              },
+              child: Text('Tilføj'),
+            ),
           ],
         );
-
-    });
+      },
+    );
   }
 }

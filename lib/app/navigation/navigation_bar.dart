@@ -8,7 +8,7 @@ class PageNavigationBar extends StatelessWidget {
   const PageNavigationBar({
     super.key,
     required this.currentIndex,
-    required this.onSelect
+    required this.onSelect,
   });
 
   @override
@@ -21,7 +21,11 @@ class PageNavigationBar extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             _navItem(icon: Icons.bar_chart, label: 'Home', index: 0),
-            _navItem(icon: Icons.compare_arrows, label: 'Transactions', index: 1),
+            _navItem(
+              icon: Icons.compare_arrows,
+              label: 'Transactions',
+              index: 1,
+            ),
             const SizedBox(width: 24), // space for FAB
             _navItem(icon: Icons.house, label: 'Household', index: 2),
             _navItem(icon: Icons.settings, label: 'Settings', index: 3),
@@ -31,7 +35,11 @@ class PageNavigationBar extends StatelessWidget {
     );
   }
 
-  Widget _navItem({required IconData icon, required String label, required int index}) {
+  Widget _navItem({
+    required IconData icon,
+    required String label,
+    required int index,
+  }) {
     final isSelected = currentIndex == index;
 
     return GestureDetector(
@@ -40,14 +48,21 @@ class PageNavigationBar extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(icon, color: isSelected ? AppColors.onPrimary : AppColors.onPrimary.withAlpha(100)),
+          Icon(
+            icon,
+            color: isSelected
+                ? AppColors.onPrimary
+                : AppColors.onPrimary.withAlpha(100),
+          ),
           Text(
             label,
             style: TextStyle(
-              color: isSelected ? AppColors.onPrimary : AppColors.onPrimary.withAlpha(100),
+              color: isSelected
+                  ? AppColors.onPrimary
+                  : AppColors.onPrimary.withAlpha(100),
               fontSize: 12,
             ),
-          )
+          ),
         ],
       ),
     );

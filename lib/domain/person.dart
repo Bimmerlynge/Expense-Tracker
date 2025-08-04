@@ -10,10 +10,9 @@ class Person extends Equatable {
   factory Person.fromJson(Map<String, dynamic> json) => Person(
     id: json['userId'],
     name: json['name'],
-    householdId: json['householdId']
+    householdId: json['householdId'],
   );
 
   @override
   List<Object?> get props => [id];
-
 }

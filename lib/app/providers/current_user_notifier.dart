@@ -9,7 +9,7 @@ import 'package:riverpod/riverpod.dart';
 import 'app_providers.dart';
 
 class CurrentUserNotifier extends AsyncNotifier<Person> {
-   late FirebaseFirestore firestore;
+  late FirebaseFirestore firestore;
 
   @override
   FutureOr<Person> build() async {
@@ -19,5 +19,4 @@ class CurrentUserNotifier extends AsyncNotifier<Person> {
     final doc = await firestore.collection('users').doc(user!.uid).get();
     return Person.fromJson(doc.data()!);
   }
-
 }

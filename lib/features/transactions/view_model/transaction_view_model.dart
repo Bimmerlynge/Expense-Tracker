@@ -12,22 +12,23 @@ class CategorySpending {
   CategorySpending({
     required this.name,
     required this.total,
-    required this.percentage
+    required this.percentage,
   });
 }
 
-class TransactionViewModel extends StateNotifier<AsyncValue<List<Transaction>>> {
+class TransactionViewModel
+    extends StateNotifier<AsyncValue<List<Transaction>>> {
   final TransactionFirebaseService _transactionService;
   late final Stream<List<Transaction>> _transactionStream;
   late final StreamSubscription _subscription;
 
-  TransactionViewModel(this._transactionService, Ref ref) : super(const AsyncValue.loading()) {
-
+  TransactionViewModel(this._transactionService, Ref ref)
+    : super(const AsyncValue.loading()) {
     _transactionStream = _transactionService.getTransactionsStream();
 
     _subscription = _transactionStream.listen(
-        (transactions) => state = AsyncValue.data(transactions),
-        onError: (error, stack) => state = AsyncValue.error(error, stack)
+      (transactions) => state = AsyncValue.data(transactions),
+      onError: (error, stack) => state = AsyncValue.error(error, stack),
     );
   }
 
@@ -43,7 +44,7 @@ class TransactionViewModel extends StateNotifier<AsyncValue<List<Transaction>>> 
   Future<void> addTransaction(Transaction transaction) async {
     try {
       await _transactionService.postTransaction(transaction);
-    } catch(e) {
+    } catch (e) {
       // no-op
     }
   }

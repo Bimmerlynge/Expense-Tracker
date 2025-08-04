@@ -26,7 +26,7 @@ class _TotalExpenseChartState extends ConsumerState<TotalExpenseChart> {
         Center(
           child: _showPieChart
               ? text24Normal(text: "Pie chart")
-              : text24Normal(text: "Bar chart")
+              : text24Normal(text: "Bar chart"),
         ),
         Positioned(
           bottom: 16,

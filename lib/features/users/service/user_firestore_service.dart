@@ -13,7 +13,10 @@ class UserFirestoreService implements UserApi {
   Future<Person?> getCurrentUser() async {
     try {
       var authedUser = FirebaseAuth.instance.currentUser;
-      var response = await firestore.collection(collection).doc(authedUser!.uid).get();
+      var response = await firestore
+          .collection(collection)
+          .doc(authedUser!.uid)
+          .get();
 
       return Person.fromJson(response.data()!);
     } catch (e) {

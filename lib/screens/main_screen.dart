@@ -10,7 +10,6 @@ import '../app/navigation/navigation_bar.dart';
 import '../app/providers/app_providers.dart';
 
 class MainScreen extends ConsumerStatefulWidget {
-
   const MainScreen({super.key});
 
   @override
@@ -24,7 +23,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
     const HomePage(),
     const TransactionListView(),
     const Scaffold(),
-    const SettingsPage()
+    const SettingsPage(),
   ];
 
   void onPageSelect(int pageIndex) {
@@ -38,10 +37,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
     final viewModel = ref.watch(transactionViewModelProvider.notifier);
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(Environment.apiUrl),
-        centerTitle: true,
-      ),
+      appBar: AppBar(title: Text(Environment.apiUrl), centerTitle: true),
       bottomNavigationBar: PageNavigationBar(
         currentIndex: _currentPageIndex,
         onSelect: onPageSelect,
@@ -59,9 +55,8 @@ class _MainScreenState extends ConsumerState<MainScreen> {
             },
           ),
         ),
-          child: const Icon(Icons.add),
-        ),
-      );
-
+        child: const Icon(Icons.add),
+      ),
+    );
   }
 }

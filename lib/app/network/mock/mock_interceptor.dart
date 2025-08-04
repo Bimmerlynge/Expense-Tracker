@@ -10,7 +10,10 @@ class MockInterceptor extends Interceptor {
   MockInterceptor({required this.router});
 
   @override
-  void onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
+  void onRequest(
+    RequestOptions options,
+    RequestInterceptorHandler handler,
+  ) async {
     try {
       final response = await router.handle(options);
       return handler.resolve(response);
@@ -20,7 +23,11 @@ class MockInterceptor extends Interceptor {
     }
   }
 
-  void _resolveError(RequestOptions options, RequestInterceptorHandler handler, String message) {
+  void _resolveError(
+    RequestOptions options,
+    RequestInterceptorHandler handler,
+    String message,
+  ) {
     handler.resolve(
       Response(
         requestOptions: options,
