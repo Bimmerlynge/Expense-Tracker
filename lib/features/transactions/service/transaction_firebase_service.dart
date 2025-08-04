@@ -16,23 +16,20 @@ class TransactionFirebaseService implements TransactionApi {
     var response = await _getCollection().get();
 
     debugPrint("Fetched all transactions");
-    final transactions = await Future.wait(response.docs.map((doc) {
-      return Transaction.fromFirestore(doc);
-    }));
+    final transactions = await Future.wait(
+      response.docs.map((doc) {
+        return Transaction.fromFirestore(doc);
+      }),
+    );
 
     return transactions;
   }
-
-
 
   @override
   Future<void> postTransaction(Transaction transaction) async {
     try {
       await _getCollection().add({
-        'user': {
-          'id': transaction.user.id,
-          'name': transaction.user.name
-        },
+        'user': {'id': transaction.user.id, 'name': transaction.user.name},
         'amount': transaction.amount,
         'category': transaction.category.name,
         'type': transaction.type.name,
@@ -48,22 +45,18 @@ class TransactionFirebaseService implements TransactionApi {
   CollectionReference<Map<String, dynamic>> _getCollection() {
     final householdId = _ref.watch(currentUserProvider).householdId;
     return _firestore
-      .collection('households')
-      .doc(householdId)
-      .collection('transactions');
+        .collection('households')
+        .doc(householdId)
+        .collection('transactions');
   }
 
   @override
   Stream<List<Transaction>> getTransactionsStream() {
-    var response = _getCollection().snapshots()
-      .map((snapshot) =>
-        snapshot.docs.map((doc) =>
-            Transaction.fromFire(doc))
-            .toList()
-      );
+    var response = _getCollection().snapshots().map(
+      (snapshot) =>
+          snapshot.docs.map((doc) => Transaction.fromFire(doc)).toList(),
+    );
     // TODO: implement getTransactionsStream
     return response;
   }
-
-
 }

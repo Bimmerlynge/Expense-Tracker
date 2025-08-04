@@ -11,18 +11,19 @@ class HomePage extends ConsumerWidget {
     final currentUser = ref.watch(currentUserProvider);
 
     return Scaffold(
-        body: Column(
-          children: [
-            // Text(
-            //   'Hello, ${currentUser.name}',
-            //   style: Theme.of(context).textTheme.titleLarge,
-            // ),
-            const SizedBox(height: 20),
-            // Expanded(
-            //   child: TotalExpenseChart(), // Or TransactionListView(), etc.
-            // ),
-          ],
-        )
+      body: Column(
+        children: [
+          // Text(
+          //   'Hello, ${currentUser.name}',
+          //   style: Theme.of(context).textTheme.titleLarge,
+          // ),
+          const SizedBox(height: 20),
+
+          // Expanded(
+          //   child: TotalExpenseChart(), // Or TransactionListView(), etc.
+          // ),
+        ],
+      ),
     );
 
     // return currentUserAsync.when(

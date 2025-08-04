@@ -6,6 +6,6 @@ Future<Response> handleDawa(RequestOptions options) async {
   return Response(
     requestOptions: options,
     statusCode: 200,
-    data: await loadJson('responseDawa')
+    data: await loadJson('responseDawa'),
   );
 }

@@ -29,7 +29,9 @@ class TransactionListView extends ConsumerWidget {
                 tx.type == TransactionType.expense
                     ? Icons.arrow_upward
                     : Icons.arrow_downward,
-                color: tx.type == TransactionType.expense ? Colors.red : Colors.green,
+                color: tx.type == TransactionType.expense
+                    ? Colors.red
+                    : Colors.green,
               ),
               title: Text(tx.category.name),
               subtitle: Text(tx.createdTime?.toIso8601String() ?? ''),

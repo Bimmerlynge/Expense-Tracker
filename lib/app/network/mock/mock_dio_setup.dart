@@ -7,7 +7,6 @@ import 'mock_router.dart';
 
 final Dio dio = Dio();
 
-
 void setupMockDio() {
   if (dotenv.env['USE_MOCK'] == 'true') {
     final router = MockRouter();

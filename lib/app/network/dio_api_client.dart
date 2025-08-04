@@ -24,5 +24,4 @@ class DioApiClient implements ApiClient {
     // TODO: implement post
     throw UnimplementedError();
   }
-
 }

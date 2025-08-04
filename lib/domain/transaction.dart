@@ -2,10 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expense_tracker/domain/category.dart';
 import 'package:expense_tracker/domain/person.dart';
 
-enum TransactionType {
-  expense,
-  income
-}
+enum TransactionType { expense, income }
 
 class Transaction {
   String? id;
@@ -27,10 +24,10 @@ class Transaction {
   factory Transaction.fromJson(Map<String, dynamic> json, String id) {
     return Transaction(
       id: id,
-      user: json['user'] ,
+      user: json['user'],
       amount: json['amount'] as double,
       category: json['category'] as Category,
-      type: json['type'] as TransactionType
+      type: json['type'] as TransactionType,
     );
   }
 
@@ -45,28 +42,24 @@ class Transaction {
       amount: (data['amount'] as num).toDouble(),
       category: Category(name: data['category'] as String),
       type: TransactionType.values.firstWhere(
-            (e) => e.toString() == 'TransactionType.${data['type']}',
+        (e) => e.toString() == 'TransactionType.${data['type']}',
       ),
       createdTime: (data['createdTime'] as Timestamp).toDate(),
     );
   }
 
   factory Transaction.fromFire(DocumentSnapshot doc) {
-    final data = doc.data()  as Map<String, dynamic>;
+    final data = doc.data() as Map<String, dynamic>;
 
     return Transaction(
       id: doc.id,
-      user: Person(
-          id: data['user']['id'],
-          name: data['user']['name']
-      ),
+      user: Person(id: data['user']['id'], name: data['user']['name']),
       amount: (data['amount'] as num).toDouble(),
       category: Category(name: data['category'] as String),
       type: TransactionType.values.firstWhere(
-            (e) => e.toString() == 'TransactionType.${data['type']}',
+        (e) => e.toString() == 'TransactionType.${data['type']}',
       ),
       createdTime: (data['createdTime'] as Timestamp).toDate(),
     );
-
   }
 }

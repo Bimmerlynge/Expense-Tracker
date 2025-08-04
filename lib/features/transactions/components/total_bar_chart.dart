@@ -9,7 +9,6 @@ class TotalBarChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Padding(
       padding: const EdgeInsets.only(right: 32),
       child: SizedBox(
@@ -29,23 +28,20 @@ class TotalBarChart extends StatelessWidget {
                     final index = value.toInt();
                     if (index >= 0 && index < categorySpendingList.length) {
                       return SideTitleWidget(
-
-                          meta: meta,
-                          child: Text(
-                              categorySpendingList[index].name,
-                              textAlign: TextAlign.end,
-                            style: TextStyle(
-                              overflow: TextOverflow.ellipsis
-                            ),
-                          )
+                        meta: meta,
+                        child: Text(
+                          categorySpendingList[index].name,
+                          textAlign: TextAlign.end,
+                          style: TextStyle(overflow: TextOverflow.ellipsis),
+                        ),
                       );
                     }
                     return const SizedBox.shrink();
                   },
-                )
-              )
-            )
-          )
+                ),
+              ),
+            ),
+          ),
         ),
       ),
     );
@@ -56,15 +52,8 @@ class TotalBarChart extends StatelessWidget {
       final item = categorySpendingList[i];
       return BarChartGroupData(
         showingTooltipIndicators: [1, 2],
-          x: i,
-          barRods: [
-            BarChartRodData(
-                toY: item.total,
-
-
-
-            )
-          ]
+        x: i,
+        barRods: [BarChartRodData(toY: item.total)],
       );
     });
   }

@@ -19,8 +19,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: _emailController.text.trim(),
-          password: _passwordController.text.trim()
+        email: _emailController.text.trim(),
+        password: _passwordController.text.trim(),
       );
 
       scaffold.showSnackBar(
@@ -28,7 +28,8 @@ class _LoginScreenState extends State<LoginScreen> {
       );
 
       navigator.pushReplacement(
-          MaterialPageRoute(builder: (context) => const AuthGate()));
+        MaterialPageRoute(builder: (context) => const AuthGate()),
+      );
     } catch (e) {
       debugPrint(e.toString());
     }
@@ -37,10 +38,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Login"),
-        centerTitle: true,
-      ),
+      appBar: AppBar(title: Text("Login"), centerTitle: true),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -48,22 +46,16 @@ class _LoginScreenState extends State<LoginScreen> {
           children: [
             TextField(
               controller: _emailController,
-              decoration: InputDecoration(
-                label: Text('Email')
-              ),
+              decoration: InputDecoration(label: Text('Email')),
             ),
             SizedBox(height: 16),
             TextField(
               controller: _passwordController,
-              decoration: InputDecoration(
-                label: Text('Password'),
-              ),
+              decoration: InputDecoration(label: Text('Password')),
               obscureText: true,
             ),
             SizedBox(height: 16),
-            ElevatedButton(
-                onPressed: onLogin,
-                child: Text('Login'))
+            ElevatedButton(onPressed: onLogin, child: Text('Login')),
           ],
         ),
       ),

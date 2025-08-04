@@ -10,10 +10,7 @@ class TotalPieChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PieChart(
-        PieChartData(
-            sections: _buildPieSections(),
-            centerSpaceRadius: 10
-        )
+      PieChartData(sections: _buildPieSections(), centerSpaceRadius: 10),
     );
   }
 
@@ -26,23 +23,28 @@ class TotalPieChart extends StatelessWidget {
 
     final topSections = _buildTopFourSections(topFour);
     final otherSection = [_buildOtherSection(remaining)];
-    
+
     return [...topSections, ...otherSection];
   }
 
-  List<PieChartSectionData> _buildTopFourSections(List<CategorySpending> spendings) {
+  List<PieChartSectionData> _buildTopFourSections(
+    List<CategorySpending> spendings,
+  ) {
     return List.generate(spendings.length, (i) {
       var item = spendings[i];
       return PieChartSectionData(
         title: item.name,
         value: item.percentage,
-        radius: 120
+        radius: 120,
       );
     });
   }
 
   PieChartSectionData _buildOtherSection(List<CategorySpending> list) {
-    final totalPercentage = list.fold(0.0, (sum, item) => sum + item.percentage);
+    final totalPercentage = list.fold(
+      0.0,
+      (sum, item) => sum + item.percentage,
+    );
     return PieChartSectionData(
       title: 'Other',
       value: totalPercentage,
