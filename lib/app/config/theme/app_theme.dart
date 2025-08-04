@@ -26,5 +26,6 @@ class AppTheme {
     ),
     iconButtonTheme: IconButtonThemeData(),
     textTheme: TextTheme(titleLarge: TextStyle(color: Colors.red)),
+    snackBarTheme: SnackBarThemeData(),
   );
 }

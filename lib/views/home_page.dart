@@ -1,4 +1,5 @@
 import 'package:expense_tracker/app/providers/app_providers.dart';
+import 'package:expense_tracker/app/shared/util/toast_service.dart';
 import 'package:expense_tracker/features/transactions/view/total_expense_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -18,7 +19,13 @@ class HomePage extends ConsumerWidget {
           //   style: Theme.of(context).textTheme.titleLarge,
           // ),
           const SizedBox(height: 20),
-
+          OutlinedButton(
+            onPressed: () => ToastService.showInfoToast(
+              context,
+              "This is a regular snackbar",
+            ),
+            child: Text("Test Toast"),
+          ),
           // Expanded(
           //   child: TotalExpenseChart(), // Or TransactionListView(), etc.
           // ),

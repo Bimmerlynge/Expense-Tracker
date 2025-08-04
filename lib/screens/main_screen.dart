@@ -1,4 +1,5 @@
 import 'package:expense_tracker/app/shared/components/add_entry_form.dart';
+import 'package:expense_tracker/app/shared/util/toast_service.dart';
 import 'package:expense_tracker/features/transactions/view/transaction_list_view.dart';
 import 'package:expense_tracker/views/home_page.dart';
 import 'package:expense_tracker/views/settings_page.dart';
@@ -37,6 +38,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
     final viewModel = ref.watch(transactionViewModelProvider.notifier);
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(title: Text(Environment.apiUrl), centerTitle: true),
       bottomNavigationBar: PageNavigationBar(
         currentIndex: _currentPageIndex,
@@ -49,9 +51,13 @@ class _MainScreenState extends ConsumerState<MainScreen> {
         onPressed: () => showDialog(
           context: context,
           builder: (_) => AddEntryForm(
-            onSubmit: (transaction) {
-              viewModel.addTransaction(transaction);
-              // Navigator.of(context).pop();
+            onSubmit: (transaction) async {
+              try {
+                await viewModel.addTransaction(transaction);
+                ToastService.showSuccessToast(context, "Adding transaction was successful!");
+              } catch (e) {
+                ToastService.showErrorToast(context, e.toString());
+              }
             },
           ),
         ),

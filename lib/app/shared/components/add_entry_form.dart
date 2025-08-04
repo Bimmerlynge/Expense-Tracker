@@ -20,8 +20,8 @@ class _AddEntryFormState extends ConsumerState<AddEntryForm> {
 
   late Category _category;
   late double _amount;
-  TransactionType _type = TransactionType.expense;
   late Person _person;
+  TransactionType _type = TransactionType.expense;
 
   @override
   Widget build(BuildContext context) {
@@ -33,89 +33,110 @@ class _AddEntryFormState extends ConsumerState<AddEntryForm> {
       data: (value) {
         final (categories, persons) = value;
 
-        _category = categories.first;
         _person = ref.watch(currentUserProvider);
 
-        return AlertDialog(
-          title: Text('Add transaction'),
-          content: Form(
-            key: _formKey,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                TextFormField(
-                  decoration: InputDecoration(labelText: 'Amount'),
-                  keyboardType: TextInputType.numberWithOptions(decimal: false),
-                  onChanged: (val) => _amount = double.tryParse(val) ?? 0,
-                  validator: (val) =>
-                      val == null ||
-                          double.tryParse(val) == null ||
-                          double.parse(val) < 0
-                      ? 'Enter a valid amount'
-                      : null,
-                ),
-                DropdownButtonFormField<Category>(
-                  value: _category,
-                  items: categories
-                      .map(
-                        (c) => DropdownMenuItem(value: c, child: Text(c.name)),
-                      )
-                      .toList(),
-                  onChanged: (val) {
-                    if (val != null) _category = val;
-                  },
-                ),
-                DropdownButtonFormField<TransactionType>(
-                  value: _type,
-                  items: TransactionType.values
-                      .map(
-                        (e) => DropdownMenuItem(value: e, child: Text(e.name)),
-                      )
-                      .toList(),
-                  onChanged: (val) {
-                    if (val != null) setState(() => _type = val);
-                  },
-                ),
-                DropdownButtonFormField<Person>(
-                  value: ref.watch(currentUserProvider),
-                  onChanged: (value) {
-                    _person = value as Person;
-                  },
-                  items: persons
-                      .map(
-                        (p) => DropdownMenuItem(value: p, child: Text(p.name)),
-                      )
-                      .toList(),
-                  decoration: InputDecoration(labelText: 'Select Person'),
-                ),
-                TextInput(label: "Description"),
-              ],
-            ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: Text('Cancel'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                if (_formKey.currentState!.validate()) {
-                  _formKey.currentState!.save();
-                  widget.onSubmit(
-                    Transaction(
-                      user: _person,
-                      amount: _amount,
-                      category: _category,
-                      type: _type,
-                    ),
-                  );
-                }
-              },
-              child: Text('Tilføj'),
-            ),
-          ],
-        );
+        return _buildAlertDialog(categories, persons);
       },
     );
+  }
+
+  AlertDialog _buildAlertDialog(
+    List<Category> categories,
+    List<Person> persons,
+  ) {
+    return AlertDialog(
+      title: Text('Add transaction'),
+      content: Form(
+        key: _formKey,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            _buildAmountInput(),
+            _buildCategoryInput(categories),
+            _buildTransactionTypeInput(),
+            _buildPersonInput(persons),
+            _buildDescriptionInput(),
+          ],
+        ),
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(context),
+          child: Text('Cancel'),
+        ),
+        ElevatedButton(onPressed: onSubmit, child: Text('Tilføj')),
+      ],
+    );
+  }
+
+  TextFormField _buildAmountInput() {
+    return TextFormField(
+      decoration: InputDecoration(labelText: 'Amount'),
+      keyboardType: TextInputType.numberWithOptions(decimal: false),
+      onChanged: (val) => _amount = double.tryParse(val) ?? 0,
+      validator: (val) =>
+          val == null || double.tryParse(val) == null || double.parse(val) < 0
+          ? 'Enter a valid amount'
+          : null,
+    );
+  }
+
+  DropdownButtonFormField _buildCategoryInput(List<Category> categories) {
+    _category = categories.first;
+
+    return DropdownButtonFormField<Category>(
+      value: _category,
+      items: categories
+          .map((c) => DropdownMenuItem(value: c, child: Text(c.name)))
+          .toList(),
+      onChanged: (val) {
+        if (val != null) _category = val;
+      },
+    );
+  }
+
+  DropdownButtonFormField _buildTransactionTypeInput() {
+    return DropdownButtonFormField<TransactionType>(
+      value: _type,
+      items: TransactionType.values
+          .map((e) => DropdownMenuItem(value: e, child: Text(e.name)))
+          .toList(),
+      onChanged: (val) {
+        if (val != null) setState(() => _type = val);
+      },
+    );
+  }
+
+  DropdownButtonFormField _buildPersonInput(List<Person> persons) {
+    return DropdownButtonFormField<Person>(
+      value: ref.watch(currentUserProvider),
+      onChanged: (value) {
+        _person = value as Person;
+      },
+      items: persons
+          .map((p) => DropdownMenuItem(value: p, child: Text(p.name)))
+          .toList(),
+      decoration: InputDecoration(labelText: 'Select Person'),
+    );
+  }
+
+  TextFormField _buildDescriptionInput() {
+    return TextFormField(decoration: InputDecoration(labelText: "Description"));
+  }
+
+  void onSubmit() {
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
+      widget.onSubmit(
+        Transaction(
+          user: _person,
+          amount: _amount,
+          category: _category,
+          type: _type,
+        ),
+      );
+
+      FocusScope.of(context).unfocus();
+    }
   }
 }
