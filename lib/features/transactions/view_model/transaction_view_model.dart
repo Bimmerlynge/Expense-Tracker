@@ -45,7 +45,7 @@ class TransactionViewModel
     try {
       await _transactionService.postTransaction(transaction);
     } catch (e) {
-      // no-op
+      throw Exception("Failed to add transaction.");
     }
   }
 
