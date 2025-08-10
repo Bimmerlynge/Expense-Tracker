@@ -89,15 +89,3 @@ final personStreamProvider = StreamProvider<List<Person>>((ref) {
   final service = ref.watch(userFirestoreServiceProvider);
   return service.getHouseholdUsers();
 });
-
-final syncSelectedCategoryProvider = Provider<void>((ref) {
-  final categoriesAsync = ref.watch(categoryStreamProvider);
-
-  categoriesAsync.whenData((categories) {
-    if (categories.isNotEmpty) {
-      Future.microtask(() {
-        ref.read(selectedCategory.notifier).state = categories.first;
-      });
-    }
-  });
-});
