@@ -7,7 +7,13 @@ class RadioButton<T> extends StatelessWidget {
   final Widget child;
   final void Function(T value) onSelected;
 
-  const RadioButton({super.key, required this.value, required this.child, required this.onSelected, required this.selectedValue});
+  const RadioButton({
+    super.key,
+    required this.value,
+    required this.child,
+    required this.onSelected,
+    required this.selectedValue,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -17,9 +23,11 @@ class RadioButton<T> extends StatelessWidget {
       onPressed: () => onSelected(value),
       style: OutlinedButton.styleFrom(
         side: BorderSide(
-          color: isSelected ? AppColors.onPrimary : AppColors.primarySecondText
+          color: isSelected ? AppColors.onPrimary : AppColors.primarySecondText,
         ),
-        foregroundColor: isSelected ? AppColors.onPrimary : AppColors.primarySecondText
+        foregroundColor: isSelected
+            ? AppColors.onPrimary
+            : AppColors.primarySecondText,
       ),
       child: child,
     );

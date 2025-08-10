@@ -20,7 +20,8 @@ class MainScreen extends ConsumerStatefulWidget {
   ConsumerState<MainScreen> createState() => _MainScreenState();
 }
 
-class _MainScreenState extends ConsumerState<MainScreen> with SingleTickerProviderStateMixin {
+class _MainScreenState extends ConsumerState<MainScreen>
+    with SingleTickerProviderStateMixin {
   int _currentPageIndex = 0;
 
   late AnimationController _animationController;
@@ -33,7 +34,6 @@ class _MainScreenState extends ConsumerState<MainScreen> with SingleTickerProvid
     const SettingsPage(),
   ];
 
-
   @override
   void initState() {
     super.initState();
@@ -42,13 +42,10 @@ class _MainScreenState extends ConsumerState<MainScreen> with SingleTickerProvid
       vsync: this,
     );
 
-    _offsetAnimation = Tween<Offset>(
-      begin: Offset.zero,
-      end: const Offset(0.0, 1.5),
-    ).animate(CurvedAnimation(
-      parent: _animationController,
-      curve: Curves.easeOut,
-    ));
+    _offsetAnimation =
+        Tween<Offset>(begin: Offset.zero, end: const Offset(0.0, 1.5)).animate(
+          CurvedAnimation(parent: _animationController, curve: Curves.easeOut),
+        );
   }
 
   void onPageSelect(int pageIndex) {
@@ -89,11 +86,11 @@ class _MainScreenState extends ConsumerState<MainScreen> with SingleTickerProvid
 
     await Navigator.push(
       context,
-        PageRouteBuilder(
-            pageBuilder: (_, __, ___) => AddTransactionScreen(),
-            transitionDuration: Duration.zero,
-            reverseTransitionDuration: Duration.zero
-        )
+      PageRouteBuilder(
+        pageBuilder: (_, __, ___) => AddTransactionScreen(),
+        transitionDuration: Duration.zero,
+        reverseTransitionDuration: Duration.zero,
+      ),
     );
 
     // Animate them back in when returning
@@ -105,6 +102,4 @@ class _MainScreenState extends ConsumerState<MainScreen> with SingleTickerProvid
     _animationController.dispose();
     super.dispose();
   }
-
-
 }

@@ -35,8 +35,11 @@ class UserFirestoreService implements UserApi {
         .collection('households')
         .doc(householdId)
         .collection('users')
-    .snapshots().map((snapshot) => snapshot.docs.map((doc) => Person.fromFirestore(doc)).toList()
-    );
+        .snapshots()
+        .map(
+          (snapshot) =>
+              snapshot.docs.map((doc) => Person.fromFirestore(doc)).toList(),
+        );
 
     return response;
   }

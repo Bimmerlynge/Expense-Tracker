@@ -9,6 +9,5 @@ class AppColors {
   static const Color primarySecondText = Color.fromARGB(255, 96, 96, 96);
   static const Color primaryTertText = Color.fromARGB(255, 72, 150, 180);
 
-
   static const Color containerOnPrimary = Color.fromARGB(255, 35, 49, 100);
 }

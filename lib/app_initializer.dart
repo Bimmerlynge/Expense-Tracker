@@ -7,7 +7,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class AppInitializer extends ConsumerWidget {
   const AppInitializer({super.key});
 
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     ref.watch(syncSelectedCategoryProvider);

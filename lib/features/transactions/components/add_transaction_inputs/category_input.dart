@@ -46,11 +46,7 @@ class _CategoryInputState extends ConsumerState<CategoryInput> {
                   value: category,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        category.name,
-                      ),
-                    ],
+                    children: [Text(category.name)],
                   ),
                 );
               }).toList(),

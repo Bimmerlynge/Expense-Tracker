@@ -30,8 +30,8 @@ class CategoryFirebaseService implements CategoryApi {
   @override
   Stream<List<Category>> getCategoryStream() {
     var response = _getCollection().snapshots().map(
-        (snapshot) =>
-            snapshot.docs.map((doc) => Category.fromFirestore(doc)).toList()
+      (snapshot) =>
+          snapshot.docs.map((doc) => Category.fromFirestore(doc)).toList(),
     );
 
     return response;

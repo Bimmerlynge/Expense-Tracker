@@ -22,23 +22,21 @@ class TypeInput extends ConsumerWidget {
               selectedValue: selected,
               child: Text('Forbrug'),
               onSelected: (value) => selectedNotifier.state = value,
-            )
+            ),
           ),
-            SizedBox(width: 16),
-            Expanded(
-              child: RadioButton<TransactionType>(
-                value: TransactionType.income,
-                selectedValue: selected,
-                child: Text('Indkomst'),
-                onSelected: (value) => selectedNotifier.state = value,
-              )
-            )
+          SizedBox(width: 16),
+          Expanded(
+            child: RadioButton<TransactionType>(
+              value: TransactionType.income,
+              selectedValue: selected,
+              child: Text('Indkomst'),
+              onSelected: (value) => selectedNotifier.state = value,
+            ),
+          ),
         ],
       ),
     );
   }
 
-  void onSelected() {
-
-  }
+  void onSelected() {}
 }

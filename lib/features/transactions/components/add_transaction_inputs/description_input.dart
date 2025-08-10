@@ -7,10 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class DescriptionInput extends ConsumerWidget {
   final FocusNode focusNode;
 
-  const DescriptionInput({
-    super.key,
-    required this.focusNode,
-  });
+  const DescriptionInput({super.key, required this.focusNode});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -22,7 +19,7 @@ class DescriptionInput extends ConsumerWidget {
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 16),
           child: Text(
-              'Description',
+            'Description',
             style: TextStyle(color: AppColors.primaryText),
           ),
         ),
@@ -31,9 +28,9 @@ class DescriptionInput extends ConsumerWidget {
             focusNode: focusNode,
             initialValue: description,
             onChanged: (value) =>
-            ref.read(selectedDescriptionProvider.notifier).state = value,
+                ref.read(selectedDescriptionProvider.notifier).state = value,
             style: TextStyle(color: AppColors.onPrimary),
-            textAlign: TextAlign.center
+            textAlign: TextAlign.center,
           ),
         ),
       ],

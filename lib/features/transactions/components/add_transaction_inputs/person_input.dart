@@ -49,6 +49,5 @@ class PersonInput extends ConsumerWidget {
         );
       },
     );
-
   }
 }
