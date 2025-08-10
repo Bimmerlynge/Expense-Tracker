@@ -15,16 +15,13 @@ class TAppBar extends ConsumerStatefulWidget implements PreferredSizeWidget {
 }
 
 class _TAppBarState extends ConsumerState<TAppBar> {
-
   @override
   Widget build(BuildContext context) {
     return AppBar(
       title: Text(widget.title),
       centerTitle: true,
       elevation: 0,
-      actions: [
-
-      ],
+      actions: [],
     );
   }
 }

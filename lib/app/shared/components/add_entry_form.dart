@@ -46,11 +46,7 @@ class _AddEntryFormState extends ConsumerState<AddEntryForm> {
     List<Person> persons,
   ) {
     return AlertDialog(
-      title: Column(
-        children: [
-          Text('Add transaction'),
-        ],
-      ),
+      title: Column(children: [Text('Add transaction')]),
       content: Form(
         key: _formKey,
         child: Column(
@@ -86,22 +82,21 @@ class _AddEntryFormState extends ConsumerState<AddEntryForm> {
           alignment: Alignment.center,
           decoration: BoxDecoration(
             color: AppColors.primary,
-            borderRadius: BorderRadius.circular(45)
+            borderRadius: BorderRadius.circular(45),
           ),
           child: TextFormField(
-            decoration: InputDecoration(
-              border: InputBorder.none,
-
-            ),
+            decoration: InputDecoration(border: InputBorder.none),
             keyboardType: TextInputType.numberWithOptions(decimal: false),
             onChanged: (val) => _amount = double.tryParse(val) ?? 0,
             validator: (val) =>
-                val == null || double.tryParse(val) == null || double.parse(val) < 0
+                val == null ||
+                    double.tryParse(val) == null ||
+                    double.parse(val) < 0
                 ? 'Enter a valid amount'
                 : null,
           ),
         ),
-      ]
+      ],
     );
   }
 

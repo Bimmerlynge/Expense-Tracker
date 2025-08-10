@@ -17,10 +17,7 @@ class Person extends Equatable {
   factory Person.fromFirestore(DocumentSnapshot doc) {
     final data = doc.data() as Map<String, dynamic>;
 
-    return Person(
-        id: data['userId'],
-        name: data['name'] as String
-    );
+    return Person(id: data['userId'], name: data['name'] as String);
   }
 
   @override

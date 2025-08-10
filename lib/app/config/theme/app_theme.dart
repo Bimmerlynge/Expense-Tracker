@@ -16,10 +16,14 @@ class AppTheme {
     ),
     scaffoldBackgroundColor: AppColors.secondary,
     appBarTheme: AppBarTheme(
-        color: AppColors.primary,
-        titleTextStyle: TextStyle(color: AppColors.primaryText, fontSize: 24, letterSpacing: 2),
-        iconTheme: IconThemeData(color: AppColors.primaryText),
-        centerTitle: true
+      color: AppColors.primary,
+      titleTextStyle: TextStyle(
+        color: AppColors.primaryText,
+        fontSize: 24,
+        letterSpacing: 2,
+      ),
+      iconTheme: IconThemeData(color: AppColors.primaryText),
+      centerTitle: true,
     ),
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
       backgroundColor: AppColors.primary,
@@ -34,52 +38,33 @@ class AppTheme {
     primaryTextTheme: TTextTheme.mainTheme,
     textTheme: TextTheme(titleLarge: TextStyle(color: Colors.red)),
     snackBarTheme: SnackBarThemeData(),
-    dialogTheme: DialogThemeData(
-      backgroundColor: AppColors.secondary,
-
-    ),
-    inputDecorationTheme: InputDecorationTheme(
-      border: InputBorder.none
-
-    ),
+    dialogTheme: DialogThemeData(backgroundColor: AppColors.secondary),
+    inputDecorationTheme: InputDecorationTheme(border: InputBorder.none),
     outlinedButtonTheme: OutlinedButtonThemeData(
       style: OutlinedButton.styleFrom(
         backgroundColor: AppColors.primary,
         foregroundColor: AppColors.onPrimary,
-        textStyle: TextStyle(
-          letterSpacing: 2,
-          fontSize: 16,
-
-        ),
-        side: BorderSide(
-          color: AppColors.primarySecondText,
-        ),
-
-      )
+        textStyle: TextStyle(letterSpacing: 2, fontSize: 16),
+        side: BorderSide(color: AppColors.primarySecondText),
+      ),
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         backgroundColor: AppColors.primary,
         foregroundColor: AppColors.onPrimary,
-
-      )
+      ),
     ),
-    radioTheme: RadioThemeData(
-
-    ),
+    radioTheme: RadioThemeData(),
     listTileTheme: ListTileThemeData(
       leadingAndTrailingTextStyle: TTextTheme.mainTheme.titleSmall,
-      titleTextStyle: TextStyle(
-        color: AppColors.primaryTertText
-      ),
-      subtitleTextStyle: TTextTheme.mainTheme.titleSmall
+      titleTextStyle: TextStyle(color: AppColors.primaryTertText),
+      subtitleTextStyle: TTextTheme.mainTheme.titleSmall,
     ),
     dropdownMenuTheme: DropdownMenuThemeData(
       menuStyle: MenuStyle(
         backgroundColor: WidgetStateProperty.all(AppColors.primary),
-        alignment: Alignment.bottomLeft
+        alignment: Alignment.bottomLeft,
       ),
     ),
-
   );
 }

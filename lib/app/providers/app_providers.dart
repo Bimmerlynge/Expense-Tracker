@@ -9,7 +9,7 @@ import 'package:expense_tracker/features/transactions/view_model/transaction_vie
 import 'package:expense_tracker/features/users/service/user_firestore_service.dart';
 import 'package:expense_tracker/features/users/view_model/user_view_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:riverpod/riverpod.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final authStateProvider = StreamProvider<User?>(
   (ref) => FirebaseAuth.instance.authStateChanges(),

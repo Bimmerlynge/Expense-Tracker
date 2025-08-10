@@ -112,11 +112,13 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
     return Align(
       alignment: Alignment.center,
       child: OutlinedButton(
-        onPressed: _isLoading ? null : () async {
-          setState(() => _isLoading = true);
-          await onAdd();
-          setState(() => _isLoading = false);
-        },
+        onPressed: _isLoading
+            ? null
+            : () async {
+                setState(() => _isLoading = true);
+                await onAdd();
+                setState(() => _isLoading = false);
+              },
         child: _isLoading
             ? CircularProgressIndicator(strokeWidth: 2)
             : const Text('Add'),
@@ -133,7 +135,6 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
     var type = ref.watch(selectedTypeProvider);
     var description = ref.watch(selectedDescriptionProvider);
 
-
     try {
       await viewModel.addTransaction(
         Transaction(
@@ -146,7 +147,10 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
 
       ToastService.showSuccessToast(context, 'Transaction was added!');
     } catch (e) {
-      ToastService.showErrorToast(context, 'An error occurred trying to add transaction.');
+      ToastService.showErrorToast(
+        context,
+        'An error occurred trying to add transaction.',
+      );
     }
   }
 

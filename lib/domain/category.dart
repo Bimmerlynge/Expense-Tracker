@@ -12,9 +12,9 @@ class Category extends Equatable {
     final data = doc.data() as Map<String, dynamic>;
 
     return Category(
-        name: data['name'],
-        iconName: data['icon'] as String?,
-        isDefault: data['isDefault'] as bool?
+      name: data['name'],
+      iconName: data['icon'] as String?,
+      isDefault: data['isDefault'] as bool?,
     );
   }
 

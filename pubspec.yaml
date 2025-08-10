@@ -11,7 +11,6 @@ dependencies:
   flutter:
     sdk: flutter
 
-  cupertino_icons: ^1.0.6
   flutter_dotenv: ^5.2.1
   dio: ^5.8.0+1
   fl_chart: ^1.0.0
@@ -19,10 +18,8 @@ dependencies:
   cloud_firestore: ^6.0.0
   firebase_auth: ^6.0.0
   graphic: ^2.6.0
-  riverpod: ^2.6.1
   flutter_riverpod: ^2.6.1
   equatable: ^2.0.7
-  fluttertoast: ^8.2.12
 
 dev_dependencies:
   flutter_test:
