@@ -26,4 +26,22 @@ class CategoryFirebaseService implements CategoryApi {
     final List<dynamic> categoriesRaw = response.data()?['categories'] ?? [];
     return categoriesRaw.map((name) => Category(name: name as String)).toList();
   }
+
+  @override
+  Stream<List<Category>> getCategoryStream() {
+    var response = _getCollection().snapshots().map(
+        (snapshot) =>
+            snapshot.docs.map((doc) => Category.fromFirestore(doc)).toList()
+    );
+
+    return response;
+  }
+
+  CollectionReference<Map<String, dynamic>> _getCollection() {
+    final householdId = _ref.watch(currentUserProvider).householdId;
+    return _firestore
+        .collection('households')
+        .doc(householdId)
+        .collection('categories');
+  }
 }

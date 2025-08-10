@@ -1,3 +1,5 @@
+import 'package:expense_tracker/app_initializer.dart';
+import 'package:expense_tracker/features/transactions/providers/add_transaction_providers.dart';
 import 'package:expense_tracker/screens/login_screen.dart';
 import 'package:expense_tracker/screens/main_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -37,7 +39,7 @@ class AuthGate extends ConsumerWidget {
                   body: Center(child: Text('Error: ${snapshot.error}')),
                 );
               } else {
-                return const MainScreen();
+                return const AppInitializer();
               }
             },
           );

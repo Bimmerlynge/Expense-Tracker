@@ -3,6 +3,7 @@ import 'package:expense_tracker/domain/category.dart';
 import 'package:expense_tracker/domain/person.dart';
 import 'package:expense_tracker/domain/transaction.dart';
 import 'package:expense_tracker/features/categories/service/category_firebase_service.dart';
+import 'package:expense_tracker/features/transactions/providers/add_transaction_providers.dart';
 import 'package:expense_tracker/features/transactions/service/transaction_firebase_service.dart';
 import 'package:expense_tracker/features/transactions/view_model/transaction_view_model.dart';
 import 'package:expense_tracker/features/users/service/user_firestore_service.dart';
@@ -26,7 +27,7 @@ final currentUserProvider = StateProvider<Person>((ref) {
 
 final userFirestoreServiceProvider = Provider<UserFirestoreService>((ref) {
   final firestore = ref.watch(firestoreProvider);
-  return UserFirestoreService(firestore);
+  return UserFirestoreService(firestore, ref);
 });
 
 final userViewModelProvider = Provider<UserViewModel>((ref) {
@@ -77,4 +78,26 @@ final combinedHouseholdDataProvider =
 final transactionStreamProvider = StreamProvider<List<Transaction>>((ref) {
   final service = ref.watch(transactionFirestoreServiceProvider);
   return service.getTransactionsStream();
+});
+
+final categoryStreamProvider = StreamProvider<List<Category>>((ref) {
+  final service = ref.watch(categoryFirebaseServiceProvider);
+  return service.getCategoryStream();
+});
+
+final personStreamProvider = StreamProvider<List<Person>>((ref) {
+  final service = ref.watch(userFirestoreServiceProvider);
+  return service.getHouseholdUsers();
+});
+
+final syncSelectedCategoryProvider = Provider<void>((ref) {
+  final categoriesAsync = ref.watch(categoryStreamProvider);
+
+  categoriesAsync.whenData((categories) {
+    if (categories.isNotEmpty) {
+      Future.microtask(() {
+        ref.read(selectedCategory.notifier).state = categories.first;
+      });
+    }
+  });
 });
