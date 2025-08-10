@@ -9,7 +9,7 @@ class AppInitializer extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.watch(syncSelectedCategoryProvider);
+    ref.watch(categoryStreamProvider);
     ref.watch(personStreamProvider);
 
     return MainScreen();

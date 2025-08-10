@@ -24,6 +24,7 @@ class AddTransactionScreen extends ConsumerStatefulWidget {
 class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
   final ScrollController _scrollController = ScrollController();
   final FocusNode _descriptionFocusNode = FocusNode();
+  bool _isLoading = false;
 
   @override
   void initState() {
@@ -31,7 +32,6 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
 
     _descriptionFocusNode.addListener(() {
       if (!_descriptionFocusNode.hasFocus) {
-        print('no focus');
         _scrollController.jumpTo(0);
       }
     });
@@ -41,72 +41,49 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: TAppBar(title: 'Add Transaction'),
-      body: SingleChildScrollView(
-        controller: _scrollController,
-        // padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-        child: _buildForm(),
-      ),
+      body: _buildForm()
+
     );
   }
 
   Widget _buildForm() {
-    return Container(
-      height: MediaQuery.of(context).size.height,
-      padding: const EdgeInsets.only(left: 32, right: 32),
-      child: Column(
-        // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Expanded(flex: 7, child: _buildInputs()),
-          Expanded(flex: 3, child: _buildButtons()),
-        ],
-      ),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return SingleChildScrollView(
+          controller: _scrollController,
+          child: ConstrainedBox(
+            constraints: BoxConstraints(minHeight: constraints.maxHeight),
+            child: IntrinsicHeight(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 32),
+                child: Column(
+                  children: [
+                    Expanded(child: _buildInputs()),
+                     _buildButtons(),
+                    const SizedBox(height: 32)
+                  ],
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+
     );
   }
 
   Widget _buildInputs() {
-    return Container(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          AmountInput(),
-          CategoryInput(),
-          PersonInput(),
-          TypeInput(),
-          DescriptionInput(focusNode: _descriptionFocusNode),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildAmount() {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16.0),
-          child: Text('Amount'),
-        ),
-        inputContainer(TextFormField(decoration: const InputDecoration())),
+        AmountInput(),
+        CategoryInput(),
+        PersonInput(),
+        TypeInput(),
+        DescriptionInput(focusNode: _descriptionFocusNode),
       ],
     );
   }
-
-  Widget _buildDescription() {
-    return Container(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16),
-            child: Text('Description'),
-          ),
-          inputContainer(TextFormField(decoration: const InputDecoration())),
-        ],
-      ),
-    );
-  }
-
-  bool _isLoading = false;
 
   Widget _buildButtons() {
     return Align(
@@ -145,7 +122,9 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
         ),
       );
 
-      ToastService.showSuccessToast(context, 'Transaction was added!');
+      ToastService.showSuccessToast(
+          context,
+          'Transaction was added!');
     } catch (e) {
       ToastService.showErrorToast(
         context,
