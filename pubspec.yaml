@@ -36,3 +36,4 @@ flutter:
   assets:
     - lib/app/config/environment/
     - lib/app/network/mock/responses/
+    - lib/app/shared/util/icon_map.dart

@@ -1,3 +1,4 @@
+import 'package:expense_tracker/app/config/theme/app_colors.dart';
 import 'package:expense_tracker/app/providers/app_providers.dart';
 import 'package:expense_tracker/app/shared/components/text_input.dart';
 import 'package:expense_tracker/domain/category.dart';
@@ -45,7 +46,11 @@ class _AddEntryFormState extends ConsumerState<AddEntryForm> {
     List<Person> persons,
   ) {
     return AlertDialog(
-      title: Text('Add transaction'),
+      title: Column(
+        children: [
+          Text('Add transaction'),
+        ],
+      ),
       content: Form(
         key: _formKey,
         child: Column(
@@ -69,15 +74,34 @@ class _AddEntryFormState extends ConsumerState<AddEntryForm> {
     );
   }
 
-  TextFormField _buildAmountInput() {
-    return TextFormField(
-      decoration: InputDecoration(labelText: 'Amount'),
-      keyboardType: TextInputType.numberWithOptions(decimal: false),
-      onChanged: (val) => _amount = double.tryParse(val) ?? 0,
-      validator: (val) =>
-          val == null || double.tryParse(val) == null || double.parse(val) < 0
-          ? 'Enter a valid amount'
-          : null,
+  Column _buildAmountInput() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('Amount'),
+        Container(
+          margin: EdgeInsets.only(top: 8),
+          padding: EdgeInsets.symmetric(horizontal: 16),
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            color: AppColors.primary,
+            borderRadius: BorderRadius.circular(45)
+          ),
+          child: TextFormField(
+            decoration: InputDecoration(
+              border: InputBorder.none,
+
+            ),
+            keyboardType: TextInputType.numberWithOptions(decimal: false),
+            onChanged: (val) => _amount = double.tryParse(val) ?? 0,
+            validator: (val) =>
+                val == null || double.tryParse(val) == null || double.parse(val) < 0
+                ? 'Enter a valid amount'
+                : null,
+          ),
+        ),
+      ]
     );
   }
 

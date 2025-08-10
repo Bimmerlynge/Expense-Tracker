@@ -54,9 +54,9 @@ class TransactionFirebaseService implements TransactionApi {
   Stream<List<Transaction>> getTransactionsStream() {
     var response = _getCollection().snapshots().map(
       (snapshot) =>
-          snapshot.docs.map((doc) => Transaction.fromFire(doc)).toList(),
+          snapshot.docs.map((doc) => Transaction.fromFire(doc)).toList()
     );
-    // TODO: implement getTransactionsStream
+
     return response;
   }
 }

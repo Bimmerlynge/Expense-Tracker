@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 
 class Person extends Equatable {
@@ -12,6 +13,15 @@ class Person extends Equatable {
     name: json['name'],
     householdId: json['householdId'],
   );
+
+  factory Person.fromFirestore(DocumentSnapshot doc) {
+    final data = doc.data() as Map<String, dynamic>;
+
+    return Person(
+        id: data['userId'],
+        name: data['name'] as String
+    );
+  }
 
   @override
   List<Object?> get props => [id];
