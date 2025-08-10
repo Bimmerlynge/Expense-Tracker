@@ -1,7 +1,5 @@
-import 'package:expense_tracker/app/config/theme/app_colors.dart';
 import 'package:expense_tracker/app/providers/app_providers.dart';
 import 'package:expense_tracker/app/shared/components/app_bar.dart';
-import 'package:expense_tracker/app/shared/util/static_widgets.dart';
 import 'package:expense_tracker/app/shared/util/toast_service.dart';
 import 'package:expense_tracker/domain/transaction.dart';
 import 'package:expense_tracker/features/transactions/components/add_transaction_inputs/amount_input.dart';
@@ -41,8 +39,7 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: TAppBar(title: 'Add Transaction'),
-      body: _buildForm()
-
+      body: _buildForm(),
     );
   }
 
@@ -59,8 +56,8 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
                 child: Column(
                   children: [
                     Expanded(child: _buildInputs()),
-                     _buildButtons(),
-                    const SizedBox(height: 32)
+                    _buildButtons(),
+                    const SizedBox(height: 32),
                   ],
                 ),
               ),
@@ -68,7 +65,6 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
           ),
         );
       },
-
     );
   }
 
@@ -110,6 +106,7 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
     var category = ref.watch(selectedCategory);
     var person = ref.watch(selectedPersonProvider);
     var type = ref.watch(selectedTypeProvider);
+    // ignore: unused_local_variable
     var description = ref.watch(selectedDescriptionProvider);
 
     try {
@@ -122,10 +119,10 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
         ),
       );
 
-      ToastService.showSuccessToast(
-          context,
-          'Transaction was added!');
+      if (!mounted) return;
+      ToastService.showSuccessToast(context, 'Transaction was added!');
     } catch (e) {
+      if (!mounted) return;
       ToastService.showErrorToast(
         context,
         'An error occurred trying to add transaction.',

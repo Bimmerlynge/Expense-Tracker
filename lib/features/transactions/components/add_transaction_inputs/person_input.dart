@@ -1,6 +1,5 @@
 import 'package:expense_tracker/app/providers/app_providers.dart';
 import 'package:expense_tracker/app/shared/components/radio_button.dart';
-import 'package:expense_tracker/app/shared/util/static_widgets.dart';
 import 'package:expense_tracker/domain/person.dart';
 import 'package:expense_tracker/features/transactions/providers/add_transaction_providers.dart';
 import 'package:flutter/material.dart';

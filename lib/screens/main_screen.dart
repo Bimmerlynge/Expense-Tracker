@@ -1,6 +1,5 @@
-import 'package:expense_tracker/app/shared/components/add_entry_form.dart';
+import 'package:expense_tracker/app/navigation/navigation_bar.dart';
 import 'package:expense_tracker/app/shared/components/app_bar.dart';
-import 'package:expense_tracker/app/shared/util/toast_service.dart';
 import 'package:expense_tracker/features/transactions/view/transaction_list_view.dart';
 import 'package:expense_tracker/features/transactions/view/add_transaction_screen.dart';
 import 'package:expense_tracker/views/home_page.dart';
@@ -8,10 +7,6 @@ import 'package:expense_tracker/views/settings_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../app/config/environment/environment.dart';
-import '../app/navigation/navigation_bar.dart';
-import '../app/providers/app_providers.dart';
-import '../domain/transaction.dart';
 
 class MainScreen extends ConsumerStatefulWidget {
   const MainScreen({super.key});
@@ -79,7 +74,6 @@ class _MainScreenState extends ConsumerState<MainScreen>
   }
 
   void onAddTransaction() async {
-    // Animate FAB + Bottom Nav down
     await _animationController.forward();
 
     if (!mounted) return;
@@ -87,13 +81,12 @@ class _MainScreenState extends ConsumerState<MainScreen>
     await Navigator.push(
       context,
       PageRouteBuilder(
-        pageBuilder: (_, __, ___) => AddTransactionScreen(),
+        pageBuilder: (_, _, _) => AddTransactionScreen(),
         transitionDuration: Duration.zero,
         reverseTransitionDuration: Duration.zero,
       ),
     );
 
-    // Animate them back in when returning
     if (mounted) await _animationController.reverse();
   }
 

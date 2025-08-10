@@ -1,7 +1,5 @@
 import 'package:expense_tracker/app_initializer.dart';
-import 'package:expense_tracker/features/transactions/providers/add_transaction_providers.dart';
 import 'package:expense_tracker/screens/login_screen.dart';
-import 'package:expense_tracker/screens/main_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

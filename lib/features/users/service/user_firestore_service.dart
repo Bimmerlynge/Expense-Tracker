@@ -3,7 +3,7 @@ import 'package:expense_tracker/app/providers/app_providers.dart';
 import 'package:expense_tracker/domain/person.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:riverpod/riverpod.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class UserFirestoreService implements UserApi {
   final String collection = 'users';
