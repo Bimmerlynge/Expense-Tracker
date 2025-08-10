@@ -12,29 +12,27 @@ class TypeInput extends ConsumerWidget {
     final selected = ref.watch(selectedTypeProvider);
     final selectedNotifier = ref.read(selectedTypeProvider.notifier);
 
-    return Container(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Expanded(
-            child: RadioButton<TransactionType>(
-              value: TransactionType.expense,
-              selectedValue: selected,
-              child: Text('Forbrug'),
-              onSelected: (value) => selectedNotifier.state = value,
-            ),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Expanded(
+          child: RadioButton<TransactionType>(
+            value: TransactionType.expense,
+            selectedValue: selected,
+            child: Text('Forbrug'),
+            onSelected: (value) => selectedNotifier.state = value,
           ),
-          SizedBox(width: 16),
-          Expanded(
-            child: RadioButton<TransactionType>(
-              value: TransactionType.income,
-              selectedValue: selected,
-              child: Text('Indkomst'),
-              onSelected: (value) => selectedNotifier.state = value,
-            ),
+        ),
+        SizedBox(width: 16),
+        Expanded(
+          child: RadioButton<TransactionType>(
+            value: TransactionType.income,
+            selectedValue: selected,
+            child: Text('Indkomst'),
+            onSelected: (value) => selectedNotifier.state = value,
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 

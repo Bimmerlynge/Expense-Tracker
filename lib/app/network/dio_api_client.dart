@@ -1,3 +1,5 @@
+// ignore_for_file: unused_field
+
 import 'package:dio/dio.dart';
 import 'package:expense_tracker/app/network/api_client.dart';
 import 'package:expense_tracker/app/network/mock/mock_dio_setup.dart';

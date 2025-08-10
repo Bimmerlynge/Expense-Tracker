@@ -3,7 +3,7 @@ import 'package:expense_tracker/app/network/transaction_api.dart';
 import 'package:expense_tracker/app/providers/app_providers.dart';
 import 'package:expense_tracker/domain/transaction.dart';
 import 'package:flutter/material.dart';
-import 'package:riverpod/riverpod.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class TransactionFirebaseService implements TransactionApi {
   final FirebaseFirestore _firestore;

@@ -1,4 +1,3 @@
-import 'package:expense_tracker/app/config/theme/app_colors.dart';
 import 'package:expense_tracker/app/providers/app_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

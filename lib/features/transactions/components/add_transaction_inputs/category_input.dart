@@ -1,6 +1,5 @@
 import 'package:expense_tracker/app/config/theme/app_colors.dart';
 import 'package:expense_tracker/app/providers/app_providers.dart';
-import 'package:expense_tracker/app/shared/util/icon_map.dart';
 import 'package:expense_tracker/app/shared/util/static_widgets.dart';
 import 'package:expense_tracker/domain/category.dart';
 import 'package:expense_tracker/features/transactions/providers/add_transaction_providers.dart';

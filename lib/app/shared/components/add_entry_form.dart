@@ -1,6 +1,5 @@
 import 'package:expense_tracker/app/config/theme/app_colors.dart';
 import 'package:expense_tracker/app/providers/app_providers.dart';
-import 'package:expense_tracker/app/shared/components/text_input.dart';
 import 'package:expense_tracker/domain/category.dart';
 import 'package:expense_tracker/domain/person.dart';
 import 'package:expense_tracker/domain/transaction.dart';
