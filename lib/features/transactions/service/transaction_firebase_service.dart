@@ -52,9 +52,14 @@ class TransactionFirebaseService implements TransactionApi {
 
   @override
   Stream<List<Transaction>> getTransactionsStream() {
-    var response = _getCollection().snapshots().map(
-      (snapshot) =>
-          snapshot.docs.map((doc) => Transaction.fromFire(doc)).toList(),
+    var response = _getCollection()
+        .orderBy('createdTime', descending: true)
+        .snapshots()
+        .map(
+          (snapshot) =>
+              snapshot.docs.map((doc) =>
+                  Transaction.fromFire(doc))
+                  .toList()
     );
 
     return response;
