@@ -38,6 +38,7 @@ class VersionResolver {
 
     for (int i = 0; i < latestParts.length; i++) {
       if (latestParts[i] > currentParts[i]) return true;
+      if (currentParts[i] > latestParts[i]) return false;
     }
 
     return false;
