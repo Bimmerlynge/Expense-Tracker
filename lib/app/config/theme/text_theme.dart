@@ -8,5 +8,7 @@ class TTextTheme {
     // headlineLarge:
     headlineMedium: TextStyle(),
     titleSmall: TextStyle(fontSize: 12, color: AppColors.primaryText),
+    labelSmall: TextStyle(fontSize: 14, color: AppColors.onPrimary, letterSpacing: 2),
+    labelMedium: TextStyle(fontSize: 16, color: AppColors.primaryText, letterSpacing: 2)
   );
 }

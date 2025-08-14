@@ -1,3 +1,6 @@
+import 'package:expense_tracker/app/config/theme/app_colors.dart';
+import 'package:expense_tracker/app/shared/util/static_widgets.dart';
+import 'package:expense_tracker/app/shared/util/toast_service.dart';
 import 'package:expense_tracker/auth_gate.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -31,7 +34,7 @@ class _LoginScreenState extends State<LoginScreen> {
         MaterialPageRoute(builder: (context) => const AuthGate()),
       );
     } catch (e) {
-      debugPrint(e.toString());
+      ToastService.showErrorToast(context, "Could not login");
     }
   }
 
@@ -44,18 +47,24 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            TextField(
-              controller: _emailController,
-              decoration: InputDecoration(label: Text('Email')),
+            labelInputContainer(
+                label: "Email",
+                controller: _emailController
             ),
-            SizedBox(height: 16),
-            TextField(
+            SizedBox(height: 32),
+            labelInputContainer(
+              label: "Password",
               controller: _passwordController,
-              decoration: InputDecoration(label: Text('Password')),
               obscureText: true,
             ),
-            SizedBox(height: 16),
-            ElevatedButton(onPressed: onLogin, child: Text('Login')),
+            SizedBox(height: 32),
+            ElevatedButton(
+              onPressed: onLogin,
+              child: Text(
+                'Login',
+                style: TextStyle(color: AppColors.primaryText),
+              ),
+            ),
           ],
         ),
       ),
