@@ -36,10 +36,13 @@ class AppTheme {
     ),
     iconButtonTheme: IconButtonThemeData(),
     primaryTextTheme: TTextTheme.mainTheme,
-    textTheme: TextTheme(titleLarge: TextStyle(color: Colors.red)),
     snackBarTheme: SnackBarThemeData(),
     dialogTheme: DialogThemeData(backgroundColor: AppColors.secondary),
-    inputDecorationTheme: InputDecorationTheme(border: InputBorder.none),
+    inputDecorationTheme: InputDecorationTheme(
+        border: InputBorder.none,
+        labelStyle: TTextTheme.mainTheme.labelSmall,
+      contentPadding: EdgeInsets.symmetric(horizontal: 8)
+    ),
     outlinedButtonTheme: OutlinedButtonThemeData(
       style: OutlinedButton.styleFrom(
         backgroundColor: AppColors.primary,
