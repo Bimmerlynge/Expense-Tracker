@@ -8,10 +8,10 @@ on:
         required: true
 
 jobs:
-  create-release-tag:
+  process-input:
     runs-on: ubuntu-latest
     outputs:
-      release_tag: ${{ steps.release-tag.outputs.release_tag }}
+      validated_version: ${{ steps.validate.outputs.validated_version }}
     steps:
       - name: Validate input
         id: validate
@@ -26,20 +26,25 @@ jobs:
           
           echo "validated_version=$VERSION" >> $GITHUB_OUTPUT
           echo "Version is valid ✅"
+#      - name: Prepare release tag
+#        id: tag
+#        run: |
+#          VALIDATED_VERSION="${{ steps.validate.outputs.validated_version }}"
+#          RELEASE_TAG="v$VALIDATED_VERSION"
+#
+#          echo "release_tag=$RELEASE_TAG" >> $GITHUB_OUTPUT
+#          echo "Prepared release tag: $RELEASE_TAG"
 
-      - name: Prepare release tag
-        id: release-tag
-        run: |
-          VALIDATED_VERSION="${{ steps.validate.outputs.validated_version }}"
-          RELEASE_TAG="v$VALIDATED_VERSION"          
-
-          echo "release_tag=$RELEASE_TAG" >> $GITHUB_OUTPUT
-          echo "Prepared release tag: $RELEASE_TAG"
-
-  checkout-repository:
+  setup-and-build:
     runs-on: ubuntu-latest
-    needs: create-release-tag
+    needs: process-input
+    outputs:
+      apk_artifact_name: flutter-apk
     steps:
-      - name: Checkout
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Apply version to pubspec.yaml
         run: |
-          echo "Checking out repo"
+          VERSION="${{ needs.process-input.outputs.validated_version }}"
+          echo "Applying version $VERSION to pubspec.yaml"
