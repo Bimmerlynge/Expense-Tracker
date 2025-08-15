@@ -40,43 +40,64 @@ jobs:
     runs-on: ubuntu-latest
     needs: process-input
     outputs:
-      apk_artifact_name: flutter-apk
+      apk_path: ${{ steps.rename.outputs.apk_path }}
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
-
-      - name: Apply version to pubspec.yaml
+      - name: Apply version to pubspec.yaml (build only)
         run: |
-          VERSION="${{ needs.process-input.outputs.validated_version }}"
-          echo "Applying version $VERSION to pubspec.yaml"
-          
-          sed -i "s/^[[:space:]]*version:.*/version: $VERSION/" pubspec.yaml
-          
-          echo "Checking new replace version"
+          sed -i "s/^[[:space:]]*version:.*/version: ${{ needs.process-input.outputs.validated_version }}/" pubspec.yaml
           grep "^version:" pubspec.yaml
-
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
           channel: stable
           flutter-version: '3.32.8'
-
       - name: Get dependencies
         run: flutter pub get
-
       - name: Build APK
         run: flutter build apk --release
-
+      - name: Rename APK
+        id: rename
+        run: |
+          VERSION="${{ needs.process-input.outputs.validated_version }}"
+          NEW_PATH="build/app/outputs/flutter-apk/expense_tracker_${VERSION}.apk"
+          mv build/app/outputs/flutter-apk/app-release.apk "$NEW_PATH"
+          echo "apk_path=$NEW_PATH" >> $GITHUB_OUTPUT
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
           name: release-apk
-          path: build/app/outputs/flutter-apk/app-release.apk
+          path: ${{ steps.rename.outputs.apk_path }}
+
+  commit-version:
+    runs-on: ubuntu-latest
+    needs: [ process-input, setup-and-build ]
+    steps:
+      - name: Checkout master branch
+        uses: actions/checkout@v4
+        with:
+          ref: master
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Apply version to pubspec.yaml (master branch)
+        run: |
+          sed -i "s/^[[:space:]]*version:.*/version: ${{ needs.process-input.outputs.validated_version }}/" pubspec.yaml
+          grep "^version:" pubspec.yaml
+      - name: Commit and push changes
+        run: |
+          VERSION="${{ needs.process-input.outputs.validated_version }}"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add pubspec.yaml
+          git commit -m "Bump version to $VERSION"
+          git push origin master
+          echo "commit_sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
 
   create-release:
     runs-on: ubuntu-latest
     permissions: write-all
-    needs: [process-input, setup-and-build]
+    needs: [process-input, commit-version]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -95,44 +116,13 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               ref: `refs/tags/${{ needs.process-input.outputs.release_tag }}`,
-              sha: context.sha            
+              sha: `${{ needs.commit-version.outputs.commit_sha }}`            
             })
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ needs.process-input.outputs.release_tag }}
-          name: Release ${{ needs.process-input.outputs.release_tag }}
-          files: ./release-apk/app-release.apk
-
-  commit-version:
-    runs-on: ubuntu-latest
-    needs: [process-input, setup-and-build]
-    steps:
-      - name: Checkout master branch
-        uses: actions/checkout@v4
-        with:
-          ref: master
-          token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Apply version to pubspec.yaml
-        run: |
-          VERSION="${{ needs.process-input.outputs.validated_version }}"
-          echo "Applying version $VERSION to pubspec.yaml"
-
-          sed -i "s/^[[:space:]]*version:.*/version: $VERSION/" pubspec.yaml
-
-          echo "Checking new replace version"
-          grep "^version:" pubspec.yaml
-
-      - name: Commit and push changes
-        run: |
-          VERSION="${{ needs.process-input.outputs.validated_version }}"
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add pubspec.yaml
-          git commit -m "Bump version to $VERSION"
-          git push origin master
-
-
+          name: ${{ needs.process-input.outputs.release_tag }}
+          files: ./release-apk/*.apk
 
