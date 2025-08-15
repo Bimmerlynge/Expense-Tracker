@@ -79,8 +79,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Download APK artifact
         uses: actions/download-artifact@v5
@@ -89,12 +87,15 @@ jobs:
           path: ./release-apk
 
       - name: Create Git tag
-        run: |
-          RELEASE_TAG=${{ needs.process-input.outputs.release_tag }}
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git tag $RELEASE_TAG
-          git push origin $RELEASE_TAG
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.git.createRef({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: 'refs/tags/${{ needs.process-input.outputs.release_tag }},
+              sha: context.sha            
+            })
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
