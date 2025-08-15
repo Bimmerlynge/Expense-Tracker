@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: "Version tag. fx v1.2.3"
+        description: "Version tag. fx 1.2.3"
         required: true
 
 
@@ -14,6 +14,12 @@ jobs:
     steps:
       - name: Validate input
         run: |
-          echo "Input: '${{ github.event.inputs.version }}'"
-
-
+          VERSION="${{ github.event.inputs.version }}"
+          echo "Input: '$VERSION'"
+          
+          if [[ ! $VERSION =~ ^[0-9]+\.[0-9]+\[0-9]+$ ]]; then
+            echo "Error: Version must be in the format x.y.z (e.g., 1.2.3)"
+            exit 0
+          fi
+          
+          echo "Version is valid ✅"
