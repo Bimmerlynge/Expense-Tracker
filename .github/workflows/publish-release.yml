@@ -17,7 +17,7 @@ jobs:
           VERSION="${{ github.event.inputs.version }}"
           echo "Input: '$VERSION'"
           
-          if [[ ! $VERSION =~ ^[0-9]+\.[0-9]+\[0-9]+$ ]]; then
+          if [[ ! $VERSION =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
             echo "Error: Version must be in the format x.y.z (e.g., 1.2.3)"
             exit 1
           fi
