@@ -48,3 +48,8 @@ jobs:
         run: |
           VERSION="${{ needs.process-input.outputs.validated_version }}"
           echo "Applying version $VERSION to pubspec.yaml"
+          
+          sed -i "0,/^[[:space:]]*version:/s//version: $VERSION/" pubspec.yaml
+          
+          echo "Checking new replace version"
+          grep "^version:" pubspec.yaml
