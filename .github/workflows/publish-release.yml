@@ -79,6 +79,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Download APK artifact
         uses: actions/download-artifact@v5
@@ -87,8 +89,6 @@ jobs:
           path: ./release-apk
 
       - name: Create Git tag
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           RELEASE_TAG=${{ needs.process-input.outputs.release_tag }}
           git config user.name "github-actions[bot]"
