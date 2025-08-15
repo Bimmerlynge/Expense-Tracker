@@ -72,6 +72,7 @@ jobs:
 
   commit-version:
     runs-on: ubuntu-latest
+    permissions: write-all
     needs: [ process-input, setup-and-build ]
     steps:
       - name: Checkout master branch
