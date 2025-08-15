@@ -92,7 +92,6 @@ jobs:
           git add pubspec.yaml
           git commit -m "Bump version to $VERSION"
           git push origin master
-          echo "commit_sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
 
   create-release:
     runs-on: ubuntu-latest
@@ -116,7 +115,7 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               ref: `refs/tags/${{ needs.process-input.outputs.release_tag }}`,
-              sha: `${{ needs.commit-version.outputs.commit_sha }}`            
+              sha: context.sha          
             })
 
       - name: Create GitHub Release
