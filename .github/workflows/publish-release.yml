@@ -12,6 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       validated_version: ${{ steps.validate.outputs.validated_version }}
+      release_tag: ${{ steps.tag.outputs.release_tag }}
     steps:
       - name: Validate input
         id: validate
@@ -26,14 +27,14 @@ jobs:
           
           echo "validated_version=$VERSION" >> $GITHUB_OUTPUT
           echo "Version is valid ✅"
-#      - name: Prepare release tag
-#        id: tag
-#        run: |
-#          VALIDATED_VERSION="${{ steps.validate.outputs.validated_version }}"
-#          RELEASE_TAG="v$VALIDATED_VERSION"
-#
-#          echo "release_tag=$RELEASE_TAG" >> $GITHUB_OUTPUT
-#          echo "Prepared release tag: $RELEASE_TAG"
+      - name: Prepare release tag
+        id: tag
+        run: |
+          VALIDATED_VERSION="${{ steps.validate.outputs.validated_version }}"
+          RELEASE_TAG="v$VALIDATED_VERSION"
+
+          echo "release_tag=$RELEASE_TAG" >> $GITHUB_OUTPUT
+          echo "Prepared release tag: $RELEASE_TAG"
 
   setup-and-build:
     runs-on: ubuntu-latest
@@ -53,3 +54,43 @@ jobs:
           
           echo "Checking new replace version"
           grep "^version:" pubspec.yaml
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 'stable'
+
+      - name: Get dependencies
+        run: flutter pub get
+
+      - name: Build APK
+        run: flutter build apk --release
+
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-apk
+          path: build/app/outputs/flutter-apk/app-release.apk
+
+  create-release:
+    runs-on: ubuntu-latest
+    needs: setup-and-build
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download APK artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: release-apk
+          path: ./release-apk
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ needs.process-input.outputs.release_tag }}
+          name: Release ${{ needs.process-input.outputs.release_tag }}
+          files: ./release-apk/app-release.apk
+
+
+
