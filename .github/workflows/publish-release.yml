@@ -93,7 +93,7 @@ jobs:
             github.rest.git.createRef({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              ref: `refs/tags/${{ needs.process-input.outputs.release_tag }}`
+              ref: `refs/tags/${{ needs.process-input.outputs.release_tag }}`,
               sha: context.sha            
             })
 
