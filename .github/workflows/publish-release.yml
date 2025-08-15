@@ -35,3 +35,10 @@ jobs:
 
           echo "release_tag=$RELEASE_TAG" >> $GITHUB_OUTPUT
           echo "Prepared release tag: $RELEASE_TAG"
+
+  checkout-repository:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        run: |
+          echo "Checking out repo"
