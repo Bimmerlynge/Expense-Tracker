@@ -86,6 +86,14 @@ jobs:
           name: release-apk
           path: ./release-apk
 
+      - name: Create Git tag
+        run: |
+          RELEASE_TAG=${{ needs.process-input.outputs.release_tag }}
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git tag RELEASE_TAG
+          git push origin RELEASE_TAG
+
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
