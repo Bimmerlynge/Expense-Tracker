@@ -7,12 +7,14 @@ on:
         description: "Version tag. fx 1.2.3"
         required: true
 
-
 jobs:
-  validate-input:
+  create-release-tag:
     runs-on: ubuntu-latest
+    outputs:
+      release_tag: ${{ steps.release-tag.outputs.release_tag }}
     steps:
       - name: Validate input
+        id: validate
         run: |
           VERSION="${{ github.event.inputs.version }}"
           echo "Input: '$VERSION'"
@@ -22,4 +24,14 @@ jobs:
             exit 1
           fi
           
+          echo "validated_version=$VERSION" >> $GITHUB_OUTPUT
           echo "Version is valid ✅"
+
+      - name: Prepare release tag
+        id: release-tag
+        run: |
+          VALIDATED_VERSION="${{ steps.validate.outputs.validated_version }}"
+          RELEASE_TAG="v$VALIDATED_VERSION"          
+
+          echo "release_tag=$RELEASE_TAG" >> $GITHUB_OUTPUT
+          echo "Prepared release tag: $RELEASE_TAG"
