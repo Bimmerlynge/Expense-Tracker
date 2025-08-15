@@ -1,0 +1,19 @@
+name: Publish new release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version tag. fx v1.2.3"
+        required: true
+
+
+jobs:
+  validate-input:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate input
+        run: |
+          echo "Input: '${{ github.event.inputs.version }}'"
+
+
