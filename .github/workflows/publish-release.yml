@@ -75,6 +75,7 @@ jobs:
 
   create-release:
     runs-on: ubuntu-latest
+    permissions: write-all
     needs: [process-input, setup-and-build]
     steps:
       - name: Checkout repository
