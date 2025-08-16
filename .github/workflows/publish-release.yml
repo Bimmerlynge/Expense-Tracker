@@ -57,10 +57,10 @@ jobs:
         run: flutter pub get
       - name: Prepare keystore
         run: |
-          echo "${{ secrets.KEYSTORE }}" | base64 --decode > android/expense_tracker.jks
+          echo "${{ secrets.KEYSTORE }}" | base64 --decode > android/${{ secrets.KEYSTORE_ALIAS }}.jks
       - name: Prepare key.properties
         run: |
-          echo "storeFile=expense_tracker.jks" > android/key.properties
+          echo "storeFile=../${{ secrets.KEYSTORE_ALIAS }}.jks" > android/key.properties
           echo "storePassword=${{ secrets.KEYSTORE_PASSWORD }}" >> android/key.properties
           echo "keyAlias=${{ secrets.KEYSTORE_ALIAS }}" >> android/key.properties
           echo "keyPassword=${{ secrets.KEYSTORE_KEY_PASSWORD }}" >> android/key.properties
