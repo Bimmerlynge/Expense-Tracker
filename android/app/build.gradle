@@ -26,8 +26,9 @@ if (flutterVersionName == null) {
 }
 
 def keystoreProperties = new Properties()
-def keystorePropertiesFile = rootProject.file("app/key.properties")
+def keystorePropertiesFile = rootProject.file("key.properties")
 if (keystorePropertiesFile.exists()) {
+    println "key.properties exists!!!!!!!!!!!!!!!"
     keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 }
 
@@ -72,8 +73,8 @@ android {
     buildTypes {
         release {
             signingConfig signingConfigs.release
-            minifyEnabled true
-            shrinkResources true
+            minifyEnabled false
+            shrinkResources false
         }
     }
 }
