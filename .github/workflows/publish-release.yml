@@ -60,7 +60,7 @@ jobs:
           echo "${{ secrets.KEYSTORE }}" | base64 --decode > android/app/expense_tracker.jks
       - name: Prepare key.properties
         run: |
-          echo "storeFile=app/expense_tracker.jks" > android/app/key.properties
+          echo "storeFile=expense_tracker.jks" > android/app/key.properties
           echo "storePassword=${{ secrets.KEYSTORE_PASSWORD }}" >> android/app/key.properties
           echo "keyAlias=${{ secrets.KEYSTORE_ALIAS }}" >> android/app/key.properties
           echo "keyPassword=${{ secrets.KEYSTORE_KEY_PASSWORD }}" >> android/app/key.properties
