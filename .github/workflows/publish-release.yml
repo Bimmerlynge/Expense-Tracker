@@ -57,9 +57,9 @@ jobs:
         run: flutter pub get
       - name: Prepare keystore
         run: |
-          ls -l android
+          
           echo "${{ secrets.KEYSTORE }}" | base64 --decode > android/${{ secrets.KEYSTORE_ALIAS }}.jks
-          ls -l android
+          
 
       - name: Prepare key.properties
         run: |
