@@ -13,7 +13,7 @@ import 'firebase_options.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await dotenv.load(fileName: Environment.environmentConfig);
+  // await dotenv.load(fileName: Environment.environmentConfig);
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   setupMockDio();
