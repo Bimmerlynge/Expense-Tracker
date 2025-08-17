@@ -16,7 +16,7 @@ class HomePage extends ConsumerWidget {
               context,
               "This is a regular snackbar",
             ),
-            child: Text("Test"),
+            child: Text("Update worked!"),
           ),
         ],
       ),
