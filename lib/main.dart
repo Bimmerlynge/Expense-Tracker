@@ -16,7 +16,7 @@ Future<void> main() async {
   // await dotenv.load(fileName: Environment.environmentConfig);
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-  setupMockDio();
+  // setupMockDio();
   runApp(ProviderScope(child: App()));
 }
 
