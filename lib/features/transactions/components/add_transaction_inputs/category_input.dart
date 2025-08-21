@@ -14,14 +14,9 @@ class CategoryInput extends ConsumerStatefulWidget {
 }
 
 class _CategoryInputState extends ConsumerState<CategoryInput> {
-  Category getDefault(List<Category> categories) {
-    return categories.firstWhere((c) => c.isDefault == true);
-  }
-
   @override
   Widget build(BuildContext context) {
     final categoriesAsync = ref.watch(categoryStreamProvider);
-    final selectedCategoryValue = ref.watch(selectedCategory);
     final selectedCategoryNotifier = ref.read(selectedCategory.notifier);
 
     return inputContainer(
@@ -39,7 +34,7 @@ class _CategoryInputState extends ConsumerState<CategoryInput> {
               dropdownColor: AppColors.primary,
               style: TextStyle(color: AppColors.onPrimary, fontSize: 16),
               isExpanded: true,
-              value: selectedCategoryValue ?? getDefault(categories),
+              value: selectedCategoryNotifier.state,
               items: categories.map((category) {
                 return DropdownMenuItem<Category>(
                   value: category,
