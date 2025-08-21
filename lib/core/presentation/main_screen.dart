@@ -2,8 +2,8 @@ import 'package:expense_tracker/app/navigation/navigation_bar.dart';
 import 'package:expense_tracker/app/shared/components/app_bar.dart';
 import 'package:expense_tracker/features/transactions/view/transaction_list_view.dart';
 import 'package:expense_tracker/features/transactions/view/add_transaction_screen.dart';
-import 'package:expense_tracker/views/home_page.dart';
-import 'package:expense_tracker/views/settings_page.dart';
+import 'package:expense_tracker/features/summaries/view/home_page.dart';
+import 'package:expense_tracker/features/settings/view/settings_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

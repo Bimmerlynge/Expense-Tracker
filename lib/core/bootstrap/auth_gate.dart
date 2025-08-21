@@ -1,10 +1,12 @@
-import 'package:expense_tracker/app_initializer.dart';
-import 'package:expense_tracker/screens/login_screen.dart';
+
+import 'package:expense_tracker/app/providers/app_providers.dart';
+import 'package:expense_tracker/core/bootstrap/app_initializer.dart';
+import 'package:expense_tracker/core/presentation/login_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'app/providers/app_providers.dart';
+
 
 class AuthGate extends ConsumerWidget {
   const AuthGate({super.key});
