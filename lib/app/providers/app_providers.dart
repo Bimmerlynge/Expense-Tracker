@@ -3,6 +3,7 @@ import 'package:expense_tracker/domain/category.dart';
 import 'package:expense_tracker/domain/person.dart';
 import 'package:expense_tracker/domain/transaction.dart';
 import 'package:expense_tracker/features/categories/service/category_firebase_service.dart';
+import 'package:expense_tracker/features/transactions/providers/add_transaction_providers.dart';
 import 'package:expense_tracker/features/transactions/service/transaction_firebase_service.dart';
 import 'package:expense_tracker/features/transactions/view_model/transaction_view_model.dart';
 import 'package:expense_tracker/features/users/service/user_firestore_service.dart';
@@ -81,7 +82,16 @@ final transactionStreamProvider = StreamProvider<List<Transaction>>((ref) {
 
 final categoryStreamProvider = StreamProvider<List<Category>>((ref) {
   final service = ref.watch(categoryFirebaseServiceProvider);
-  return service.getCategoryStream();
+  final selectedCategoryNotifier = ref.read(selectedCategory.notifier);
+
+  return service.getCategoryStream().map((categories) {
+    if(selectedCategoryNotifier.state == null)  {
+      final defaultCategory = categories
+          .firstWhere((c) => c.isDefault == true);
+      selectedCategoryNotifier.state = defaultCategory;
+    }
+    return categories;
+  });
 });
 
 final personStreamProvider = StreamProvider<List<Person>>((ref) {
