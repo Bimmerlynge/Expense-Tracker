@@ -1,7 +1,7 @@
 import 'package:expense_tracker/app/config/theme/app_colors.dart';
 import 'package:expense_tracker/app/shared/util/static_widgets.dart';
 import 'package:expense_tracker/app/shared/util/toast_service.dart';
-import 'package:expense_tracker/auth_gate.dart';
+import 'package:expense_tracker/core/bootstrap/auth_gate.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 

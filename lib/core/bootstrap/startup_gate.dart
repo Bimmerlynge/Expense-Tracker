@@ -1,5 +1,5 @@
-import 'package:expense_tracker/auth_gate.dart';
-import 'package:expense_tracker/version_resolver.dart';
+import 'package:expense_tracker/core/bootstrap/auth_gate.dart';
+import 'package:expense_tracker/core/bootstrap/version_resolver.dart';
 import 'package:flutter/material.dart';
 
 class StartupGate extends StatefulWidget {
