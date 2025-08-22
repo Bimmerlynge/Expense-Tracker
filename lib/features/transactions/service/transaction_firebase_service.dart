@@ -34,6 +34,7 @@ class TransactionFirebaseService implements TransactionApi {
         'category': transaction.category.name,
         'type': transaction.type.name,
         'createdTime': DateTime.now(),
+        'transactionTime': transaction.transactionTime
       });
     } on FirebaseException {
       rethrow;
@@ -53,7 +54,7 @@ class TransactionFirebaseService implements TransactionApi {
   @override
   Stream<List<Transaction>> getTransactionsStream() {
     var response = _getCollection()
-        .orderBy('createdTime', descending: true)
+        .orderBy('transactionTime', descending: true)
         .snapshots()
         .map(
           (snapshot) =>

@@ -17,7 +17,7 @@ class _CategoryInputState extends ConsumerState<CategoryInput> {
   @override
   Widget build(BuildContext context) {
     final categoriesAsync = ref.watch(categoryStreamProvider);
-    final selectedCategoryNotifier = ref.read(selectedCategory.notifier);
+    final selectedCategoryNotifier = ref.read(selectedCategoryProvider.notifier);
 
     return inputContainer(
       categoriesAsync.when(
