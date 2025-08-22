@@ -82,7 +82,7 @@ final transactionStreamProvider = StreamProvider<List<Transaction>>((ref) {
 
 final categoryStreamProvider = StreamProvider<List<Category>>((ref) {
   final service = ref.watch(categoryFirebaseServiceProvider);
-  final selectedCategoryNotifier = ref.read(selectedCategory.notifier);
+  final selectedCategoryNotifier = ref.read(selectedCategoryProvider.notifier);
 
   return service.getCategoryStream().map((categories) {
     if(selectedCategoryNotifier.state == null)  {

@@ -8,6 +8,7 @@ class Transaction {
   String? id;
   Person user;
   DateTime? createdTime;
+  DateTime? transactionTime;
   double amount;
   Category category;
   TransactionType type;
@@ -16,6 +17,7 @@ class Transaction {
     this.id,
     required this.user,
     this.createdTime,
+    this.transactionTime,
     required this.amount,
     required this.category,
     required this.type,
@@ -44,7 +46,8 @@ class Transaction {
       type: TransactionType.values.firstWhere(
         (e) => e.toString() == 'TransactionType.${data['type']}',
       ),
-      createdTime: (data['createdTime'] as Timestamp).toDate(),
+      createdTime: (data['createdTime'] as DateTime),
+      transactionTime: (data['transactionTime'] as DateTime)
     );
   }
 
@@ -59,7 +62,8 @@ class Transaction {
       type: TransactionType.values.firstWhere(
         (e) => e.toString() == 'TransactionType.${data['type']}',
       ),
-      createdTime: (data['createdTime'] as Timestamp).toDate(),
+        createdTime: (data['createdTime'] as Timestamp).toDate(),
+        transactionTime: (data['transactionTime'] as Timestamp).toDate()
     );
   }
 }
