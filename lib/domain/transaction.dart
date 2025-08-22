@@ -12,6 +12,7 @@ class Transaction {
   double amount;
   Category category;
   TransactionType type;
+  String? description;
 
   Transaction({
     this.id,
@@ -21,6 +22,7 @@ class Transaction {
     required this.amount,
     required this.category,
     required this.type,
+    this.description
   });
 
   factory Transaction.fromJson(Map<String, dynamic> json, String id) {
@@ -63,7 +65,8 @@ class Transaction {
         (e) => e.toString() == 'TransactionType.${data['type']}',
       ),
         createdTime: (data['createdTime'] as Timestamp).toDate(),
-        transactionTime: (data['transactionTime'] as Timestamp).toDate()
+        transactionTime: (data['transactionTime'] as Timestamp).toDate(),
+      description: data['description']
     );
   }
 }

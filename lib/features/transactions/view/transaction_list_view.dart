@@ -1,6 +1,7 @@
 import 'package:expense_tracker/app/providers/app_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 
 import '../../../domain/transaction.dart';
 
@@ -32,8 +33,10 @@ class TransactionListView extends ConsumerWidget {
                     ? Colors.red
                     : Colors.green,
               ),
-              title: Text(tx.category.name),
-              subtitle: Text(tx.transactionTime?.toIso8601String() ?? ''),
+              title: tx.description != null
+                  ? Text('${tx.category.name} - ${tx.description}')
+                  : Text(tx.category.name),
+              subtitle: Text(DateFormat('dd-MM-yyyy').format(tx.transactionTime!)),
               trailing: Text('${tx.amount} DKK'),
             );
           },
