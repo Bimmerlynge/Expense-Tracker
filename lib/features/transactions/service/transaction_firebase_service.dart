@@ -34,7 +34,8 @@ class TransactionFirebaseService implements TransactionApi {
         'category': transaction.category.name,
         'type': transaction.type.name,
         'createdTime': DateTime.now(),
-        'transactionTime': transaction.transactionTime
+        'transactionTime': transaction.transactionTime,
+        'description': transaction.description
       });
     } on FirebaseException {
       rethrow;
