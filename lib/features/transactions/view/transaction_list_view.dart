@@ -33,7 +33,7 @@ class TransactionListView extends ConsumerWidget {
                     : Colors.green,
               ),
               title: Text(tx.category.name),
-              subtitle: Text(tx.createdTime?.toIso8601String() ?? ''),
+              subtitle: Text(tx.transactionTime?.toIso8601String() ?? ''),
               trailing: Text('${tx.amount} DKK'),
             );
           },
