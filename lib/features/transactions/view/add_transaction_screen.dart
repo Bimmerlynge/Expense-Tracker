@@ -5,6 +5,7 @@ import 'package:expense_tracker/domain/transaction.dart';
 import 'package:expense_tracker/features/transactions/components/add_transaction_inputs/amount_input.dart';
 import 'package:expense_tracker/features/transactions/components/add_transaction_inputs/category_input.dart';
 import 'package:expense_tracker/features/transactions/components/add_transaction_inputs/date_input.dart';
+import 'package:expense_tracker/features/transactions/components/add_transaction_inputs/description_input.dart';
 import 'package:expense_tracker/features/transactions/components/add_transaction_inputs/person_input.dart';
 import 'package:expense_tracker/features/transactions/components/add_transaction_inputs/type_input.dart';
 import 'package:expense_tracker/features/transactions/providers/add_transaction_providers.dart';
@@ -77,7 +78,7 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
         CategoryInput(),
         PersonInput(),
         TypeInput(),
-        // DescriptionInput(focusNode: _descriptionFocusNode),
+        DescriptionInput(focusNode: _descriptionFocusNode),
       ],
     );
   }
@@ -118,7 +119,8 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
           amount: amount,
           category: category!,
           type: type,
-          transactionTime: date
+          transactionTime: date,
+          description: description
         ),
       );
 
