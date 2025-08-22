@@ -119,7 +119,8 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
           amount: amount,
           category: category!,
           type: type,
-          transactionTime: date
+          transactionTime: date,
+          description: description
         ),
       );
 
