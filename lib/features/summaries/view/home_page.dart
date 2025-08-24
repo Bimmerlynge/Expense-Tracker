@@ -1,24 +1,72 @@
-import 'package:expense_tracker/app/shared/util/toast_service.dart';
+import 'package:expense_tracker/features/summaries/view/category_tab.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'dart:math' as math;
 
-class HomePage extends ConsumerWidget {
+class HomePage extends ConsumerStatefulWidget {
   const HomePage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends ConsumerState<HomePage>
+    with SingleTickerProviderStateMixin {
+  late TabController _tabController;
+  late ScrollController _scrollController;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: 3, vsync: this);
+    _scrollController = ScrollController();
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          const SizedBox(height: 20),
-          OutlinedButton(
-            onPressed: () => ToastService.showInfoToast(
-              context,
-              "This is a regular snackbar",
+      body: NestedScrollView(
+        controller: _scrollController,
+          headerSliverBuilder: (BuildContext context, bool boxIsScrolled) {
+            return <Widget>[
+              SliverAppBar(
+                pinned: true,
+                floating: true,
+                forceElevated: boxIsScrolled,
+                toolbarHeight: 16,
+                bottom: TabBar(
+                  tabs: [
+                    Tab(child: Transform.rotate(
+                        angle: math.pi / 2,
+                        child: Icon(Icons.bar_chart)
+                    )
+                    ),
+                    Tab(child: Icon(Icons.area_chart_rounded)),
+                    Tab(child: Icon(Icons.person))
+                  ],
+                  controller: _tabController,
+                ),
+              )
+            ];
+          },
+          body: Padding(
+            padding: const EdgeInsets.only(right: 12),
+            child: TabBarView(
+              controller: _tabController,
+              children: [
+                CategoryTab(),
+                Center(child: Text('Historic chart'),),
+                Center(child: Text('My Summary'),)
+              ],
             ),
-            child: Text("Update worked!"),
           ),
-        ],
       ),
     );
   }

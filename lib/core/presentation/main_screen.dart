@@ -52,7 +52,7 @@ class _MainScreenState extends ConsumerState<MainScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: TAppBar(title: 'Overview'),
+      // appBar: TAppBar(title: 'Overview'),
       body: _pages[_currentPageIndex],
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: SlideTransition(

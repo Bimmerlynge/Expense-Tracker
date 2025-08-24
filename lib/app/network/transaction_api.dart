@@ -4,4 +4,5 @@ abstract class TransactionApi {
   Future<List<Transaction>> getAllTransactions();
   Future<void> postTransaction(Transaction transaction);
   Stream<List<Transaction>> getTransactionsStream();
+  Stream<List<Transaction>> getTransactionStreamInRange(DateTime start, DateTime end);
 }

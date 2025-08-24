@@ -22,7 +22,7 @@ class AppTheme {
         fontSize: 24,
         letterSpacing: 2,
       ),
-      iconTheme: IconThemeData(color: AppColors.primaryText),
+      iconTheme: IconThemeData(color: AppColors.onPrimary),
       centerTitle: true,
     ),
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
@@ -69,5 +69,15 @@ class AppTheme {
         alignment: Alignment.bottomLeft,
       ),
     ),
+    tabBarTheme: TabBarThemeData(
+      dividerColor: AppColors.primary,
+      indicatorSize: TabBarIndicatorSize.tab,
+      indicator: BoxDecoration(
+        color: AppColors.onPrimary,
+        borderRadius: BorderRadius.circular(10),
+      ),
+      indicatorColor: AppColors.onPrimary,
+      unselectedLabelColor: AppColors.onPrimary.withAlpha(100)
+    )
   );
 }

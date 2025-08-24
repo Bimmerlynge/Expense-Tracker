@@ -62,7 +62,7 @@ class Transaction {
       amount: (data['amount'] as num).toDouble(),
       category: Category(name: data['category'] as String),
       type: TransactionType.values.firstWhere(
-        (e) => e.toString() == 'TransactionType.${data['type']}',
+        (type) => type.toString() == 'TransactionType.${data['type']}',
       ),
         createdTime: (data['createdTime'] as Timestamp).toDate(),
         transactionTime: (data['transactionTime'] as Timestamp).toDate(),

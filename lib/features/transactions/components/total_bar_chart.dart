@@ -1,4 +1,4 @@
-import 'package:expense_tracker/features/transactions/view_model/transaction_view_model.dart';
+import 'package:expense_tracker/domain/category_spending.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
