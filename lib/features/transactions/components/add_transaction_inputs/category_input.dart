@@ -34,7 +34,7 @@ class _CategoryInputState extends ConsumerState<CategoryInput> {
               dropdownColor: AppColors.primary,
               style: TextStyle(color: AppColors.onPrimary, fontSize: 16),
               isExpanded: true,
-              value: selectedCategoryNotifier.state,
+              value: ref.watch(selectedCategoryProvider),
               items: categories.map((category) {
                 return DropdownMenuItem<Category>(
                   value: category,
