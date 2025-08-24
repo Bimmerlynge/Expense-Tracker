@@ -66,4 +66,18 @@ class TransactionFirebaseService implements TransactionApi {
 
     return response;
   }
+
+  @override
+  Stream<List<Transaction>> getTransactionStreamInRange(DateTime start, DateTime end) {
+    return _getCollection()
+      .where('transactionTime', isGreaterThanOrEqualTo: start)
+      .where('transactionTime', isLessThan: end)
+      .orderBy('transactionTime', descending: true)
+      .snapshots()
+      .map((snapshot) {
+        return snapshot.docs
+            .map((doc) => Transaction.fromFire(doc))
+            .toList();
+    });
+  }
 }

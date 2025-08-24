@@ -4,18 +4,6 @@ import 'package:expense_tracker/domain/transaction.dart';
 import 'package:expense_tracker/features/transactions/service/transaction_firebase_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class CategorySpending {
-  String name;
-  double total;
-  double percentage;
-
-  CategorySpending({
-    required this.name,
-    required this.total,
-    required this.percentage,
-  });
-}
-
 class TransactionViewModel
     extends StateNotifier<AsyncValue<List<Transaction>>> {
   final TransactionFirebaseService _transactionService;
