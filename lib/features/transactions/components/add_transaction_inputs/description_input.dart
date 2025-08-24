@@ -19,7 +19,7 @@ class DescriptionInput extends ConsumerWidget {
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 16),
           child: Text(
-            'Description',
+            'Beskrivelse',
             style: TextStyle(color: AppColors.primaryText),
           ),
         ),

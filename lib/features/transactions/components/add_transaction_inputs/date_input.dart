@@ -36,7 +36,10 @@ class _DateInputState extends ConsumerState<DateInput> {
         ),
         SizedBox(width: 16),
         Expanded(
-          child: ElevatedButton(
+          child: OutlinedButton(
+            style: OutlinedButton.styleFrom(
+              padding: EdgeInsets.all(16.0),
+            ),
               onPressed: () async {
                 final date = await showDatePickerDialog(
                   initialDate: selectedDate,

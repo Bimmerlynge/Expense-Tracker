@@ -39,7 +39,7 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: TAppBar(title: 'Add Transaction'),
+      appBar: TAppBar(title: 'Ny overførsel'),
       body: _buildForm(),
     );
   }
@@ -96,7 +96,7 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
               },
         child: _isLoading
             ? CircularProgressIndicator(strokeWidth: 2)
-            : const Text('Add'),
+            : const Text('Tilføj'),
       ),
     );
   }
