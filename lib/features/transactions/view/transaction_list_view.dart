@@ -83,7 +83,7 @@ class _TransactionListViewState extends ConsumerState<TransactionListView> {
   Future<bool> showDeleteConfirmationDialog(Transaction transaction) async {
     return await showDialog<bool>(
         context: context,
-        builder: (_) => DeleteTransactionDialog(transaction: transaction)
+        builder: (dialogContext) => DeleteTransactionDialog(transaction: transaction)
     ) ?? false;
   }
 }

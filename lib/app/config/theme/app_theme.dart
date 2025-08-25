@@ -38,11 +38,17 @@ class AppTheme {
     primaryTextTheme: TTextTheme.mainTheme,
     snackBarTheme: SnackBarThemeData(),
     dialogTheme: DialogThemeData(
-        backgroundColor: AppColors.primary,
-        titleTextStyle: TTextTheme.mainTheme.titleLarge,
-        contentTextStyle: TTextTheme.mainTheme.bodySmall,
-        alignment: Alignment.centerLeft,
-        iconColor: AppColors.onPrimary,
+      shape: RoundedSuperellipseBorder(
+          borderRadius: BorderRadius.all(Radius.circular(24)),
+          side: BorderSide(
+              color: AppColors.onPrimary
+          )
+      ),
+      backgroundColor: AppColors.primary,
+      titleTextStyle: TTextTheme.mainTheme.titleLarge,
+      contentTextStyle: TTextTheme.mainTheme.bodySmall,
+      alignment: Alignment.centerLeft,
+      iconColor: AppColors.onPrimary,
     ),
     inputDecorationTheme: InputDecorationTheme(
         border: InputBorder.none,

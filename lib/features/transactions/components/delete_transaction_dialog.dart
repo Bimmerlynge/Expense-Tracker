@@ -1,6 +1,7 @@
 import 'package:expense_tracker/app/config/theme/app_colors.dart';
 import 'package:expense_tracker/domain/transaction.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class DeleteTransactionDialog extends StatelessWidget {
   final Transaction transaction;
@@ -9,10 +10,19 @@ class DeleteTransactionDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Row createRow(String title, String value) {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(title),
+          Text(value)
+        ],
+      );
+    }
+
     return AlertDialog(
       icon: const Icon(Icons.info_outline_rounded),
       title: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
           const Text('Bekræft sletning'),
@@ -20,17 +30,25 @@ class DeleteTransactionDialog extends StatelessWidget {
           Divider(thickness: 1, color: AppColors.onPrimary),
         ],
       ),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text('Er du sikker på du vil slette denne transaktion?'),
-          const SizedBox(height: 16),
-          Text('Kategori: ${transaction.category.name}'),
-          Text('Beløb: ${transaction.amount}'),
-          Text('Dato: ${transaction.transactionTime}'),
-          Text('Person: ${transaction.user.name}'),
-        ],
+      content: SizedBox(
+          width: MediaQuery.of(context).size.width * 0.7,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const Text('Vil du slette denne transaktion?', textAlign: TextAlign.center,),
+              const SizedBox(height: 30),
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  createRow('Kategori', transaction.category.name),
+                  createRow('Beløb', transaction.amount.toString()),
+                  createRow('Dato', DateFormat('dd-MM-yyyy').format(transaction.transactionTime!)),
+                  createRow('Person', transaction.user.name)
+                ],
+              )
+            ],
+          )
       ),
       actions: [
         Row(
