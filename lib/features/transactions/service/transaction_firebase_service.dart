@@ -80,4 +80,13 @@ class TransactionFirebaseService implements TransactionApi {
             .toList();
     });
   }
+
+  @override
+  Future<void> deleteTransaction(String id) async {
+    try {
+      await _getCollection().doc(id).delete();
+    } catch (e) {
+      rethrow;
+    }
+  }
 }
