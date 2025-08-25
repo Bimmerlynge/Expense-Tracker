@@ -33,7 +33,7 @@ class TransactionListView extends ConsumerWidget {
                     ? Colors.red
                     : Colors.green,
               ),
-              title: tx.description != null
+              title: (tx.description?.isNotEmpty ?? false)
                   ? Text('${tx.category.name} - ${tx.description}')
                   : Text(tx.category.name),
               subtitle: Text(DateFormat('dd-MM-yyyy').format(tx.transactionTime!)),
