@@ -88,12 +88,12 @@ class HorizontalBarChart extends StatelessWidget {
   }
 
   Color _getColor(int index) {
-    var list = colorSet;
+    var list = _colorSet;
     int listIndex = index % list.length;
     return list[listIndex];
   }
 
-  final List<Color> colorSet = [
+  final List<Color> _colorSet = [
     Colors.pink.shade100,
     Colors.pink.shade200,
     Colors.pink.shade300
