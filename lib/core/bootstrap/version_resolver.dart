@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:expense_tracker/app/config/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:package_info_plus/package_info_plus.dart';
@@ -49,10 +50,30 @@ class VersionResolver {
       barrierDismissible: false,
       context: context,
       builder: (_) => AlertDialog(
-        title: Text("Update Available"),
-        content: const Text('A new version of the app is available. Update is required'),
+        icon: Icon(Icons.new_releases_outlined, color: AppColors.onPrimary),
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Text('Ny Opdatering!'),
+            const SizedBox(height: 8),
+            Divider(thickness: 1, color: AppColors.onPrimary),
+          ],
+        ),
+        content: const Text('En ny opdatering er tilgængelig. Installation påkrævet.', textAlign: TextAlign.center,),
         actions: [
-          ElevatedButton(onPressed: () => performUpdate(context, downloadUrl), child: Text('Download Update'))
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              TextButton(
+                  onPressed: () => performUpdate(context, downloadUrl),
+                  child: Text(
+                    'Download',
+                    style: TextStyle(color: AppColors.onPrimary)
+                  )
+              ),
+            ],
+          )
         ],
       )
     );
