@@ -57,14 +57,14 @@ class DeleteTransactionDialog extends StatelessWidget {
             TextButton(
               onPressed: () => Navigator.of(context).pop(false),
               child: Text(
-                'Cancel',
+                'Afbryd',
                 style: TextStyle(color: AppColors.onPrimary.withAlpha(200)),
               ),
             ),
             TextButton(
               onPressed: () => Navigator.of(context).pop(true),
               child: const Text(
-                'Delete',
+                'Slet',
                 style: TextStyle(color: Colors.red),
               ),
             ),
