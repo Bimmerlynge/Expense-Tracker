@@ -31,13 +31,19 @@ class AppTheme {
       unselectedIconTheme: IconThemeData(
         color: AppColors.onPrimary.withAlpha(100),
       ),
-      selectedItemColor: AppColors.onPrimary, // Optional: for label color
+      selectedItemColor: AppColors.onPrimary,
       unselectedItemColor: AppColors.onPrimary.withAlpha(100),
     ),
     iconButtonTheme: IconButtonThemeData(),
     primaryTextTheme: TTextTheme.mainTheme,
     snackBarTheme: SnackBarThemeData(),
-    dialogTheme: DialogThemeData(backgroundColor: AppColors.secondary),
+    dialogTheme: DialogThemeData(
+        backgroundColor: AppColors.primary,
+        titleTextStyle: TTextTheme.mainTheme.titleLarge,
+        contentTextStyle: TTextTheme.mainTheme.bodySmall,
+        alignment: Alignment.centerLeft,
+        iconColor: AppColors.onPrimary,
+    ),
     inputDecorationTheme: InputDecorationTheme(
         border: InputBorder.none,
         labelStyle: TTextTheme.mainTheme.labelSmall,

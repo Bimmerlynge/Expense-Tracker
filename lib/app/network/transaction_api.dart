@@ -5,4 +5,5 @@ abstract class TransactionApi {
   Future<void> postTransaction(Transaction transaction);
   Stream<List<Transaction>> getTransactionsStream();
   Stream<List<Transaction>> getTransactionStreamInRange(DateTime start, DateTime end);
+  Future<void> deleteTransaction(String id);
 }

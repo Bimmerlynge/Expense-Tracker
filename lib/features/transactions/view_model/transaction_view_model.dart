@@ -37,6 +37,14 @@ class TransactionViewModel
     }
   }
 
+  Future<void> deleteTransaction(String id) async {
+    try {
+      await _transactionService.deleteTransaction(id);
+    } catch (e) {
+      throw Exception("Failed to delete transaction. Error: ${e.toString()}");
+    }
+  }
+
   @override
   void dispose() {
     _subscription.cancel();
