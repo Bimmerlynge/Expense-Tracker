@@ -21,6 +21,7 @@ class AddTransactionScreen extends ConsumerStatefulWidget {
 }
 
 class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
+  final GlobalKey _buttonKey = GlobalKey();
   final ScrollController _scrollController = ScrollController();
   final FocusNode _descriptionFocusNode = FocusNode();
   bool _isLoading = false;
@@ -30,8 +31,24 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
     super.initState();
 
     _descriptionFocusNode.addListener(() {
-      if (!_descriptionFocusNode.hasFocus) {
-        _scrollController.jumpTo(0);
+      if (_descriptionFocusNode.hasFocus) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          final buttonContext = _buttonKey.currentContext;
+          if (buttonContext != null) {
+            Scrollable.ensureVisible(
+              buttonContext,
+              duration: Duration(milliseconds: 300),
+              curve: Curves.easeInOut,
+              alignment: 0.1,
+            );
+          }
+        });
+      } else {
+        _scrollController.animateTo(
+          0,
+          duration: Duration(milliseconds: 300),
+          curve: Curves.easeInOut,
+        );
       }
     });
   }
@@ -39,8 +56,14 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: TAppBar(title: 'Ny overførsel'),
-      body: _buildForm(),
+      body: CustomScrollView(
+        controller: _scrollController,
+          slivers: [
+            TAppBar(innerBoxScrolled: true, title: "Ny Overførsel",),
+            SliverFillRemaining(child: _buildForm())
+          ],
+
+      )
     );
   }
 
@@ -48,17 +71,23 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
     return LayoutBuilder(
       builder: (context, constraints) {
         return SingleChildScrollView(
-          controller: _scrollController,
+          physics: BouncingScrollPhysics(),
           child: ConstrainedBox(
-            constraints: BoxConstraints(minHeight: constraints.maxHeight),
+            constraints: BoxConstraints(
+              minHeight: constraints.maxHeight,
+            ),
             child: IntrinsicHeight(
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 32),
+                padding: const EdgeInsets.only(
+                  right: 32,
+                  left: 32,
+                  bottom: 32
+                ),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Expanded(child: _buildInputs()),
                     _buildButtons(),
-                    const SizedBox(height: 32),
                   ],
                 ),
               ),
@@ -87,6 +116,7 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
     return Align(
       alignment: Alignment.center,
       child: OutlinedButton(
+        key: _buttonKey,
         onPressed: _isLoading
             ? null
             : () async {
@@ -113,6 +143,8 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
     var description = ref.watch(selectedDescriptionProvider);
 
     try {
+      _descriptionFocusNode.unfocus();
+
       await viewModel.addTransaction(
         Transaction(
           user: person,
@@ -123,6 +155,8 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
           description: description
         ),
       );
+
+      ref.read(selectedAmountProvider.notifier).state = 0.0;
 
       if (!mounted) return;
       ToastService.showSuccessToast(context, 'Transaction was added!');

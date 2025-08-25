@@ -1,26 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class TAppBar extends ConsumerStatefulWidget implements PreferredSizeWidget {
-  final String title;
+class TAppBar extends ConsumerStatefulWidget {
+  const TAppBar({
+    super.key,
+    required this.innerBoxScrolled,
+    this.tabs = const [],
+    this.title = '',
+    this.tabController
+  });
 
-  const TAppBar({super.key, this.title = ''});
+  final bool innerBoxScrolled;
+  final String title;
+  final List<Widget> tabs;
+  final TabController? tabController;
 
   @override
   ConsumerState<TAppBar> createState() => _TAppBarState();
-
-  @override
-  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }
 
 class _TAppBarState extends ConsumerState<TAppBar> {
+
   @override
   Widget build(BuildContext context) {
-    return AppBar(
+    return SliverAppBar(
+      pinned: true,
+      floating: true,
+      forceElevated: widget.innerBoxScrolled,
+      toolbarHeight: 56,
       title: Text(widget.title),
-      centerTitle: true,
-      elevation: 0,
-      actions: [],
+      bottom: (widget.tabs.isNotEmpty && widget.tabController != null)
+          ? TabBar(
+        controller: widget.tabController,
+        tabs: widget.tabs,
+      )
+          : null,
     );
   }
 }
