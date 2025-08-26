@@ -1,7 +1,9 @@
 import 'dart:async';
 
+import 'package:expense_tracker/domain/balance_total.dart';
 import 'package:expense_tracker/domain/category.dart';
 import 'package:expense_tracker/domain/category_spending.dart';
+import 'package:expense_tracker/domain/person.dart';
 import 'package:expense_tracker/domain/transaction.dart';
 import 'package:expense_tracker/features/summaries/providers/summary_providers.dart';
 import 'package:expense_tracker/features/transactions/service/transaction_firebase_service.dart';
@@ -51,6 +53,7 @@ class CategorySpendingViewModel extends StateNotifier<List<CategorySpending>> {
                 name: entry.key.name, total: entry.value)
     ).toList();
   }
+
 
   @override
   void dispose() {

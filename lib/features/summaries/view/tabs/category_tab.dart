@@ -15,17 +15,20 @@ class CategoryTab extends ConsumerWidget {
 
 
     return SingleChildScrollView(
-      child: Column(
-        children: [
-          SizedBox(height: 16,),
-          Text(
-            'Denne måneds forbrug',
-            style: Theme.of(context).primaryTextTheme.labelMedium,
-          ),
-          HorizontalBarChart(
-            categorySpendingList: spendingList
-          )
-        ],
+      child: Padding(
+        padding: const EdgeInsets.only(right: 16),
+        child: Column(
+          children: [
+            SizedBox(height: 16,),
+            Text(
+              'Denne måneds forbrug',
+              style: Theme.of(context).primaryTextTheme.labelMedium,
+            ),
+            HorizontalBarChart(
+              categorySpendingList: spendingList
+            )
+          ],
+        ),
       ),
     );
   }
