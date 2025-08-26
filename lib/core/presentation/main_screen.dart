@@ -52,17 +52,7 @@ class _MainScreenState extends ConsumerState<MainScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: TAppBar(title: 'Overview'),
       body: _pages[_currentPageIndex],
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: SlideTransition(
-        position: _offsetAnimation,
-        child: FloatingActionButton(
-          elevation: 4,
-          onPressed: onAddTransaction,
-          child: const Icon(Icons.add),
-        ),
-      ),
       bottomNavigationBar: SlideTransition(
         position: _offsetAnimation,
         child: PageNavigationBar(
@@ -71,23 +61,6 @@ class _MainScreenState extends ConsumerState<MainScreen>
         ),
       ),
     );
-  }
-
-  void onAddTransaction() async {
-    await _animationController.forward();
-
-    if (!mounted) return;
-
-    await Navigator.push(
-      context,
-      PageRouteBuilder(
-        pageBuilder: (_, _, _) => AddTransactionScreen(),
-        transitionDuration: Duration.zero,
-        reverseTransitionDuration: Duration.zero,
-      ),
-    );
-
-    if (mounted) await _animationController.reverse();
   }
 
   @override

@@ -1,3 +1,4 @@
+import 'package:expense_tracker/app/config/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -28,12 +29,14 @@ class _TAppBarState extends ConsumerState<TAppBar> {
       floating: true,
       forceElevated: widget.innerBoxScrolled,
       toolbarHeight: 56,
+      backgroundColor: AppColors.primary,
+      surfaceTintColor: Colors.transparent,
       title: Text(widget.title),
       bottom: (widget.tabs.isNotEmpty && widget.tabController != null)
           ? TabBar(
-        controller: widget.tabController,
-        tabs: widget.tabs,
-      )
+              controller: widget.tabController,
+              tabs: widget.tabs,
+            )
           : null,
     );
   }

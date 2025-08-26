@@ -14,7 +14,7 @@ class AppTheme {
       foregroundColor: AppColors.primarySecondText,
       backgroundColor: AppColors.primary,
     ),
-    scaffoldBackgroundColor: AppColors.secondary,
+    scaffoldBackgroundColor: AppColors.primary,
     appBarTheme: AppBarTheme(
       color: AppColors.primary,
       titleTextStyle: TextStyle(
