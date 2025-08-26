@@ -1,4 +1,7 @@
-import 'package:expense_tracker/features/summaries/view/category_tab.dart';
+import 'package:expense_tracker/app/shared/components/non_scrollable_tab.dart';
+import 'package:expense_tracker/features/summaries/view/tabs/balance_tab.dart';
+import 'package:expense_tracker/features/summaries/view/tabs/category_tab.dart';
+import 'package:expense_tracker/features/summaries/view/tabs/historic_tab.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'dart:math' as math;
@@ -18,8 +21,24 @@ class _HomePageState extends ConsumerState<HomePage>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 3, vsync: this);
     _scrollController = ScrollController();
+    _setupTabController();
+  }
+
+  void _setupTabController () {
+    _tabController = TabController(length: 3, vsync: this);
+
+    _tabController.addListener(() {
+      if (_tabController.indexIsChanging) return;
+
+      _scrollController.animateTo(
+        0,
+        duration: const Duration(milliseconds: 200),
+        curve: Curves.easeOut,
+      );
+
+      setState(() {});
+    });
   }
 
   @override
@@ -29,10 +48,17 @@ class _HomePageState extends ConsumerState<HomePage>
     super.dispose();
   }
 
+  final List<Widget> _tabs = [
+    CategoryTab(),
+    HistoricTab(),
+    NonScrollableTab(child: BalanceTab())
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: NestedScrollView(
+        physics: _isTabScrollable(),
         controller: _scrollController,
           headerSliverBuilder: (BuildContext context, bool boxIsScrolled) {
             return <Widget>[
@@ -56,18 +82,22 @@ class _HomePageState extends ConsumerState<HomePage>
               )
             ];
           },
-          body: Padding(
-            padding: const EdgeInsets.only(right: 12),
-            child: TabBarView(
-              controller: _tabController,
-              children: [
-                CategoryTab(),
-                Center(child: Text('Historic chart'),),
-                Center(child: Text('My Summary'),)
-              ],
-            ),
+          body: TabBarView(
+            physics: NeverScrollableScrollPhysics(),
+            controller: _tabController,
+            children: _tabs,
           ),
       ),
     );
+  }
+
+  ScrollPhysics _isTabScrollable() {
+    final isNonScrollableType = _tabs[_tabController.index] is NonScrollableTab;
+
+    if (isNonScrollableType) {
+      return NeverScrollableScrollPhysics();
+    }
+
+    return ClampingScrollPhysics();
   }
 }

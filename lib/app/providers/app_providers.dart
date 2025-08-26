@@ -9,6 +9,7 @@ import 'package:expense_tracker/features/transactions/view_model/transaction_vie
 import 'package:expense_tracker/features/users/service/user_firestore_service.dart';
 import 'package:expense_tracker/features/users/view_model/user_view_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final authStateProvider = StreamProvider<User?>(
@@ -85,9 +86,8 @@ final categoryStreamProvider = StreamProvider<List<Category>>((ref) {
   final selectedCategoryNotifier = ref.read(selectedCategoryProvider.notifier);
 
   return service.getCategoryStream().map((categories) {
-    if(selectedCategoryNotifier.state == null)  {
-      final defaultCategory = categories
-          .firstWhere((c) => c.isDefault == true);
+    if (selectedCategoryNotifier.state == null) {
+      final defaultCategory = categories.firstWhere((c) => c.isDefault == true);
       selectedCategoryNotifier.state = defaultCategory;
     }
     return categories;
@@ -97,4 +97,30 @@ final categoryStreamProvider = StreamProvider<List<Category>>((ref) {
 final personStreamProvider = StreamProvider<List<Person>>((ref) {
   final service = ref.watch(userFirestoreServiceProvider);
   return service.getHouseholdUsers();
+});
+
+final personListProvider = Provider<List<Person>>((ref) {
+  final asyncPersons = ref.watch(personStreamProvider);
+
+  return asyncPersons.maybeWhen(
+    data: (persons) => persons,
+    orElse: () => const [],
+  );
+});
+
+final transactionRangeProvider = StateProvider<DateTimeRange>((ref) {
+  final now = DateTime.now();
+
+  return DateTimeRange(
+      start: DateTime(now.year, now.month, 1),
+      end: DateTime(now.year, now.month + 1, 1)
+  );
+});
+
+final transactionStreamInRangeProvider = StreamProvider<List<Transaction>>((
+  ref,
+) {
+  final range = ref.watch(transactionRangeProvider);
+  final service = ref.read(transactionFirestoreServiceProvider);
+  return service.getTransactionStreamInRange(range.start, range.end);
 });
