@@ -57,12 +57,12 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: CustomScrollView(
+        physics: NeverScrollableScrollPhysics(),
         controller: _scrollController,
-          slivers: [
-            TAppBar(innerBoxScrolled: true, title: "Ny Overførsel",),
-            SliverFillRemaining(child: _buildForm())
-          ],
-
+        slivers: [
+          TAppBar(innerBoxScrolled: true, title: "Ny Overførsel",),
+          SliverFillRemaining(child: _buildForm())
+        ]
       )
     );
   }

@@ -61,12 +61,12 @@ class _BalancePieChartState extends ConsumerState<BalancePieChart> {
     return [
       PieChartSectionData(
         value: balanceTotal?.income,
-        color: Colors.green,
+        color: Colors.green.shade400,
         showTitle: false,
       ),
       PieChartSectionData(
         value: balanceTotal?.expense,
-        color: Colors.red,
+        color: Colors.red.shade400,
         showTitle: false,
       ),
     ];
@@ -78,11 +78,11 @@ class _BalancePieChartState extends ConsumerState<BalancePieChart> {
       children: [
         Text(
           '${balanceTotal?.income.toStringAsFixed(2)} kr.',
-          style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold),
+          style: TextStyle(color: Colors.green.shade400),
         ),
         Text(
           '${balanceTotal?.expense.toStringAsFixed(2)} kr.',
-          style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
+          style: TextStyle(color: Colors.red.shade400),
         ),
       ],
     );
@@ -96,7 +96,7 @@ class _BalancePieChartState extends ConsumerState<BalancePieChart> {
         children: [
           Row(
             children: [
-              Icon(Icons.square, color: Colors.green),
+              Icon(Icons.square, color: Colors.green.shade400),
               Text(
                 'Indkomst',
                 style: Theme.of(context).primaryTextTheme.labelSmall,
@@ -105,7 +105,7 @@ class _BalancePieChartState extends ConsumerState<BalancePieChart> {
           ),
           Row(
             children: [
-              Icon(Icons.square, color: Colors.red),
+              Icon(Icons.square, color: Colors.red.shade400),
               Text(
                 'Forbrug',
                 style: Theme.of(context).primaryTextTheme.labelSmall,
