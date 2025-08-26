@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:expense_tracker/app/config/environment/environment.dart';
 import 'package:expense_tracker/app/config/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -7,9 +8,6 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class VersionResolver {
-  final String owner = 'Bimmerlynge';
-  final String repo = 'Expense-Tracker';
-
   VersionResolver();
 
   Future<bool> checkForUpdate(BuildContext context) async {
@@ -17,7 +15,10 @@ class VersionResolver {
     String currentVersion = info.version;
 
     final gitVersion = await http.get(
-      Uri.parse('https://api.github.com/repos/$owner/$repo/releases/latest')
+      Uri.parse(Environment.gitUrl),
+      headers: {
+        'Authorization': 'Bearer ${Environment.gitToken}'
+      }
     );
 
     final data = jsonDecode(gitVersion.body);

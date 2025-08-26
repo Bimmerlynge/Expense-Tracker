@@ -13,4 +13,12 @@ class Environment {
   static String get apiUrl {
     return dotenv.env['API_URL'] ?? "Undefined API_URL";
   }
+
+  static String get gitUrl {
+    return dotenv.env['GIT_URL_DOWNLOAD'] ?? 'Undefined GIT_URL_DOWNLOAD';
+  }
+
+  static String get gitToken {
+    return dotenv.env['AUTH_TOKEN'] ?? 'Undefined github token';
+  }
 }
