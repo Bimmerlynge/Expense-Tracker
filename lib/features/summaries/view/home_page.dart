@@ -25,7 +25,7 @@ class _HomePageState extends ConsumerState<HomePage>
     _setupTabController();
   }
 
-  void _setupTabController () {
+  void _setupTabController() {
     _tabController = TabController(length: 3, vsync: this);
 
     _tabController.addListener(() {
@@ -50,8 +50,8 @@ class _HomePageState extends ConsumerState<HomePage>
 
   final List<Widget> _tabs = [
     CategoryTab(),
+    NonScrollableTab(child: BalanceTab()),
     HistoricTab(),
-    NonScrollableTab(child: BalanceTab())
   ];
 
   @override
@@ -60,35 +60,46 @@ class _HomePageState extends ConsumerState<HomePage>
       body: NestedScrollView(
         physics: _isTabScrollable(),
         controller: _scrollController,
-          headerSliverBuilder: (BuildContext context, bool boxIsScrolled) {
-            return <Widget>[
-              SliverAppBar(
-                pinned: true,
-                floating: true,
-                forceElevated: boxIsScrolled,
-                toolbarHeight: 16,
-                bottom: TabBar(
-                  tabs: [
-                    Tab(child: Transform.rotate(
-                        angle: math.pi / 2,
-                        child: Icon(Icons.bar_chart)
-                    )
-                    ),
-                    Tab(child: Icon(Icons.area_chart_rounded)),
-                    Tab(child: Icon(Icons.person))
-                  ],
-                  controller: _tabController,
-                ),
-              )
-            ];
-          },
-          body: TabBarView(
-            physics: NeverScrollableScrollPhysics(),
-            controller: _tabController,
-            children: _tabs,
-          ),
+        headerSliverBuilder: (context, boxIsScrolled) =>
+            _buildHeaderSliverBuilder(context, boxIsScrolled),
+        body: _buildTabBarView(),
       ),
     );
+  }
+
+  List<Widget> _buildHeaderSliverBuilder(
+    BuildContext context,
+    bool boxIsScrolled,
+  ) {
+    return <Widget>[
+      SliverAppBar(
+        pinned: true,
+        floating: true,
+        forceElevated: boxIsScrolled,
+        toolbarHeight: 16,
+        bottom: _buildTabBar(),
+      ),
+    ];
+  }
+
+  TabBar _buildTabBar() {
+    return TabBar(
+      tabs: [
+        Tab(
+          child: Transform.rotate(
+            angle: math.pi / 2,
+            child: Icon(Icons.bar_chart),
+          ),
+        ),
+        Tab(child: Icon(Icons.person)),
+        Tab(child: Icon(Icons.area_chart_rounded)),
+      ],
+      controller: _tabController,
+    );
+  }
+
+  TabBarView _buildTabBarView() {
+    return TabBarView(controller: _tabController, children: _tabs);
   }
 
   ScrollPhysics _isTabScrollable() {
