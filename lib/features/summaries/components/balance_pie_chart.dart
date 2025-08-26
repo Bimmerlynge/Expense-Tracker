@@ -6,10 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class BalancePieChart extends ConsumerStatefulWidget {
-  const BalancePieChart({
-    super.key,
-    required this.person
-  });
+  const BalancePieChart({super.key, required this.person});
 
   final Person person;
 
@@ -25,85 +22,98 @@ class _BalancePieChartState extends ConsumerState<BalancePieChart> {
     ref.watch(balanceTotalViewModelProvider);
     late final viewModel = ref.read(balanceTotalViewModelProvider.notifier);
     balanceTotal = viewModel.getBalanceTotal(widget.person);
-    
+
     return SizedBox(
       height: 220,
       width: MediaQuery.of(context).size.width * 0.95,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(widget.person.name, style: Theme.of(context).primaryTextTheme.labelMedium,),
-          SizedBox(height: 8),
-          _buildChart()
-        ]
-      )
+          Text(
+            widget.person.name,
+            style: Theme.of(context).primaryTextTheme.labelMedium,
+          ),
+          SizedBox(height: 24),
+          Expanded(child: _buildChart()),
+        ],
+      ),
     );
   }
 
   Widget _buildChart() {
-    return Expanded(
-      child: Stack(
-        alignment: Alignment.center,
+    return Stack(
+      alignment: Alignment.center,
+      children: [_buildPieChart(), _buildChartTitle(), _buildChartLegend()],
+    );
+  }
+
+  Widget _buildPieChart() {
+    return PieChart(
+      PieChartData(
+        startDegreeOffset: 270,
+        centerSpaceRadius: 60,
+        sections: _buildSections(),
+      ),
+    );
+  }
+
+  List<PieChartSectionData> _buildSections() {
+    return [
+      PieChartSectionData(
+        value: balanceTotal?.income,
+        color: Colors.green,
+        showTitle: false,
+      ),
+      PieChartSectionData(
+        value: balanceTotal?.expense,
+        color: Colors.red,
+        showTitle: false,
+      ),
+    ];
+  }
+
+  Widget _buildChartTitle() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
+          '${balanceTotal?.income.toStringAsFixed(2)} kr.',
+          style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold),
+        ),
+        Text(
+          '${balanceTotal?.expense.toStringAsFixed(2)} kr.',
+          style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildChartLegend() {
+    return Align(
+      alignment: Alignment.bottomLeft,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          PieChart(
-            PieChartData(
-              startDegreeOffset: 270,
-              centerSpaceRadius: 60,
-              sections: [
-                PieChartSectionData(
-                    value: balanceTotal?.income,
-                    color: Colors.green,
-                    showTitle: false
-                ),
-                PieChartSectionData(
-                    value: balanceTotal?.expense,
-                    color: Colors.red,
-                    showTitle: false
-                )
-              ]
-            )
-          ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+          Row(
             children: [
+              Icon(Icons.square, color: Colors.green),
               Text(
-                '${balanceTotal?.income.toStringAsFixed(2)} kr.',
-                style: TextStyle(
-                  color: Colors.green,
-                  fontWeight: FontWeight.bold
-                )
+                'Indkomst',
+                style: Theme.of(context).primaryTextTheme.labelSmall,
               ),
-              Text(
-                '${balanceTotal?.expense.toStringAsFixed(2)} kr.',
-                style: TextStyle(
-                  color: Colors.red,
-                  fontWeight: FontWeight.bold
-                )
-              )
-            ]
+            ],
           ),
-          Align(
-            alignment: Alignment.bottomLeft,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Row(
-                  children: [
-                    Icon(Icons.square, color: Colors.green),
-                    Text('Indkomst', style: Theme.of(context).primaryTextTheme.labelSmall)
-                  ],
-                ),
-                Row(
-                  children: [
-                    Icon(Icons.square, color: Colors.red),
-                    Text('Forbrug', style: Theme.of(context).primaryTextTheme.labelSmall)
-                  ]
-                )
-              ]
-            )
-          )
-        ]
-      )
+          Row(
+            children: [
+              Icon(Icons.square, color: Colors.red),
+              Text(
+                'Forbrug',
+                style: Theme.of(context).primaryTextTheme.labelSmall,
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }
