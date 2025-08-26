@@ -64,6 +64,10 @@ jobs:
           echo "storePassword=${{ secrets.KEYSTORE_PASSWORD }}" >> android/key.properties
           echo "keyAlias=${{ secrets.KEYSTORE_ALIAS }}" >> android/key.properties
           echo "keyPassword=${{ secrets.KEYSTORE_KEY_PASSWORD }}" >> android/key.properties
+      - name: Prepare environment
+        run: |
+          echo "GIT_URL_DOWNLOAD=${{ secrets.GIT_URL_DOWNLOAD }}" > lib/app/config/environment/.env-prod
+          echo "AUTH_TOKEN=${{ secrets.AUTH_TOKEN }}" >> lib/app/config/environment/.env-prod
       - name: Build APK
         run: flutter build apk --release
       - name: Rename APK
