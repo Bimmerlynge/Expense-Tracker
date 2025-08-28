@@ -1,4 +1,4 @@
-import 'package:expense_tracker/core/bootstrap/startup_gate.dart';
+import 'package:expense_tracker/core/bootstrap/auth_gate.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -22,7 +22,7 @@ class App extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: AppTheme.mainTheme,
-      home: const StartupGate(),
+      home: const AuthGate(),
     );
   }
 }

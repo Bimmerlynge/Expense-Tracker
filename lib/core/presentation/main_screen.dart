@@ -1,5 +1,6 @@
 import 'package:expense_tracker/app/navigation/navigation_bar.dart';
 import 'package:expense_tracker/app/shared/components/app_bar.dart';
+import 'package:expense_tracker/core/bootstrap/version_resolver.dart';
 import 'package:expense_tracker/features/transactions/view/transaction_list_view.dart';
 import 'package:expense_tracker/features/transactions/view/add_transaction_screen.dart';
 import 'package:expense_tracker/features/summaries/view/home_page.dart';
@@ -16,11 +17,13 @@ class MainScreen extends ConsumerStatefulWidget {
 }
 
 class _MainScreenState extends ConsumerState<MainScreen>
-    with SingleTickerProviderStateMixin {
+    with SingleTickerProviderStateMixin, WidgetsBindingObserver {
+
   int _currentPageIndex = 0;
 
   late AnimationController _animationController;
   late Animation<Offset> _offsetAnimation;
+  final VersionResolver _versionResolver = VersionResolver();
 
   final List<Widget> _pages = [
     const HomePage(),
@@ -32,6 +35,7 @@ class _MainScreenState extends ConsumerState<MainScreen>
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     _animationController = AnimationController(
       duration: const Duration(milliseconds: 200),
       vsync: this,
@@ -41,6 +45,21 @@ class _MainScreenState extends ConsumerState<MainScreen>
         Tween<Offset>(begin: Offset.zero, end: const Offset(0.0, 1.5)).animate(
           CurvedAnimation(parent: _animationController, curve: Curves.easeOut),
         );
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      checkUpdate();
+    });
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      checkUpdate();
+    }
+  }
+
+  Future<void> checkUpdate() async {
+    await _versionResolver.checkForUpdate(context);
   }
 
   void onPageSelect(int pageIndex) {
@@ -66,6 +85,7 @@ class _MainScreenState extends ConsumerState<MainScreen>
   @override
   void dispose() {
     _animationController.dispose();
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 }

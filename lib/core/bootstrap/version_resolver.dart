@@ -67,7 +67,7 @@ class VersionResolver {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               TextButton(
-                  onPressed: () => performUpdate(context, downloadUrl),
+                  onPressed: () => _performUpdate(context, downloadUrl),
                   child: Text(
                     'Download',
                     style: TextStyle(color: AppColors.onPrimary)
@@ -80,10 +80,10 @@ class VersionResolver {
     );
   }
 
-  Future<void> performUpdate(BuildContext context, String url) async {
+  Future<void> _performUpdate(BuildContext context, String url) async {
     try {
-      await showProgressDialog(context, 'Downloading update...');
-      await downloadApk(url);
+      await _showProgressDialog(context, 'Downloading update...');
+      await _downloadApk(url);
       Navigator.pop(context);
     } catch (e) {
       Navigator.pop(context);
@@ -93,12 +93,12 @@ class VersionResolver {
     }
   }
 
-  Future<void> downloadApk(String apkUrl) async {
+  Future<void> _downloadApk(String apkUrl) async {
     final uri = Uri.parse(apkUrl);
     await launchUrl(uri, mode: LaunchMode.externalApplication);
   }
 
-  Future<void> showProgressDialog(BuildContext context, String message) async {
+  Future<void> _showProgressDialog(BuildContext context, String message) async {
     showDialog(
       context: context,
       barrierDismissible: false,
