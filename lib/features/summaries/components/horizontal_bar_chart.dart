@@ -1,4 +1,3 @@
-import 'package:expense_tracker/app/config/theme/app_colors.dart';
 import 'package:expense_tracker/app/config/theme/text_theme.dart';
 import 'package:expense_tracker/domain/category_spending.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -12,23 +11,24 @@ class HorizontalBarChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (categorySpendingList.isEmpty) return CircularProgressIndicator();
-    final maxTotal = categorySpendingList.map((e) => e.total).reduce((a, b) =>
-      a > b ? a : b);
 
-    return SizedBox(
-      height: categorySpendingList.length * 60,
-      child: BarChart(
-        BarChartData(
-          borderData: FlBorderData(
-            show: false
-          ),
-          maxY: maxTotal + 450,
-          rotationQuarterTurns: 1,
-          gridData: FlGridData(show: false),
-          barGroups: _buildBarGroups(),
-          titlesData: _buildTilesData(),
-          barTouchData: _buildBarTouchData()
-      )),
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: SizedBox(
+        height: categorySpendingList.length * 60,
+        width: MediaQuery.of(context).size.width * 0.8,
+        child: BarChart(
+          BarChartData(
+            borderData: FlBorderData(
+              show: false
+            ),
+            rotationQuarterTurns: 1,
+            gridData: FlGridData(show: false),
+            barGroups: _buildBarGroups(),
+            titlesData: _buildTilesData(),
+            barTouchData: _buildBarTouchData()
+        )),
+      ),
     );
   }
 
