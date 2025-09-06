@@ -18,10 +18,6 @@ final authStateProvider = StreamProvider<User?>(
 
 final firestoreProvider = Provider((ref) => FirebaseFirestore.instance);
 
-// final currentUserProvider = AsyncNotifierProvider<CurrentUserNotifier, Person>(
-//   CurrentUserNotifier.new,
-// );
-
 final currentUserProvider = StateProvider<Person>((ref) {
   return Person(id: "", name: "", householdId: "");
 });
@@ -57,24 +53,9 @@ final categoryFirebaseServiceProvider = Provider<CategoryFirebaseService>((
   return CategoryFirebaseService(firestore, ref);
 });
 
-final householdCategoriesProvider = FutureProvider<List<Category>>((ref) async {
-  final service = ref.watch(categoryFirebaseServiceProvider);
-  return await service.getHouseholdCategories();
+final householdCategoriesProvider = StateProvider<List<Category>>((ref) {
+  return List.empty();
 });
-
-final combinedHouseholdDataProvider =
-    FutureProvider<(List<Category>, List<Person>)>((ref) async {
-      final categoriesFuture = ref.watch(householdCategoriesProvider.future);
-
-      final results = await Future.wait([categoriesFuture]);
-
-      final categories = results[0];
-      final persons = [
-        Person(id: "7roAszxuATYOjRYYunZFB2Bi02y1", name: "Freja"),
-        Person(id: "hAVigm8dcjMXPQqdJDFYYW3Zys83", name: "Mathias"),
-      ];
-      return (categories, persons);
-    });
 
 final transactionStreamProvider = StreamProvider<List<Transaction>>((ref) {
   final service = ref.watch(transactionFirestoreServiceProvider);
@@ -84,12 +65,15 @@ final transactionStreamProvider = StreamProvider<List<Transaction>>((ref) {
 final categoryStreamProvider = StreamProvider<List<Category>>((ref) {
   final service = ref.watch(categoryFirebaseServiceProvider);
   final selectedCategoryNotifier = ref.read(selectedCategoryProvider.notifier);
+  final householdCategories = ref.read(householdCategoriesProvider.notifier);
 
   return service.getCategoryStream().map((categories) {
     if (selectedCategoryNotifier.state == null) {
       final defaultCategory = categories.firstWhere((c) => c.isDefault == true);
       selectedCategoryNotifier.state = defaultCategory;
     }
+
+    householdCategories.state = categories;
     return categories;
   });
 });
