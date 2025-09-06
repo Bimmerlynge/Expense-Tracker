@@ -25,21 +25,21 @@ class HorizontalBarChart extends StatelessWidget {
             rotationQuarterTurns: 1,
             gridData: FlGridData(show: false),
             barGroups: _buildBarGroups(),
-            titlesData: _buildTilesData(),
+            titlesData: _buildTilesData(context),
             barTouchData: _buildBarTouchData()
         )),
       ),
     );
   }
 
-  FlTitlesData _buildTilesData() {
+  FlTitlesData _buildTilesData(BuildContext context) {
     return FlTitlesData(
       topTitles: AxisTitles(),
       leftTitles: AxisTitles(),
       rightTitles: AxisTitles(),
       bottomTitles: AxisTitles(
         sideTitles: SideTitles(
-          reservedSize: 100,
+          reservedSize: MediaQuery.of(context).size.width * 0.25,
           showTitles: true,
           getTitlesWidget: (value, meta) => _createTitleWidget(value, meta),
         ),
@@ -93,6 +93,7 @@ class HorizontalBarChart extends StatelessWidget {
       return BarChartGroupData(
         showingTooltipIndicators: [0],
         x: i,
+        // barsSpace: 400,
         barRods: [
           BarChartRodData(
             toY: item.total,
