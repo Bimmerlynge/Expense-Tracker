@@ -18,7 +18,7 @@ class _CategoryTabState extends ConsumerState<CategoryTab> {
     final selectedMonth = ref.watch(selectedMonthProvider);
     final spendingList = ref.watch(categorySpendingViewModelProvider);
     final viewModel = ref.read(categorySpendingViewModelProvider.notifier);
-    final excludedCategories = ref.read(excludedCategoriesProvider);
+    final excludedCategories = ref.watch(excludedCategoriesProvider);
 
     return SingleChildScrollView(
       child: Column(
