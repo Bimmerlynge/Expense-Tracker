@@ -1,5 +1,7 @@
-import 'package:expense_tracker/core/bootstrap/prefences/category_filter_pref.dart';
+import 'package:expense_tracker/app/config/theme/text_theme.dart';
+import 'package:expense_tracker/core/bootstrap/prefences/category_filter_providers.dart';
 import 'package:expense_tracker/domain/category_spending.dart';
+import 'package:expense_tracker/features/summaries/components/category_filter_chip_field.dart';
 import 'package:expense_tracker/features/summaries/components/horizontal_bar_chart.dart';
 import 'package:expense_tracker/features/summaries/providers/summary_providers.dart';
 import 'package:flutter/material.dart';
@@ -28,10 +30,53 @@ class _CategoryTabState extends ConsumerState<CategoryTab> {
             'Denne måneds forbrug',
             style: Theme.of(context).primaryTextTheme.labelMedium,
           ),
-          SizedBox(height: 8),
+          _createGraphButtons(),
           HorizontalBarChart(categorySpendingList: _applyFilter(spendingList, excludedCategories)),
         ],
       ),
+    );
+  }
+
+  Widget _createGraphButtons() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          _showOnlyCurrentUserCheckbox(),
+          IconButton(onPressed: _openFilterDialog, icon: Icon(Icons.rule))
+        ],
+      ),
+    );
+  }
+
+  Future<void> _openFilterDialog() async {
+    final spendingList = ref.watch(categorySpendingViewModelProvider);
+    final excluded = ref.watch(excludedCategoriesProvider);
+    final categories = spendingList.map((c) => c.name).toSet().toList();
+
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      builder: (context) {
+        return CategoryFilterChipField(
+          categories: categories,
+          excluded: excluded,
+        );
+      },
+    );
+  }
+
+  Widget _showOnlyCurrentUserCheckbox() {
+    return Row(
+      children: [
+        Checkbox(
+            value: false,
+            onChanged: (e) => () {}
+        ),
+        Text('Vis kun mit',
+        style: TTextTheme.mainTheme.labelSmall,)
+      ],
     );
   }
 

@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart' hide Transaction;
-import 'package:expense_tracker/app/network/transaction_api.dart';
+import 'package:expense_tracker/app/repository/transaction_api.dart';
 import 'package:expense_tracker/app/providers/app_providers.dart';
 import 'package:expense_tracker/domain/transaction.dart';
 import 'package:flutter/material.dart';
