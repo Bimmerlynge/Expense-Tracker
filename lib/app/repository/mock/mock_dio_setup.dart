@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:expense_tracker/app/network/mock/handlers/handle_transactions.dart';
+import 'package:expense_tracker/app/repository/mock/handlers/handle_transactions.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'mock_interceptor.dart';

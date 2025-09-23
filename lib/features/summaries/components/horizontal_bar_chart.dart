@@ -74,6 +74,10 @@ class HorizontalBarChart extends StatelessWidget {
           tooltipMargin: 16,
           tooltipHorizontalOffset: 2,
           getTooltipItem: (group, groupIndex, rod, rodIndex) {
+            if (groupIndex < 0 || groupIndex >= categorySpendingList.length) {
+              return null;
+            }
+
             final item = categorySpendingList[groupIndex];
             return BarTooltipItem(
               item.total.toStringAsFixed(2),

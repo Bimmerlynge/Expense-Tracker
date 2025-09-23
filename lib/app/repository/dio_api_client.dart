@@ -1,8 +1,8 @@
 // ignore_for_file: unused_field
 
 import 'package:dio/dio.dart';
-import 'package:expense_tracker/app/network/api_client.dart';
-import 'package:expense_tracker/app/network/mock/mock_dio_setup.dart';
+import 'package:expense_tracker/app/repository/api_client.dart';
+import 'package:expense_tracker/app/repository/mock/mock_dio_setup.dart';
 
 class DioApiClient implements ApiClient {
   final Dio _dio;

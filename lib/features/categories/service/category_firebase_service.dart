@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:expense_tracker/app/network/category_api.dart';
+import 'package:expense_tracker/app/repository/category_api.dart';
 import 'package:expense_tracker/app/providers/app_providers.dart';
 import 'package:expense_tracker/domain/category.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

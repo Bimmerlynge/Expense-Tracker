@@ -89,6 +89,20 @@ class AppTheme {
       ),
       indicatorColor: AppColors.onPrimary,
       unselectedLabelColor: AppColors.onPrimary.withAlpha(100)
+    ),
+    chipTheme: ChipThemeData(
+      color: WidgetStateProperty.resolveWith<Color?>(
+            (states) {
+          if (!states.contains(WidgetState.selected)) {
+            return AppColors.primarySecondText;
+          }
+          return AppColors.primaryText;
+        },
+      ),
+    ),
+    canvasColor: AppColors.primary,
+    bottomSheetTheme: BottomSheetThemeData(
+      backgroundColor: AppColors.primary
     )
   );
 }

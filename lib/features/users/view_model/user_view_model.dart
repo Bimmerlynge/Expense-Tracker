@@ -1,4 +1,4 @@
-import 'package:expense_tracker/app/network/user_api.dart';
+import 'package:expense_tracker/app/repository/user_api.dart';
 import 'package:expense_tracker/domain/person.dart';
 
 class UserViewModel {
