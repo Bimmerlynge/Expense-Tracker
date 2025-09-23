@@ -1,3 +1,4 @@
+import 'package:expense_tracker/app/config/theme/text_theme.dart';
 import 'package:expense_tracker/domain/balance_total.dart';
 import 'package:expense_tracker/domain/person.dart';
 import 'package:expense_tracker/features/summaries/providers/summary_providers.dart';
@@ -43,7 +44,12 @@ class _BalancePieChartState extends ConsumerState<BalancePieChart> {
   Widget _buildChart() {
     return Stack(
       alignment: Alignment.center,
-      children: [_buildPieChart(), _buildChartTitle(), _buildChartLegend()],
+      children: [
+        _buildPieChart(),
+        _buildChartTitle(),
+        _buildChartLegend(),
+        _buildIncomeLegend()
+      ],
     );
   }
 
@@ -60,15 +66,16 @@ class _BalancePieChartState extends ConsumerState<BalancePieChart> {
   List<PieChartSectionData> _buildSections() {
     return [
       PieChartSectionData(
-        value: balanceTotal?.income,
-        color: Colors.green.shade400,
-        showTitle: false,
-      ),
-      PieChartSectionData(
-        value: balanceTotal?.expense,
+        value: balanceTotal!.expense,
         color: Colors.red.shade400,
         showTitle: false,
       ),
+      PieChartSectionData(
+        value: (balanceTotal!.income - balanceTotal!.expense),
+        color: Colors.green.shade400,
+        showTitle: false,
+      ),
+
     ];
   }
 
@@ -77,41 +84,63 @@ class _BalancePieChartState extends ConsumerState<BalancePieChart> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
-          '${balanceTotal?.income.toStringAsFixed(2)} kr.',
-          style: TextStyle(color: Colors.green.shade400),
+          'Rest',
+          style: TTextTheme.mainTheme.labelSmall,
         ),
         Text(
-          '${balanceTotal?.expense.toStringAsFixed(2)} kr.',
-          style: TextStyle(color: Colors.red.shade400),
+          '${(balanceTotal!.income - balanceTotal!.expense).toStringAsFixed(2)} kr.',
+          style: TextStyle(color: balanceTotal!.expense < balanceTotal!.income ?
+          Colors.green.shade400 : Colors.red.shade400),
         ),
       ],
     );
   }
 
-  Widget _buildChartLegend() {
+  Widget _buildIncomeLegend() {
     return Align(
-      alignment: Alignment.bottomLeft,
+      alignment: Alignment.topLeft,
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          Row(
+          Column(
             children: [
-              Icon(Icons.square, color: Colors.green.shade400),
               Text(
                 'Indkomst',
                 style: Theme.of(context).primaryTextTheme.labelSmall,
               ),
+              Text(balanceTotal!.income.toStringAsFixed(2),
+                textAlign: TextAlign.end,
+                style: Theme.of(context).primaryTextTheme.labelSmall,
+              )
             ],
           ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildChartLegend() {
+    return Align(
+      alignment: Alignment.topRight,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
           Row(
+            mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Icon(Icons.square, color: Colors.red.shade400),
-              Text(
-                'Forbrug',
-                style: Theme.of(context).primaryTextTheme.labelSmall,
+              Column(
+                children: [
+                  Text(
+                    'Forbrug',
+                    style: Theme.of(context).primaryTextTheme.labelSmall,
+                  ),
+                  Text(balanceTotal!.expense.toStringAsFixed(2),
+                    textAlign: TextAlign.end,
+                    style: Theme.of(context).primaryTextTheme.labelSmall,
+                  )
+                ],
               ),
             ],
-          ),
+          )
         ],
       ),
     );
