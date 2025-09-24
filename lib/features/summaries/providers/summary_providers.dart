@@ -26,3 +26,5 @@ final balanceTotalViewModelProvider = StateNotifierProvider<
 
       return BalanceTotalViewModel(ref);
 });
+
+final showOnlyMineProvider = StateProvider<bool>((ref) => false);
