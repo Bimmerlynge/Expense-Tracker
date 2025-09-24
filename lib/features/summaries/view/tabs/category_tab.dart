@@ -68,11 +68,15 @@ class _CategoryTabState extends ConsumerState<CategoryTab> {
   }
 
   Widget _showOnlyCurrentUserCheckbox() {
+    final showOnlyMine = ref.watch(showOnlyMineProvider);
+
     return Row(
       children: [
         Checkbox(
-            value: false,
-            onChanged: (e) => () {}
+            value: showOnlyMine,
+            onChanged: (changed) {
+              ref.read(showOnlyMineProvider.notifier).state = changed ?? false;
+            }
         ),
         Text('Vis kun mit',
         style: TTextTheme.mainTheme.labelSmall,)
