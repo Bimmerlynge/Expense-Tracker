@@ -22,6 +22,10 @@ class FixedExpenseViewModel extends StateNotifier<AsyncValue<List<FixedExpense>>
     _fixedExpenseFirebaseService.updateFixedExpense(updatedFixedExpense);
   }
 
+  void addFixedExpense(FixedExpense newFixedExpense) {
+    _fixedExpenseFirebaseService.addFixedExpense(newFixedExpense);
+  }
+
   @override
   void dispose() {
     _subscription.cancel();
