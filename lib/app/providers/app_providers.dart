@@ -4,6 +4,7 @@ import 'package:expense_tracker/domain/person.dart';
 import 'package:expense_tracker/domain/transaction.dart';
 import 'package:expense_tracker/features/categories/service/category_firebase_service.dart';
 import 'package:expense_tracker/features/transactions/providers/add_transaction_providers.dart';
+import 'package:expense_tracker/features/transactions/service/fixed_expense_firebase_service.dart';
 import 'package:expense_tracker/features/transactions/service/transaction_firebase_service.dart';
 import 'package:expense_tracker/features/transactions/view_model/transaction_view_model.dart';
 import 'package:expense_tracker/features/users/service/user_firestore_service.dart';
@@ -38,6 +39,11 @@ final transactionFirestoreServiceProvider =
       final firestore = ref.read(firestoreProvider);
       return TransactionFirebaseService(firestore, ref);
     });
+
+final fixedExpenseFirestoreServiceProvider = Provider<FixedExpenseFirebaseService>((ref) {
+  final firestore = ref.read(firestoreProvider);
+  return FixedExpenseFirebaseService(firestore: firestore, ref: ref);
+});
 
 final transactionViewModelProvider =
     StateNotifierProvider<TransactionViewModel, AsyncValue<List<Transaction>>>(

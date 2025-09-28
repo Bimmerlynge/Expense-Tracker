@@ -103,6 +103,16 @@ class AppTheme {
     canvasColor: AppColors.primary,
     bottomSheetTheme: BottomSheetThemeData(
       backgroundColor: AppColors.primary
+    ),
+    checkboxTheme: CheckboxThemeData(
+      side: WidgetStateBorderSide.resolveWith(
+            (Set<WidgetState> states) {
+          return const BorderSide(
+            color: AppColors.primaryText,
+            width: 2,
+          );
+        },
+      ),
     )
   );
 }

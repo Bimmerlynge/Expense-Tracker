@@ -7,14 +7,14 @@ import 'package:intl/intl.dart';
 
 import '../../../domain/transaction.dart';
 
-class TransactionListView extends ConsumerStatefulWidget {
-  const TransactionListView({super.key});
+class TransactionList extends ConsumerStatefulWidget {
+  const TransactionList({super.key});
 
   @override
-  ConsumerState<TransactionListView> createState() => _TransactionListViewState();
+  ConsumerState<TransactionList> createState() => _TransactionListViewState();
 }
 
-class _TransactionListViewState extends ConsumerState<TransactionListView> {
+class _TransactionListViewState extends ConsumerState<TransactionList> {
   late final viewModelNotifier = ref.read(transactionViewModelProvider.notifier);
 
   @override
@@ -30,6 +30,7 @@ class _TransactionListViewState extends ConsumerState<TransactionListView> {
         }
 
         return ListView.builder(
+          padding: EdgeInsets.only(top: 0),
           itemCount: transactions.length,
           itemBuilder: (context, index) {
             final tx = transactions[index];
