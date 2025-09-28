@@ -64,8 +64,8 @@ class Transaction {
       type: TransactionType.values.firstWhere(
         (type) => type.toString() == 'TransactionType.${data['type']}',
       ),
-        createdTime: (data['createdTime'] as Timestamp).toDate(),
-        transactionTime: (data['transactionTime'] as Timestamp).toDate(),
+      createdTime: (data['createdTime'] as Timestamp).toDate(),
+      transactionTime: (data['transactionTime'] as Timestamp).toDate(),
       description: data['description']
     );
   }
