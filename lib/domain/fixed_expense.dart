@@ -42,6 +42,7 @@ class FixedExpense {
 
   Map<String, dynamic> toFirestore() {
     return {
+      'title': title,
       'amount': amount,
       'paymentType': paymentType.name,
       'hasBeenPaid': hasBeenPaid,

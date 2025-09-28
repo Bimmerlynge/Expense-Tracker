@@ -1,4 +1,5 @@
 import 'package:expense_tracker/domain/fixed_expense.dart';
+import 'package:expense_tracker/features/transactions/components/add_fixed_expense_popup.dart';
 import 'package:expense_tracker/features/transactions/components/fixed_expense_card.dart';
 import 'package:expense_tracker/features/transactions/providers/fixed_expense_view_model_provider.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +26,11 @@ class _FixedExpensesTabState extends ConsumerState<FixedExpensesTab> {
           'Mine faste udgifter',
           style: Theme.of(context).primaryTextTheme.labelMedium,
         ),
-
+        SizedBox(height: 8,),
+        OutlinedButton(
+            onPressed: _showAddFixedExpensePopup,
+            child: Text('Opret fast udgift')
+        ),
         Expanded(
           child: fixedExpenses.when(
             data: (expenses) => _buildList(expenses),
@@ -34,6 +39,15 @@ class _FixedExpensesTabState extends ConsumerState<FixedExpensesTab> {
           ),
         ),
       ],
+    );
+  }
+
+  void _showAddFixedExpensePopup() async {
+    await showDialog(
+        context: context,
+        builder: (context) {
+          return AddFixedExpensePopup();
+        }
     );
   }
 

@@ -33,6 +33,12 @@ class FixedExpenseFirebaseService implements FixedExpenseApi {
         .update(fixedExpense.toFirestore());
   }
 
+  @override
+  Future<void> addFixedExpense(FixedExpense fixedExpense) async {
+    await _getCollection()
+        .add(fixedExpense.toFirestore());
+  }
+
   CollectionReference<Map<String, dynamic>> _getCollection() {
     final userId = _ref.watch(currentUserProvider).id;
     return _firestore
@@ -40,4 +46,6 @@ class FixedExpenseFirebaseService implements FixedExpenseApi {
         .doc(userId)
         .collection('fixed-expenses');
   }
+
+
 }
