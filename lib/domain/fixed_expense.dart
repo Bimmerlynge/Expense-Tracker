@@ -51,4 +51,26 @@ class FixedExpense {
       'lastPaymentDate': Timestamp.fromDate(lastPaymentDate),
     };
   }
+
+  DateTime getNextPaymentDate() {
+    switch (paymentType) {
+      case PaymentType.monthly:
+        return _addMonths(nextPaymentDate, 1);
+
+      case PaymentType.twoMonthly:
+        return _addMonths(nextPaymentDate, 2);
+
+      case PaymentType.quarterly:
+        return _addMonths(nextPaymentDate, 3);
+    }
+  }
+
+  DateTime _addMonths(DateTime date, int monthsToAdd) {
+    final newYear = date.year + ((date.month + monthsToAdd - 1) ~/ 12);
+    final newMonth = ((date.month + monthsToAdd - 1) % 12) + 1;
+    final lastDayOfMonth = DateTime(newYear, newMonth + 1, 0).day;
+    final newDay = date.day <= lastDayOfMonth ? date.day : lastDayOfMonth;
+
+    return DateTime(newYear, newMonth, newDay);
+  }
 }

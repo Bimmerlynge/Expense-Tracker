@@ -3,9 +3,12 @@ import 'dart:convert';
 import 'package:expense_tracker/app/config/environment/environment.dart';
 import 'package:expense_tracker/app/config/theme/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+final versionResolverProvider = Provider<VersionResolver>((ref) => VersionResolver());
 
 class VersionResolver {
   VersionResolver();
