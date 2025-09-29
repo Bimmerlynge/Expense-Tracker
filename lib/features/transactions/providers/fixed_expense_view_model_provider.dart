@@ -7,5 +7,6 @@ final fixedExpenseViewModelProvider = StateNotifierProvider<
   FixedExpenseViewModel, AsyncValue<List<FixedExpense>>
 >((ref) {
   final service = ref.watch(fixedExpenseFirestoreServiceProvider);
-  return FixedExpenseViewModel(service);
+  final transactionService = ref.watch(transactionFirestoreServiceProvider);
+  return FixedExpenseViewModel(service, transactionService, ref);
 });

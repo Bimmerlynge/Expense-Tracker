@@ -61,7 +61,7 @@ class _FixedExpenseCardState extends ConsumerState<FixedExpenseCard> {
           SizedBox(height: 8),
           _dueDate(),
           SizedBox(height: 8),
-          _hasBeenPaid(),
+          _manuelPay(),
         ],
       ),
     );
@@ -173,23 +173,16 @@ class _FixedExpenseCardState extends ConsumerState<FixedExpenseCard> {
     );
   }
 
-  Widget _hasBeenPaid() {
+  Widget _manuelPay() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        _label('Registreret'),
-        Checkbox(
-          checkColor: Colors.green,
-          value: widget.expense.hasBeenPaid,
-          onChanged: (bool? newValue) {
-            if (newValue == null) return;
-
-            setState(() {
-              widget.expense.hasBeenPaid = newValue;
-              _updateItem(widget.expense);
-            });
-          },
-        ),
+        _label('Manuel betaling'),
+        ElevatedButton(
+            onPressed: () => ref.read(fixedExpenseViewModelProvider.notifier)
+                .registerExpense(widget.expense),
+            child: Text('Registrer'),
+        )
       ],
     );
   }
