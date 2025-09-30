@@ -34,9 +34,10 @@ class FixedExpenseFirebaseService implements FixedExpenseApi {
   }
 
   @override
-  Future<void> addFixedExpense(FixedExpense fixedExpense) async {
-    await _getCollection()
+  Future<String> addFixedExpense(FixedExpense fixedExpense) async {
+    final docRef = await _getCollection()
         .add(fixedExpense.toFirestore());
+    return docRef.id;
   }
 
   CollectionReference<Map<String, dynamic>> _getCollection() {
