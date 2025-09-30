@@ -59,7 +59,11 @@ class _FixedExpensesTabState extends ConsumerState<FixedExpensesTab> {
     return ListView.builder(
       itemCount: expenses.length,
       itemBuilder: (context, index) {
-        return FixedExpenseCard(expense: expenses[index]);
+        final expense = expenses[index];
+        return FixedExpenseCard(
+            key: ValueKey(expense.id),
+            expense: expenses[index]
+        );
       },
     );
   }
