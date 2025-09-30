@@ -69,8 +69,8 @@ class _AddFixedExpensePopupState extends ConsumerState<AddFixedExpensePopup> {
               ),
             ),
             TextButton(
-              onPressed: () {
-                _createFixedExpense();
+              onPressed: () async {
+                await _createFixedExpense();
                 Navigator.of(context).pop(true);
               },
               child: Text(
@@ -84,7 +84,7 @@ class _AddFixedExpensePopupState extends ConsumerState<AddFixedExpensePopup> {
     );
   }
 
-  void _createFixedExpense() {
+  Future<void> _createFixedExpense() async {
     final newFixedExpense = FixedExpense(
         id: '',
         title: titleController.text,
@@ -95,7 +95,7 @@ class _AddFixedExpensePopupState extends ConsumerState<AddFixedExpensePopup> {
         lastPaymentDate: DateTime(1995),
         autoPay: false);
 
-    ref.read(fixedExpenseViewModelProvider.notifier)
+    await ref.read(fixedExpenseViewModelProvider.notifier)
         .addFixedExpense(newFixedExpense);
   }
 
@@ -204,16 +204,6 @@ class _AddFixedExpensePopupState extends ConsumerState<AddFixedExpensePopup> {
             ),
           ),
         ),
-      ],
-    );
-  }
-
-  Row _createRow(String title, Widget inputWidget) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(title),
-        Expanded(child: inputWidget)
       ],
     );
   }

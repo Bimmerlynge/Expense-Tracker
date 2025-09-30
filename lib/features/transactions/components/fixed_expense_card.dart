@@ -1,16 +1,19 @@
 import 'package:date_picker_plus/date_picker_plus.dart';
 import 'package:expense_tracker/app/config/theme/app_colors.dart';
 import 'package:expense_tracker/app/config/theme/text_theme.dart';
+import 'package:expense_tracker/app/shared/util/toast_service.dart';
 import 'package:expense_tracker/domain/fixed_expense.dart';
 import 'package:expense_tracker/features/transactions/providers/fixed_expense_view_model_provider.dart';
+import 'package:expense_tracker/features/transactions/service/fixed_expenses_expanded_card_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
 class FixedExpenseCard extends ConsumerStatefulWidget {
   final FixedExpense expense;
+  final bool initiallyExpanded;
 
-  const FixedExpenseCard({super.key, required this.expense});
+  const FixedExpenseCard({super.key, required this.expense, this.initiallyExpanded = true});
 
   @override
   ConsumerState<FixedExpenseCard> createState() => _FixedExpenseCardState();
@@ -18,26 +21,39 @@ class FixedExpenseCard extends ConsumerStatefulWidget {
 
 class _FixedExpenseCardState extends ConsumerState<FixedExpenseCard> {
   late final TextEditingController _amountController;
+  late final FixedExpenseCollapsedCardService _collapsedService;
+  late bool _isExpanded;
 
   @override
   void initState() {
     super.initState();
+    _isExpanded = widget.initiallyExpanded;
 
     _amountController = TextEditingController(
       text: widget.expense.amount.toStringAsFixed(2),
     );
+
+    _collapsedService = ref.read(fixedExpenseCollapsedCardProvider);
+    _loadExpandedState();
+  }
+
+  void _loadExpandedState() {
+    final collapsedList = _collapsedService.loadExpanded();
+
+    setState(() {
+      _isExpanded = !collapsedList.contains(widget.expense.id);
+    });
+  }
+
+  void _toggleExpanded() async {
+    await _collapsedService.toggleCollapse(widget.expense.id);
+    setState(() {
+      _isExpanded = !_isExpanded;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-
-
-    return _buildCard();
-  }
-
-  Widget _buildCard() {
-    final expense = widget.expense;
-
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 32, vertical: 8),
       color: AppColors.secondary,
@@ -45,8 +61,47 @@ class _FixedExpenseCardState extends ConsumerState<FixedExpenseCard> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _buildHeader(),
-          _buildBody(),
+          if (_isExpanded) _buildBody()
         ],
+      ),
+    );
+  }
+
+  Widget _buildHeader() {
+    return InkWell(
+      onTap: _toggleExpanded,
+      child: Container(
+        width: double.infinity,
+        padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+        decoration: BoxDecoration(
+          color: AppColors.onPrimary,
+          borderRadius: _isExpanded
+              ? const BorderRadius.vertical(top: Radius.circular(12))
+              : BorderRadius.circular(12),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              widget.expense.title,
+              style: TTextTheme.mainTheme.labelMedium?.copyWith(
+                color: AppColors.primary,
+              ),
+            ),
+            Row(
+              children: [
+                Text(
+                  'Automatisk',
+                  style: TTextTheme.mainTheme.labelMedium?.copyWith(
+                      color: AppColors.primary
+                  ),
+                ),
+                SizedBox(width: 4),
+                _autoPayIndicator(),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -179,50 +234,22 @@ class _FixedExpenseCardState extends ConsumerState<FixedExpenseCard> {
       children: [
         _label('Manuel betaling'),
         ElevatedButton(
-            onPressed: () => ref.read(fixedExpenseViewModelProvider.notifier)
-                .registerExpense(widget.expense),
+            onPressed: _registerManuelPay,
             child: Text('Registrer'),
         )
       ],
     );
   }
 
-  Text _label(String title) {
-    return Text(title, style: TTextTheme.mainTheme.labelMedium);
+  Future<void> _registerManuelPay() async {
+    final vm = ref.read(fixedExpenseViewModelProvider.notifier);
+    await vm.registerExpense(widget.expense);
+
+    ToastService.showSuccessToast(context, 'Payment was successful');
   }
 
-  Widget _buildHeader() {
-    return Container(
-      width: double.infinity,
-      padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-      decoration: BoxDecoration(
-        color: AppColors.onPrimary,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            widget.expense.title,
-            style: TTextTheme.mainTheme.labelMedium?.copyWith(
-              color: AppColors.primary,
-            ),
-          ),
-          Row(
-            children: [
-              Text(
-                'Automatisk',
-                style: TTextTheme.mainTheme.labelMedium?.copyWith(
-                  color: AppColors.primary
-                ),
-              ),
-              SizedBox(width: 4),
-              _autoPayIndicator(),
-            ],
-          ),
-        ],
-      ),
-    );
+  Text _label(String title) {
+    return Text(title, style: TTextTheme.mainTheme.labelMedium);
   }
 
   Widget _autoPayIndicator() {

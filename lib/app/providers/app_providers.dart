@@ -115,7 +115,3 @@ final transactionStreamInRangeProvider = StreamProvider<List<Transaction>>((
   final service = ref.read(transactionFirestoreServiceProvider);
   return service.getTransactionStreamInRange(range.start, range.end);
 });
-
-final sharedPreferencesProvider = FutureProvider<SharedPreferences>((ref) async {
-  return await SharedPreferences.getInstance();
-});

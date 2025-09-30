@@ -35,8 +35,8 @@ class FixedExpenseViewModel extends StateNotifier<AsyncValue<List<FixedExpense>>
     await _fixedExpenseFirebaseService.updateFixedExpense(updatedFixedExpense);
   }
 
-  void addFixedExpense(FixedExpense newFixedExpense) {
-    _fixedExpenseFirebaseService.addFixedExpense(newFixedExpense);
+  Future<String> addFixedExpense(FixedExpense newFixedExpense) async {
+    return await _fixedExpenseFirebaseService.addFixedExpense(newFixedExpense);
   }
 
   Future<void> registerAutoPayExpenses() async {

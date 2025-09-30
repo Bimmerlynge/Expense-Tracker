@@ -1,10 +1,10 @@
-import 'package:expense_tracker/app/providers/app_providers.dart';
 import 'package:expense_tracker/app/repository/category_filter_api.dart';
+import 'package:expense_tracker/core/bootstrap/prefences/shared_preferences_provider.dart';
 import 'package:expense_tracker/features/summaries/service/category_filter_repo.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final categoryFilterRepoProvider = FutureProvider<CategoryFilterApi>((ref) async {
-  final prefs = await ref.watch(sharedPreferencesProvider.future);
+  final prefs = ref.watch(sharedPreferencesProvider);
   return CategoryFilterRepo(prefs: prefs);
 });
 
@@ -16,7 +16,9 @@ class ExcludedCategoriesNotifier extends StateNotifier<List<String>> {
   }
 
   Future<void> _load() async {
-    state = await repo.loadExcluded();
+    final excluded = await repo.loadExcluded();
+    if (!mounted) return;
+    state = excluded;
   }
 
   Future<void> update(List<String> categories) async {

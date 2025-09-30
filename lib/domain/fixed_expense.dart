@@ -20,7 +20,7 @@ class FixedExpense {
     required this.hasBeenPaid,
     required this.nextPaymentDate,
     required this.lastPaymentDate,
-    required this.autoPay
+    required this.autoPay,
   });
 
   factory FixedExpense.fromFirestore(DocumentSnapshot snapshot) {
@@ -36,7 +36,7 @@ class FixedExpense {
       hasBeenPaid: data['hasBeenPaid'],
       autoPay: data['autoPay'],
       nextPaymentDate: (data['nextPaymentDate'] as Timestamp).toDate(),
-      lastPaymentDate: (data['lastPaymentDate'] as Timestamp).toDate()
+      lastPaymentDate: (data['lastPaymentDate'] as Timestamp).toDate(),
     );
   }
 
