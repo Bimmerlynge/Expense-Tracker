@@ -245,7 +245,7 @@ class _FixedExpenseCardState extends ConsumerState<FixedExpenseCard> {
     final vm = ref.read(fixedExpenseViewModelProvider.notifier);
     await vm.registerExpense(widget.expense);
 
-    ToastService.showSuccessToast(context, 'Payment was successful');
+    ToastService.showSuccessToast('Payment was successful');
   }
 
   Text _label(String title) {

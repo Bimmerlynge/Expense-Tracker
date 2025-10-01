@@ -1,5 +1,5 @@
 import 'package:expense_tracker/features/transactions/view/tabs/fixed_expenses_tab.dart';
-import 'package:expense_tracker/features/transactions/view/tabs/transactions_list_tab.dart';
+import 'package:expense_tracker/features/transactions/presentation/transaction_list/transaction_list_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -15,7 +15,7 @@ class _TransactionPageState extends ConsumerState<TransactionPage>
   late TabController _tabController;
 
   final List<Widget> _tabs = [
-    TransactionsListTab(),
+    TransactionListScreen(),
     FixedExpensesTab()
   ];
 

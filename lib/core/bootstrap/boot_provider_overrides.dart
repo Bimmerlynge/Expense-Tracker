@@ -1,0 +1,27 @@
+
+import 'package:expense_tracker/core/bootstrap/prefences/shared_preferences_provider.dart';
+import 'package:expense_tracker/features/transactions/data/firebase_transaction_repository.dart';
+import 'package:expense_tracker/features/transactions/data/transaction_repository.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+Future<List<Override>> getOverrides() async {
+  return [
+    await _sharedPrefsOverride(),
+    ..._repositoryOverrides()
+  ];
+}
+
+List<Override> _repositoryOverrides() {
+  return [
+    transactionRepositoryProvider.overrideWith(
+          (ref) => FirebaseTransactionRepository(ref: ref),
+    ),
+  ];
+}
+
+Future<Override> _sharedPrefsOverride() async {
+  final prefs = await SharedPreferences.getInstance();
+  return sharedPreferencesProvider.overrideWithValue(prefs);
+}

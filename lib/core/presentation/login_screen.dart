@@ -34,7 +34,7 @@ class _LoginScreenState extends State<LoginScreen> {
         MaterialPageRoute(builder: (context) => const AuthGate()),
       );
     } catch (e) {
-      ToastService.showErrorToast(context, "Could not login");
+      ToastService.showErrorToast("Could not login");
     }
   }
 

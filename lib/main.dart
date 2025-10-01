@@ -1,27 +1,22 @@
+import 'package:expense_tracker/app/shared/util/toast_service.dart';
 import 'package:expense_tracker/core/bootstrap/auth_gate.dart';
-import 'package:expense_tracker/core/bootstrap/prefences/shared_preferences_provider.dart';
+import 'package:expense_tracker/core/bootstrap/boot_provider_overrides.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'app/config/theme/app_theme.dart';
 import 'app/config/environment/environment.dart';
 import 'firebase_options.dart';
-
-
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await dotenv.load(fileName: Environment.environmentConfig);
-  final prefs = await SharedPreferences.getInstance();
 
   runApp(
       ProviderScope(
-        overrides: [
-          sharedPreferencesProvider.overrideWithValue(prefs)
-        ],
+        overrides: await getOverrides(),
           child: App()
       )
   );
@@ -33,6 +28,7 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      scaffoldMessengerKey: rootScaffoldMessengerKey,
       debugShowCheckedModeBanner: false,
       theme: AppTheme.mainTheme,
       home: const AuthGate(),

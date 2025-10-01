@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class TTextTheme {
   static final TextTheme mainTheme = TextTheme(
-    bodyMedium: TextStyle(color: AppColors.primaryText),
+    bodyMedium: TextStyle(fontSize: 16, color: AppColors.primaryText, letterSpacing: 2),
     bodySmall: TextStyle(color: AppColors.primaryText),
     // headlineLarge:
     headlineMedium: TextStyle(),
