@@ -2,15 +2,18 @@ import 'package:flutter/material.dart';
 
 enum ToastEnum { success, failure, info }
 
+final GlobalKey<ScaffoldMessengerState> rootScaffoldMessengerKey =
+GlobalKey<ScaffoldMessengerState>();
+
 class ToastService {
   static void _buildSnackBar({
-    required BuildContext context,
     required String message,
     required Icon icon,
     Color textColor = Colors.white,
     Color backgroundColor = Colors.black87,
   }) {
-    final scaffoldMessenger = ScaffoldMessenger.of(context);
+    final scaffoldMessenger = rootScaffoldMessengerKey.currentState;
+    if (scaffoldMessenger == null) return;
 
     scaffoldMessenger.hideCurrentSnackBar();
     scaffoldMessenger.showSnackBar(
@@ -32,27 +35,24 @@ class ToastService {
     );
   }
 
-  static void showSuccessToast(BuildContext context, String message) {
+  static void showSuccessToast(String message) {
     _buildSnackBar(
-      context: context,
       message: message,
-      icon: Icon(Icons.check_circle_outline, color: Colors.green),
+      icon: const Icon(Icons.check_circle_outline, color: Colors.green),
     );
   }
 
-  static void showInfoToast(BuildContext context, String message) {
+  static void showInfoToast(String message) {
     _buildSnackBar(
-      context: context,
       message: message,
-      icon: Icon(Icons.info_outline, color: Colors.white),
+      icon: const Icon(Icons.info_outline, color: Colors.white),
     );
   }
 
-  static void showErrorToast(BuildContext context, String message) {
+  static void showErrorToast(String message) {
     _buildSnackBar(
-      context: context,
       message: message,
-      icon: Icon(Icons.cancel_outlined),
+      icon: const Icon(Icons.cancel_outlined),
     );
   }
 }

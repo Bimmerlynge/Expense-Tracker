@@ -158,14 +158,9 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
 
       ref.read(selectedAmountProvider.notifier).state = 0.0;
 
-      if (!mounted) return;
-      ToastService.showSuccessToast(context, 'Transaction was added!');
+      ToastService.showSuccessToast('Transaction was added!');
     } catch (e) {
-      if (!mounted) return;
-      ToastService.showErrorToast(
-        context,
-        'An error occurred trying to add transaction.',
-      );
+      ToastService.showErrorToast('An error occurred trying to add transaction.');
     }
   }
 
