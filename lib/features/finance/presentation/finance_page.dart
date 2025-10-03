@@ -1,22 +1,22 @@
-import 'package:expense_tracker/features/transactions/view/tabs/fixed_expenses_tab.dart';
+import 'package:expense_tracker/features/fixed_expenses/presentation/fixed_expense_list/fixed_expense_list_screen.dart';
 import 'package:expense_tracker/features/transactions/presentation/transaction_list/transaction_list_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class TransactionPage extends ConsumerStatefulWidget {
-  const TransactionPage({super.key});
+class FinancePage extends ConsumerStatefulWidget {
+  const FinancePage({super.key});
 
   @override
-  ConsumerState<TransactionPage> createState() => _TransactionPageState();
+  ConsumerState<FinancePage> createState() => _TransactionPageState();
 }
 
-class _TransactionPageState extends ConsumerState<TransactionPage>
+class _TransactionPageState extends ConsumerState<FinancePage>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
   final List<Widget> _tabs = [
     TransactionListScreen(),
-    FixedExpensesTab()
+    FixedExpenseListScreen()
   ];
 
 
@@ -34,11 +34,11 @@ class _TransactionPageState extends ConsumerState<TransactionPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: NestedScrollView(
-          headerSliverBuilder: (context, boxIsScrolled) =>
-            _headerSliverBuilder(context, boxIsScrolled),
-          body: _buildTabBarView()
-      )
+        body: NestedScrollView(
+            headerSliverBuilder: (context, boxIsScrolled) =>
+                _headerSliverBuilder(context, boxIsScrolled),
+            body: _buildTabBarView()
+        )
     );
   }
 
@@ -57,10 +57,10 @@ class _TransactionPageState extends ConsumerState<TransactionPage>
 
   TabBar _buildTabBar() {
     return TabBar(
-        tabs: [
-          Tab(child: Icon(Icons.swap_horiz_outlined)),
-          Tab(child: Icon(Icons.event_note_outlined))
-        ],
+      tabs: [
+        Tab(child: Icon(Icons.swap_horiz_outlined)),
+        Tab(child: Icon(Icons.event_note_outlined))
+      ],
       controller: _tabController,
     );
   }

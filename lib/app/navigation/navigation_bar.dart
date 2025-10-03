@@ -30,7 +30,7 @@ class PageNavigationBar extends StatelessWidget {
               _navItem(icon: Icons.bar_chart, label: 'Home', index: 0),
               _navItem(
                 icon: Icons.compare_arrows,
-                label: 'Transactions',
+                label: 'Økonomi',
                 index: 1,
               ),
               _addTransaction(context),

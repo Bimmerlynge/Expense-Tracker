@@ -1,29 +1,35 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expense_tracker/app/providers/app_providers.dart';
-import 'package:expense_tracker/app/repository/fixed_expense_api.dart';
 import 'package:expense_tracker/domain/fixed_expense.dart';
+import 'package:expense_tracker/features/fixed_expenses/data/fixed_expense_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class FixedExpenseFirebaseService implements FixedExpenseApi {
-  final FirebaseFirestore _firestore;
-  final Ref _ref;
+class FirebaseFixedExpensesRepository implements FixedExpenseRepository {
+  final Ref ref;
 
-  FixedExpenseFirebaseService({
-    required FirebaseFirestore firestore,
-    required Ref ref,
-  }) : _firestore = firestore,
-       _ref = ref;
+  FirebaseFixedExpensesRepository({required this.ref});
 
   @override
   Stream<List<FixedExpense>> getFixedExpensesStream() {
-    var response = _getCollection()
+    final response = _getCollection()
         .snapshots()
         .map((snapshot) => snapshot.docs
-          .map((doc) => FixedExpense.fromFirestore(doc))
-          .toList()
+        .map((doc) => FixedExpense.fromFirestore(doc))
+        .toList()
     );
 
     return response;
+  }
+
+  @override
+  Future<bool> addFixedExpense(FixedExpense fixedExpense) async {
+    try {
+      await _getCollection().add(fixedExpense.toFirestore());
+      return true;
+    } catch (e) {
+      print('Failed to add fixed expense: $e');
+      return false;
+    }
   }
 
   @override
@@ -33,20 +39,11 @@ class FixedExpenseFirebaseService implements FixedExpenseApi {
         .update(fixedExpense.toFirestore());
   }
 
-  @override
-  Future<String> addFixedExpense(FixedExpense fixedExpense) async {
-    final docRef = await _getCollection()
-        .add(fixedExpense.toFirestore());
-    return docRef.id;
-  }
-
   CollectionReference<Map<String, dynamic>> _getCollection() {
-    final userId = _ref.watch(currentUserProvider).id;
-    return _firestore
+    final userId = ref.watch(currentUserProvider).id;
+    return ref.read(firestoreProvider)
         .collection('users')
         .doc(userId)
         .collection('fixed-expenses');
   }
-
-
 }

@@ -1,19 +1,26 @@
 import 'package:date_picker_plus/date_picker_plus.dart';
 import 'package:expense_tracker/app/config/theme/app_colors.dart';
 import 'package:expense_tracker/app/config/theme/text_theme.dart';
-import 'package:expense_tracker/app/shared/util/toast_service.dart';
 import 'package:expense_tracker/domain/fixed_expense.dart';
-import 'package:expense_tracker/features/transactions/providers/fixed_expense_view_model_provider.dart';
-import 'package:expense_tracker/features/transactions/service/fixed_expenses_expanded_card_service.dart';
+import 'package:expense_tracker/extensions/date_utils_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intl/intl.dart';
 
 class FixedExpenseCard extends ConsumerStatefulWidget {
   final FixedExpense expense;
-  final bool initiallyExpanded;
+  final bool isExpanded;
+  final ValueChanged<String> onToggleCollapse;
+  final ValueChanged<FixedExpense> onChanged;
+  final void Function(FixedExpense expense) onManualPay;
 
-  const FixedExpenseCard({super.key, required this.expense, this.initiallyExpanded = true});
+  const FixedExpenseCard({
+    super.key,
+    required this.expense,
+    this.isExpanded = true,
+    required this.onToggleCollapse,
+    required this.onChanged,
+    required this.onManualPay
+  });
 
   @override
   ConsumerState<FixedExpenseCard> createState() => _FixedExpenseCardState();
@@ -21,35 +28,14 @@ class FixedExpenseCard extends ConsumerStatefulWidget {
 
 class _FixedExpenseCardState extends ConsumerState<FixedExpenseCard> {
   late final TextEditingController _amountController;
-  late final FixedExpenseCollapsedCardService _collapsedService;
-  late bool _isExpanded;
 
   @override
   void initState() {
     super.initState();
-    _isExpanded = widget.initiallyExpanded;
 
     _amountController = TextEditingController(
       text: widget.expense.amount.toStringAsFixed(2),
     );
-
-    _collapsedService = ref.read(fixedExpenseCollapsedCardProvider);
-    _loadExpandedState();
-  }
-
-  void _loadExpandedState() {
-    final collapsedList = _collapsedService.loadExpanded();
-
-    setState(() {
-      _isExpanded = !collapsedList.contains(widget.expense.id);
-    });
-  }
-
-  void _toggleExpanded() async {
-    await _collapsedService.toggleCollapse(widget.expense.id);
-    setState(() {
-      _isExpanded = !_isExpanded;
-    });
   }
 
   @override
@@ -61,7 +47,7 @@ class _FixedExpenseCardState extends ConsumerState<FixedExpenseCard> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _buildHeader(),
-          if (_isExpanded) _buildBody()
+          if (widget.isExpanded) _buildBody()
         ],
       ),
     );
@@ -69,13 +55,13 @@ class _FixedExpenseCardState extends ConsumerState<FixedExpenseCard> {
 
   Widget _buildHeader() {
     return InkWell(
-      onTap: _toggleExpanded,
+      onTap: _toggleCollapse,
       child: Container(
         width: double.infinity,
         padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
         decoration: BoxDecoration(
           color: AppColors.onPrimary,
-          borderRadius: _isExpanded
+          borderRadius: widget.isExpanded
               ? const BorderRadius.vertical(top: Radius.circular(12))
               : BorderRadius.circular(12),
         ),
@@ -143,7 +129,7 @@ class _FixedExpenseCardState extends ConsumerState<FixedExpenseCard> {
             },
             onSubmitted: (value) {
               widget.expense.amount = double.parse(value);
-              _updateItem(widget.expense);
+              _updateItem();
               FocusScope.of(context).unfocus();
             }
           ),
@@ -152,9 +138,12 @@ class _FixedExpenseCardState extends ConsumerState<FixedExpenseCard> {
     );
   }
 
-  void _updateItem(FixedExpense updated) {
-    ref.read(fixedExpenseViewModelProvider.notifier)
-        .updateFixedExpense(updated);
+  void _updateItem() {
+    widget.onChanged.call(widget.expense);
+  }
+
+  void _toggleCollapse() {
+    widget.onToggleCollapse.call(widget.expense.id);
   }
 
   Widget _interval() {
@@ -184,7 +173,7 @@ class _FixedExpenseCardState extends ConsumerState<FixedExpenseCard> {
         ],
         onChanged: (PaymentType? newValue) {
           widget.expense.paymentType = newValue!;
-          _updateItem(widget.expense);
+          _updateItem();
         },
       ),
     );
@@ -209,7 +198,7 @@ class _FixedExpenseCardState extends ConsumerState<FixedExpenseCard> {
         if (picked != null) {
           setState(() {
             widget.expense.nextPaymentDate = picked;
-            _updateItem(widget.expense);
+            _updateItem();
           });
         }
       },
@@ -220,8 +209,7 @@ class _FixedExpenseCardState extends ConsumerState<FixedExpenseCard> {
           borderRadius: BorderRadius.circular(8),
         ),
         child: Text(
-          DateFormat('dd/MM/yyyy').format(widget.expense.nextPaymentDate),
-
+          widget.expense.nextPaymentDate.formatDate(),
           style: TTextTheme.mainTheme.labelMedium,
         ),
       ),
@@ -241,11 +229,8 @@ class _FixedExpenseCardState extends ConsumerState<FixedExpenseCard> {
     );
   }
 
-  Future<void> _registerManuelPay() async {
-    final vm = ref.read(fixedExpenseViewModelProvider.notifier);
-    await vm.registerExpense(widget.expense);
-
-    ToastService.showSuccessToast('Payment was successful');
+  void _registerManuelPay() {
+    widget.onManualPay.call(widget.expense);
   }
 
   Text _label(String title) {
@@ -257,7 +242,7 @@ class _FixedExpenseCardState extends ConsumerState<FixedExpenseCard> {
       onTap: () {
         setState(() {
           widget.expense.autoPay = !widget.expense.autoPay;
-          _updateItem(widget.expense);
+          _updateItem();
         });
       },
       child: Icon(

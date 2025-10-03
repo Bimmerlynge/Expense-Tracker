@@ -1,8 +1,7 @@
 import 'dart:async';
 
 import 'package:expense_tracker/core/bootstrap/version_resolver.dart';
-import 'package:expense_tracker/features/transactions/providers/fixed_expense_view_model_provider.dart';
-import 'package:expense_tracker/features/transactions/view_model/fixed_expense_view_model.dart';
+import 'package:expense_tracker/features/fixed_expenses/application/fixed_expenses_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -19,18 +18,21 @@ class AppLifecycleService with WidgetsBindingObserver {
 
   final VersionResolver _versionResolver;
   final Ref _ref;
-  late FixedExpenseViewModel _fixedExpenseViewModel;
 
   AppLifecycleService(this._versionResolver, this._ref);
 
   void init(BuildContext context) {
-    _fixedExpenseViewModel = _ref.read(fixedExpenseViewModelProvider.notifier);
     _buildContext = context;
 
     WidgetsBinding.instance.addObserver(this);
 
-    _subscription = _fixedExpenseViewModel.onDataLoaded.listen((_) {
-      _fixedExpenseViewModel.registerAutoPayExpenses();
+    final service = _ref.read(fixedExpenseServiceProvider);
+
+    _subscription = service.getAllFixedExpensesStream().listen((expenses) {
+      if (expenses.isNotEmpty) {
+        service.registerAutoPayFixedExpenses(expenses);
+        _subscription?.cancel();
+      }
     });
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -54,7 +56,7 @@ class AppLifecycleService with WidgetsBindingObserver {
 
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
-    _subscription?.cancel();
+    // _subscription?.cancel();
     _buildContext = null;
   }
 }

@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:expense_tracker/domain/transaction.dart';
-import 'package:expense_tracker/features/transactions/data/transaction_repository.dart';
+import 'package:expense_tracker/features/transactions/application/transaction_service.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'transaction_list_screen_controller.g.dart';
@@ -14,11 +14,11 @@ class TransactionListScreenController extends _$TransactionListScreenController 
   FutureOr<List<Transaction>> build() {
     state = const AsyncLoading();
 
-    final repository = ref.watch(transactionRepositoryProvider);
-    final stream = repository.getTransactionsStream();
+    final service = ref.read(transactionServiceProvider);
+    final stream = service.getAllTransactionsStream();
 
     _subscription = stream.listen(
-          (transactions) => state = AsyncData(transactions),
+      (transactions) => state = AsyncData(transactions),
       onError: (error, stack) => state = AsyncError(error, stack),
     );
 
@@ -28,7 +28,7 @@ class TransactionListScreenController extends _$TransactionListScreenController 
   }
 
   Future<bool> deleteTransaction(String transactionId) async {
-    final repository = ref.read(transactionRepositoryProvider);
-    return await repository.deleteTransactionById(transactionId);
+    final service = ref.read(transactionServiceProvider);
+    return await service.deleteTransactionById(transactionId);
   }
 }

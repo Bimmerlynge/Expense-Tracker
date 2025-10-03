@@ -73,4 +73,26 @@ class FixedExpense {
 
     return DateTime(newYear, newMonth, newDay);
   }
+
+  FixedExpense copyWith({
+    String? id,
+    String? title,
+    double? amount,
+    PaymentType? paymentType,
+    bool? hasBeenPaid,
+    DateTime? nextPaymentDate,
+    DateTime? lastPaymentDate,
+    bool? autoPay,
+  }) {
+    return FixedExpense(
+      id: id ?? this.id,
+      title: title ?? this.title,
+      amount: amount ?? this.amount,
+      paymentType: paymentType ?? this.paymentType,
+      hasBeenPaid: hasBeenPaid ?? this.hasBeenPaid,
+      nextPaymentDate: nextPaymentDate ?? this.nextPaymentDate,
+      lastPaymentDate: lastPaymentDate ?? this.lastPaymentDate,
+      autoPay: autoPay ?? this.autoPay,
+    );
+  }
 }
