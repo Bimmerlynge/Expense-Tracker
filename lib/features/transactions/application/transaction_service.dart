@@ -20,5 +20,14 @@ class TransactionService {
   Future<bool> deleteTransactionById(String id) async {
     return await transactionRepository.deleteTransactionById(id);
   }
+
+  Future<bool> createTransaction(Transaction transaction) async {
+    try {
+      await transactionRepository.postTransaction(transaction);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
 }
 

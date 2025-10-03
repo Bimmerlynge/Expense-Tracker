@@ -69,4 +69,16 @@ class Transaction {
       description: data['description']
     );
   }
+
+  Map<String, dynamic> toFirestore() {
+    return {
+      'user': {'id': user.id, 'name': user.name},
+      'amount': amount,
+      'category': category.name,
+      'type': type.name,
+      'createdTime': DateTime.now(),
+      'transactionTime': transactionTime,
+      'description': description,
+    };
+  }
 }

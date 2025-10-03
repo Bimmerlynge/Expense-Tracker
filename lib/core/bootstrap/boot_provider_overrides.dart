@@ -1,5 +1,7 @@
 
 import 'package:expense_tracker/core/bootstrap/prefences/shared_preferences_provider.dart';
+import 'package:expense_tracker/features/fixed_expenses/data/firebase_fixed_expenses_repository.dart';
+import 'package:expense_tracker/features/fixed_expenses/data/fixed_expense_repository.dart';
 import 'package:expense_tracker/features/transactions/data/firebase_transaction_repository.dart';
 import 'package:expense_tracker/features/transactions/data/transaction_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -16,8 +18,11 @@ Future<List<Override>> getOverrides() async {
 List<Override> _repositoryOverrides() {
   return [
     transactionRepositoryProvider.overrideWith(
-          (ref) => FirebaseTransactionRepository(ref: ref),
+        (ref) => FirebaseTransactionRepository(ref: ref)
     ),
+    fixedExpenseRepositoryProvider.overrideWith(
+        (ref) => FirebaseFixedExpensesRepository(ref: ref)
+    )
   ];
 }
 

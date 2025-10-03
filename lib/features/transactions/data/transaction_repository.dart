@@ -2,7 +2,7 @@ import 'package:expense_tracker/domain/transaction.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final transactionRepositoryProvider = Provider<TransactionRepository>((ref) {
-  throw UnimplementedError();
+  throw UnimplementedError("TransactionRepositoryProvider must be overridden");
 });
 
 abstract class TransactionRepository {

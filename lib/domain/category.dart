@@ -18,6 +18,13 @@ class Category extends Equatable {
     );
   }
 
+  factory Category.fixedExpense() {
+    return Category(
+        name: 'Faste udgifter',
+        isDefault: false
+    );
+  }
+
   @override
   List<Object?> get props => [name];
 }

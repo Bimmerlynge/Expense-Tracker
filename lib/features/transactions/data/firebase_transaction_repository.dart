@@ -35,9 +35,12 @@ class FirebaseTransactionRepository implements TransactionRepository {
   }
 
   @override
-  Future<void> postTransaction(Transaction transaction) {
-    // TODO: implement postTransaction
-    throw UnimplementedError();
+  Future<void> postTransaction(Transaction transaction) async {
+    try {
+      await _getCollection().add(transaction.toFirestore());
+    } catch (e) {
+      rethrow;
+    }
   }
 
   CollectionReference<Map<String, dynamic>> _getCollection() {
