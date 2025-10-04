@@ -1,5 +1,5 @@
 import 'package:expense_tracker/app/config/theme/app_colors.dart';
-import 'package:expense_tracker/features/transactions/view/add_transaction_screen.dart';
+import 'package:expense_tracker/features/transactions/presentation/add_transaction_screen/add_transaction_screen.dart';
 import 'package:flutter/material.dart';
 
 class PageNavigationBar extends StatelessWidget {
@@ -27,15 +27,15 @@ class PageNavigationBar extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              _navItem(icon: Icons.bar_chart, label: 'Home', index: 0),
+              _navItem(icon: Icons.bar_chart, label: 'Overblik', index: 0),
               _navItem(
                 icon: Icons.compare_arrows,
                 label: 'Økonomi',
                 index: 1,
               ),
               _addTransaction(context),
-              _navItem(icon: Icons.house, label: 'Household', index: 2),
-              _navItem(icon: Icons.settings, label: 'Settings', index: 3),
+              _navItem(icon: Icons.house, label: 'Husstand', index: 2),
+              _navItem(icon: Icons.settings, label: 'Indstillinger', index: 3),
             ],
           ),
         ),

@@ -5,7 +5,6 @@ import 'package:expense_tracker/domain/transaction.dart';
 import 'package:expense_tracker/features/categories/service/category_firebase_service.dart';
 import 'package:expense_tracker/features/transactions/providers/add_transaction_providers.dart';
 import 'package:expense_tracker/features/transactions/service/transaction_firebase_service.dart';
-import 'package:expense_tracker/features/transactions/view_model/transaction_view_model.dart';
 import 'package:expense_tracker/features/users/service/user_firestore_service.dart';
 import 'package:expense_tracker/features/users/view_model/user_view_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -38,14 +37,6 @@ final transactionFirestoreServiceProvider =
       return TransactionFirebaseService(firestore, ref);
     });
 
-final transactionViewModelProvider =
-    StateNotifierProvider<TransactionViewModel, AsyncValue<List<Transaction>>>(
-      (ref) => TransactionViewModel(
-        ref.watch(transactionFirestoreServiceProvider),
-        ref,
-      ),
-    );
-
 final categoryFirebaseServiceProvider = Provider<CategoryFirebaseService>((
   ref,
 ) {
@@ -55,11 +46,6 @@ final categoryFirebaseServiceProvider = Provider<CategoryFirebaseService>((
 
 final householdCategoriesProvider = StateProvider<List<Category>>((ref) {
   return List.empty();
-});
-
-final transactionStreamProvider = StreamProvider<List<Transaction>>((ref) {
-  final service = ref.watch(transactionFirestoreServiceProvider);
-  return service.getTransactionsStream();
 });
 
 final categoryStreamProvider = StreamProvider<List<Category>>((ref) {

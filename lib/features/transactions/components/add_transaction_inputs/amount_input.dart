@@ -1,18 +1,35 @@
 import 'package:expense_tracker/app/config/theme/app_colors.dart';
 import 'package:expense_tracker/app/shared/util/static_widgets.dart';
-import 'package:expense_tracker/app/shared/util/toast_service.dart';
 import 'package:expense_tracker/features/transactions/providers/add_transaction_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class AmountInput extends ConsumerWidget {
+class AmountInput extends ConsumerStatefulWidget {
   const AmountInput({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final amount = ref.watch(selectedAmountProvider);
+  ConsumerState<AmountInput> createState() => _AmountInputState();
+}
 
+class _AmountInputState extends ConsumerState<AmountInput> {
+  late final TextEditingController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    final initialAmount = ref.read(selectedAmountProvider);
+    _controller = TextEditingController(text: initialAmount.toString());
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    ref.listen<double>(selectedAmountProvider, (previous, next) {
+      final textValue = double.tryParse(_controller.text) ?? 0.0;
+      if (textValue != next) {
+        _controller.text = next.toString();
+      }
+    });
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -23,20 +40,19 @@ class AmountInput extends ConsumerWidget {
         ),
         inputContainer(
           TextFormField(
-            initialValue: amount.toString(),
-            onChanged: (value) =>
-                ref.read(selectedAmountProvider.notifier).state = parseInput(
-                  value
-                ),
+            controller: _controller,
+            onChanged: (value) {
+              final parsed = parseInput(value);
+              ref.read(selectedAmountProvider.notifier).state = parsed;
+            },
             style: TextStyle(color: AppColors.onPrimary),
-            keyboardType: TextInputType.numberWithOptions(
+            keyboardType: const TextInputType.numberWithOptions(
               signed: false,
-              decimal: true
+              decimal: true,
             ),
             textAlign: TextAlign.center,
             inputFormatters: [
-              FilteringTextInputFormatter
-                  .allow(RegExp(r'^\d*\.?\d*')), // only numbers + one dot
+              FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*')),
             ],
           ),
         ),
@@ -45,9 +61,14 @@ class AmountInput extends ConsumerWidget {
   }
 
   double parseInput(String inputValue) {
-    String dotFormat = inputValue.replaceAll(",", ".");
+    final dotFormat = inputValue.replaceAll(",", ".");
     if (dotFormat.isEmpty) return 0.0;
-    double parsedVal = double.tryParse(dotFormat) ?? 0.0;
-    return parsedVal;
+    return double.tryParse(dotFormat) ?? 0.0;
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 }
