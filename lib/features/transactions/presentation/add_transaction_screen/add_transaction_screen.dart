@@ -1,4 +1,3 @@
-import 'package:expense_tracker/app/providers/app_providers.dart';
 import 'package:expense_tracker/app/shared/components/app_bar.dart';
 import 'package:expense_tracker/app/shared/util/toast_service.dart';
 import 'package:expense_tracker/domain/transaction.dart';
@@ -8,6 +7,7 @@ import 'package:expense_tracker/features/transactions/components/add_transaction
 import 'package:expense_tracker/features/transactions/components/add_transaction_inputs/description_input.dart';
 import 'package:expense_tracker/features/transactions/components/add_transaction_inputs/person_input.dart';
 import 'package:expense_tracker/features/transactions/components/add_transaction_inputs/type_input.dart';
+import 'package:expense_tracker/features/transactions/presentation/add_transaction_screen/add_transaction_screen_controller.dart';
 import 'package:expense_tracker/features/transactions/providers/add_transaction_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -132,7 +132,7 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
   }
 
   Future<void> onAdd() async {
-    final viewModel = ref.read(transactionViewModelProvider.notifier);
+    final controller = ref.read(addTransactionScreenControllerProvider.notifier);
 
     var amount = ref.watch(selectedAmountProvider);
     var category = ref.watch(selectedCategoryProvider);
@@ -145,7 +145,7 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
     try {
       _descriptionFocusNode.unfocus();
 
-      await viewModel.addTransaction(
+      await controller.createTransaction(
         Transaction(
           user: person,
           amount: amount,
