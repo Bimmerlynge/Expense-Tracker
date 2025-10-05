@@ -17,6 +17,15 @@ class TransactionService {
     return transactionRepository.getTransactionsStream();
   }
 
+  Stream<List<Transaction>> getTransactionsInRange(DateTime start, DateTime end) {
+    return getAllTransactionsStream().map(
+        (transactions) => transactions.where(
+            (t) => !t.transactionTime!.isBefore(start) &&
+                  t.transactionTime!.isBefore(end)
+        ).toList()
+    );
+  }
+
   Future<bool> deleteTransactionById(String id) async {
     return await transactionRepository.deleteTransactionById(id);
   }
@@ -29,5 +38,7 @@ class TransactionService {
       return false;
     }
   }
+
+
 }
 

@@ -1,9 +1,9 @@
 import 'package:expense_tracker/app/config/theme/text_theme.dart';
+import 'package:expense_tracker/features/summaries/presentation/charts/category_chart/excluded_categories_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
 import 'package:expense_tracker/app/config/theme/app_colors.dart';
-import 'package:expense_tracker/core/bootstrap/prefences/category_filter_providers.dart';
 
 class CategoryFilterChipField extends ConsumerWidget {
   final List<String> categories;
@@ -66,10 +66,9 @@ class CategoryFilterChipField extends ConsumerWidget {
 
                       state.didChange(newValue);
 
-                      // Update provider
                       final allSelected = newValue.whereType<String>().toList();
                       final newExcluded = categories.where((c) => !allSelected.contains(c)).toList();
-                      ref.read(excludedCategoriesProvider.notifier).update(newExcluded);
+                      ref.read(excludedCategoriesControllerProvider.notifier).updateExcluded(newExcluded);
                     },
                     labelStyle: TextStyle(
                       color: isSelected ? Colors.black : AppColors.primaryText,

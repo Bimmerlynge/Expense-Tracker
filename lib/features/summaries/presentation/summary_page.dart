@@ -1,19 +1,19 @@
 import 'package:expense_tracker/app/shared/components/non_scrollable_tab.dart';
-import 'package:expense_tracker/features/summaries/view/tabs/balance_tab.dart';
-import 'package:expense_tracker/features/summaries/view/tabs/category_tab.dart';
-import 'package:expense_tracker/features/summaries/view/tabs/historic_tab.dart';
+import 'package:expense_tracker/features/summaries/presentation/tabs/balance_tab.dart';
+import 'package:expense_tracker/features/summaries/presentation/charts/category_chart/category_chart_screen.dart';
+import 'package:expense_tracker/features/summaries/presentation/tabs/historic_tab.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'dart:math' as math;
 
-class HomePage extends ConsumerStatefulWidget {
-  const HomePage({super.key});
+class SummaryPage extends ConsumerStatefulWidget {
+  const SummaryPage({super.key});
 
   @override
-  ConsumerState<HomePage> createState() => _HomePageState();
+  ConsumerState<SummaryPage> createState() => _SummaryPageState();
 }
 
-class _HomePageState extends ConsumerState<HomePage>
+class _SummaryPageState extends ConsumerState<SummaryPage>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   late ScrollController _scrollController;
@@ -49,7 +49,7 @@ class _HomePageState extends ConsumerState<HomePage>
   }
 
   final List<Widget> _tabs = [
-    CategoryTab(),
+    CategoryChartScreen(),
     NonScrollableTab(child: BalanceTab()),
     HistoricTab(),
   ];

@@ -1,7 +1,7 @@
 import 'package:expense_tracker/app/providers/app_providers.dart';
 import 'package:expense_tracker/domain/fixed_expense.dart';
 import 'package:expense_tracker/extensions/fixed_expense_extensions.dart';
-import 'package:expense_tracker/features/common/data/shared_prefs_repository.dart';
+import 'package:expense_tracker/features/common/application/local_storage_service.dart';
 import 'package:expense_tracker/features/fixed_expenses/data/fixed_expense_repository.dart';
 import 'package:expense_tracker/features/transactions/application/transaction_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -9,22 +9,22 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 final fixedExpenseServiceProvider = Provider<FixedExpenseService>((ref) {
   return FixedExpenseService(
       transactionService: ref.read(transactionServiceProvider),
+      localStorageService: ref.read(localStorageService),
       fixedExpenseRepository: ref.read(fixedExpenseRepositoryProvider),
-      sharedPrefsRepository: ref.read(sharedPrefsRepositoryProvider),
       ref: ref
   );
 });
 
 class FixedExpenseService {
   final TransactionService transactionService;
+  final LocalStorageService localStorageService;
   final FixedExpenseRepository fixedExpenseRepository;
-  final SharedPrefsRepository sharedPrefsRepository;
   final Ref ref;
 
   FixedExpenseService({
     required this.transactionService,
+    required this.localStorageService,
     required this.fixedExpenseRepository,
-    required this.sharedPrefsRepository,
     required this.ref
   });
 
@@ -45,19 +45,11 @@ class FixedExpenseService {
   }
 
   Future<void> toggleCollapsedFixedExpense(String expenseId) async {
-    final collapsed = sharedPrefsRepository.loadCollapsedFixedExpenses();
-
-    if (collapsed.contains(expenseId)) {
-      collapsed.remove(expenseId);
-    } else {
-      collapsed.add(expenseId);
-    }
-
-    await sharedPrefsRepository.updateCollapsedFixedExpenses(collapsed);
+    await localStorageService.toggleCollapsedFixedExpense(expenseId);
   }
 
   List<String> getCollapsedFixedExpenses() {
-    return sharedPrefsRepository.loadCollapsedFixedExpenses();
+    return localStorageService.getCollapsedFixedExpenses();
   }
 
   void registerAutoPayFixedExpenses(List<FixedExpense> expenses) {

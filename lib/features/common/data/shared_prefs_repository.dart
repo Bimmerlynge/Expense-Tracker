@@ -12,6 +12,7 @@ class SharedPrefsRepository implements LocalStorageRepository {
   final SharedPreferences prefs;
 
   static const String _collapsedFixedExpensesKey = 'collapsed_fixed_expenses';
+  static const String _excludedCategoriesKey = 'excluded_categories';
 
   SharedPrefsRepository({required this.prefs});
 
@@ -23,5 +24,15 @@ class SharedPrefsRepository implements LocalStorageRepository {
   @override
   Future<void> updateCollapsedFixedExpenses(List<String> expenseIds) async {
     await prefs.setStringList(_collapsedFixedExpensesKey, expenseIds);
+  }
+
+  @override
+  List<String> loadExcludedCategories() {
+    return prefs.getStringList(_excludedCategoriesKey) ?? [];
+  }
+
+  @override
+  Future<void> updateExcludedCategories(List<String> categories) async {
+    await prefs.setStringList(_excludedCategoriesKey, categories);
   }
 }

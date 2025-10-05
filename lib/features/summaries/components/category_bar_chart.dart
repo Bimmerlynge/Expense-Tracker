@@ -1,16 +1,19 @@
 import 'package:expense_tracker/app/config/theme/text_theme.dart';
-import 'package:expense_tracker/domain/category_spending.dart';
+import 'package:expense_tracker/features/summaries/domain/category_spending.dart';
+import 'package:expense_tracker/features/common/widget/empty_list_text.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
-class HorizontalBarChart extends StatelessWidget {
+class CategoryBarChart extends StatelessWidget {
   final List<CategorySpending> categorySpendingList;
 
-  HorizontalBarChart({super.key, required this.categorySpendingList});
+  CategoryBarChart({super.key, required this.categorySpendingList});
 
   @override
   Widget build(BuildContext context) {
-    if (categorySpendingList.isEmpty) return CircularProgressIndicator();
+    if (categorySpendingList.isEmpty) {
+      return const Center(child: EmptyListText(text: 'Ingen udgifter for perioden'));
+    }
 
     return Align(
       alignment: Alignment.centerLeft,
@@ -97,7 +100,6 @@ class HorizontalBarChart extends StatelessWidget {
       return BarChartGroupData(
         showingTooltipIndicators: [0],
         x: i,
-        // barsSpace: 400,
         barRods: [
           BarChartRodData(
             toY: item.total,
