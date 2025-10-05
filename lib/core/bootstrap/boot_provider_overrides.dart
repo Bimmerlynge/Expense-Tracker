@@ -4,6 +4,8 @@ import 'package:expense_tracker/features/fixed_expenses/data/firebase_fixed_expe
 import 'package:expense_tracker/features/fixed_expenses/data/fixed_expense_repository.dart';
 import 'package:expense_tracker/features/transactions/data/firebase_transaction_repository.dart';
 import 'package:expense_tracker/features/transactions/data/transaction_repository.dart';
+import 'package:expense_tracker/features/users/data/firebase_user_repository.dart';
+import 'package:expense_tracker/features/users/data/user_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -22,6 +24,9 @@ List<Override> _repositoryOverrides() {
     ),
     fixedExpenseRepositoryProvider.overrideWith(
         (ref) => FirebaseFixedExpensesRepository(ref: ref)
+    ),
+    userRepositoryProvider.overrideWith(
+        (ref) => FirebaseUserRepository(ref: ref)
     )
   ];
 }

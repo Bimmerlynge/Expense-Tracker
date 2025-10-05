@@ -22,7 +22,7 @@ class CategoryChartScreenController extends _$CategoryChartScreenController {
 
     _subscription = stream.listen(
         (categorySpendingList) => state = AsyncData(categorySpendingList),
-      onError: (error, stack) => state = AsyncError(error, stack),
+      onError: (error, stack) => state = AsyncError(error, stack)
     );
 
     ref.onDispose(() => _subscription.cancel());
@@ -38,28 +38,4 @@ class CategoryChartScreenController extends _$CategoryChartScreenController {
 
     return list;
   }
-
-  // void applyShowOnlyMine(bool onlyMine, String currentUserId) {
-  //   final currentState = state;
-  //   if (currentState is! AsyncData<List<CategorySpending>>) return;
-  //
-  //   // Re-filter existing transactions
-  //   final filtered = _toCategorySpending(
-  //     currentState.value
-  //         .map((cs) => Transaction(
-  //       user: User(id: currentUserId),
-  //       category: Category(name: cs.name),
-  //       amount: cs.total,
-  //       type: TransactionType.expense,
-  //       transactionTime: DateTime.now(),
-  //     ))
-  //         .toList(),
-  //     onlyCurrentUser: onlyMine,
-  //     currentUserId: currentUserId,
-  //   );
-  //
-  //   state = AsyncData(filtered);
-  // }
-
-
 }
