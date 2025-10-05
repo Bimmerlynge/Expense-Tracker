@@ -1,29 +1,22 @@
 import 'package:expense_tracker/app/config/theme/text_theme.dart';
-import 'package:expense_tracker/domain/balance_total.dart';
-import 'package:expense_tracker/domain/person.dart';
-import 'package:expense_tracker/features/summaries/providers/summary_providers.dart';
+import 'package:expense_tracker/features/summaries/domain/balance_total.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class BalancePieChart extends ConsumerStatefulWidget {
-  const BalancePieChart({super.key, required this.person});
+  final BalanceTotal balanceTotal;
 
-  final Person person;
+  const BalancePieChart({super.key, required this.balanceTotal});
 
   @override
   ConsumerState<BalancePieChart> createState() => _BalancePieChartState();
 }
 
 class _BalancePieChartState extends ConsumerState<BalancePieChart> {
-  BalanceTotal? balanceTotal;
 
   @override
   Widget build(BuildContext context) {
-    ref.watch(balanceTotalViewModelProvider);
-    late final viewModel = ref.read(balanceTotalViewModelProvider.notifier);
-    balanceTotal = viewModel.getBalanceTotal(widget.person);
-
     return SizedBox(
       height: 220,
       width: MediaQuery.of(context).size.width * 0.95,
@@ -31,13 +24,13 @@ class _BalancePieChartState extends ConsumerState<BalancePieChart> {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
-            widget.person.name,
+            widget.balanceTotal.person.name,
             style: Theme.of(context).primaryTextTheme.labelMedium,
           ),
           SizedBox(height: 24),
           Expanded(child: _buildChart()),
-        ],
-      ),
+        ]
+      )
     );
   }
 
@@ -49,7 +42,7 @@ class _BalancePieChartState extends ConsumerState<BalancePieChart> {
         _buildChartTitle(),
         _buildChartLegend(),
         _buildIncomeLegend()
-      ],
+      ]
     );
   }
 
@@ -59,23 +52,22 @@ class _BalancePieChartState extends ConsumerState<BalancePieChart> {
         startDegreeOffset: 270,
         centerSpaceRadius: 60,
         sections: _buildSections(),
-      ),
+      )
     );
   }
 
   List<PieChartSectionData> _buildSections() {
     return [
       PieChartSectionData(
-        value: balanceTotal!.expense,
+        value: widget.balanceTotal.expense,
         color: Colors.red.shade400,
         showTitle: false,
       ),
       PieChartSectionData(
-        value: (balanceTotal!.income - balanceTotal!.expense),
+        value: (widget.balanceTotal.income - widget.balanceTotal.expense),
         color: Colors.green.shade400,
         showTitle: false,
-      ),
-
+      )
     ];
   }
 
@@ -88,11 +80,11 @@ class _BalancePieChartState extends ConsumerState<BalancePieChart> {
           style: TTextTheme.mainTheme.labelSmall,
         ),
         Text(
-          '${(balanceTotal!.income - balanceTotal!.expense).toStringAsFixed(2)} kr.',
-          style: TextStyle(color: balanceTotal!.expense < balanceTotal!.income ?
+          '${(widget.balanceTotal.income - widget.balanceTotal.expense).toStringAsFixed(2)} kr.',
+          style: TextStyle(color: widget.balanceTotal.expense < widget.balanceTotal.income ?
           Colors.green.shade400 : Colors.red.shade400),
-        ),
-      ],
+        )
+      ]
     );
   }
 
@@ -107,14 +99,14 @@ class _BalancePieChartState extends ConsumerState<BalancePieChart> {
                 'Indkomst',
                 style: Theme.of(context).primaryTextTheme.labelSmall,
               ),
-              Text(balanceTotal!.income.toStringAsFixed(2),
+              Text(widget.balanceTotal.income.toStringAsFixed(2),
                 textAlign: TextAlign.end,
                 style: Theme.of(context).primaryTextTheme.labelSmall,
               )
-            ],
-          ),
-        ],
-      ),
+            ]
+          )
+        ]
+      )
     );
   }
 
@@ -133,16 +125,16 @@ class _BalancePieChartState extends ConsumerState<BalancePieChart> {
                     'Forbrug',
                     style: Theme.of(context).primaryTextTheme.labelSmall,
                   ),
-                  Text(balanceTotal!.expense.toStringAsFixed(2),
+                  Text(widget.balanceTotal.expense.toStringAsFixed(2),
                     textAlign: TextAlign.end,
                     style: Theme.of(context).primaryTextTheme.labelSmall,
                   )
-                ],
-              ),
-            ],
+                ]
+              )
+            ]
           )
-        ],
-      ),
+        ]
+      )
     );
   }
 }

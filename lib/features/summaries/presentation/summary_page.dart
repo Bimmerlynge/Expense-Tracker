@@ -1,7 +1,7 @@
 import 'package:expense_tracker/app/shared/components/non_scrollable_tab.dart';
-import 'package:expense_tracker/features/summaries/presentation/tabs/balance_tab.dart';
+import 'package:expense_tracker/features/summaries/presentation/charts/balance_chart/balance_chart_screen.dart';
 import 'package:expense_tracker/features/summaries/presentation/charts/category_chart/category_chart_screen.dart';
-import 'package:expense_tracker/features/summaries/presentation/tabs/historic_tab.dart';
+import 'package:expense_tracker/features/summaries/presentation/charts/historic_chart/historic_tab.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'dart:math' as math;
@@ -50,7 +50,7 @@ class _SummaryPageState extends ConsumerState<SummaryPage>
 
   final List<Widget> _tabs = [
     CategoryChartScreen(),
-    NonScrollableTab(child: BalanceTab()),
+    NonScrollableTab(child: BalanceChartScreen()),
     HistoricTab(),
   ];
 
