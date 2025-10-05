@@ -1,6 +1,6 @@
 import 'package:expense_tracker/app/navigation/navigation_bar.dart';
 import 'package:expense_tracker/features/finance/presentation/finance_page.dart';
-import 'package:expense_tracker/features/summaries/view/home_page.dart';
+import 'package:expense_tracker/features/summaries/presentation/summary_page.dart';
 import 'package:expense_tracker/features/settings/view/settings_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -22,7 +22,7 @@ class _MainScreenState extends ConsumerState<MainScreen>
   late Animation<Offset> _offsetAnimation;
 
   final List<Widget> _pages = [
-    const HomePage(),
+    const SummaryPage(),
     const FinancePage(),
     const Scaffold(),
     const SettingsPage(),

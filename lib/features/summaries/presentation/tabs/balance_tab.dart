@@ -1,7 +1,6 @@
 import 'package:expense_tracker/app/providers/app_providers.dart';
 import 'package:expense_tracker/domain/person.dart';
 import 'package:expense_tracker/features/summaries/components/balance_pie_chart.dart';
-import 'package:expense_tracker/features/summaries/providers/summary_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
