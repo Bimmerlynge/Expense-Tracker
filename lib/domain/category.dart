@@ -52,6 +52,10 @@ class Category {
     );
   }
 
+  bool isFixedExpense() {
+    return name == 'Faste udgifter';
+  }
+
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||

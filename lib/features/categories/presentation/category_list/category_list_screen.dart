@@ -67,6 +67,11 @@ class _CategoryListScreenState extends ConsumerState<CategoryListScreen> {
   }
 
   Future<void> _handleOnDelete(Category category) async {
+    if (category.isFixedExpense()) {
+      ToastService.showErrorToast('Niks pille Morth Fuckes!!');
+      return;
+    }
+
     final shouldDelete = await _showDeleteConfirmationDialog(category);
     if (!shouldDelete) return;
 
@@ -79,7 +84,7 @@ class _CategoryListScreenState extends ConsumerState<CategoryListScreen> {
           .removeCategory(category.id!);
       ToastService.showSuccessToast("Kategori blev slettet!");
     } catch (e) {
-      ToastService.showErrorToast("Kunne ikke slette kategori.");
+      ToastService.showErrorToast("Fejl: Kunne ikke slette kategori.");
     }
   }
 
