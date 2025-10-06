@@ -1,8 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart' hide Transaction;
 import 'package:expense_tracker/domain/category.dart';
 import 'package:expense_tracker/domain/person.dart';
-import 'package:expense_tracker/features/categories/service/category_firebase_service.dart';
-import 'package:expense_tracker/features/transactions/providers/add_transaction_providers.dart';
 import 'package:expense_tracker/features/users/service/user_firestore_service.dart';
 import 'package:expense_tracker/features/users/view_model/user_view_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -29,31 +27,8 @@ final userViewModelProvider = Provider<UserViewModel>((ref) {
   return UserViewModel(userFirestoreService);
 });
 
-final categoryFirebaseServiceProvider = Provider<CategoryFirebaseService>((
-  ref,
-) {
-  final firestore = FirebaseFirestore.instance;
-  return CategoryFirebaseService(firestore, ref);
-});
-
 final householdCategoriesProvider = StateProvider<List<Category>>((ref) {
   return List.empty();
-});
-
-final categoryStreamProvider = StreamProvider<List<Category>>((ref) {
-  final service = ref.watch(categoryFirebaseServiceProvider);
-  final selectedCategoryNotifier = ref.read(selectedCategoryProvider.notifier);
-  final householdCategories = ref.read(householdCategoriesProvider.notifier);
-
-  return service.getCategoryStream().map((categories) {
-    if (selectedCategoryNotifier.state == null) {
-      final defaultCategory = categories.firstWhere((c) => c.isDefault == true);
-      selectedCategoryNotifier.state = defaultCategory;
-    }
-
-    householdCategories.state = categories;
-    return categories;
-  });
 });
 
 final personStreamProvider = StreamProvider<List<Person>>((ref) {

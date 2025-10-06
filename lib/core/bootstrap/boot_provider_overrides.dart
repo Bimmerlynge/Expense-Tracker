@@ -1,5 +1,7 @@
 
 import 'package:expense_tracker/core/bootstrap/prefences/shared_preferences_provider.dart';
+import 'package:expense_tracker/features/categories/data/category_repository.dart';
+import 'package:expense_tracker/features/categories/data/firebase_category_repository.dart';
 import 'package:expense_tracker/features/fixed_expenses/data/firebase_fixed_expenses_repository.dart';
 import 'package:expense_tracker/features/fixed_expenses/data/fixed_expense_repository.dart';
 import 'package:expense_tracker/features/transactions/data/firebase_transaction_repository.dart';
@@ -27,6 +29,9 @@ List<Override> _repositoryOverrides() {
     ),
     userRepositoryProvider.overrideWith(
         (ref) => FirebaseUserRepository(ref: ref)
+    ),
+    categoryRepositoryProvider.overrideWith(
+        (ref) => FirebaseCategoryRepository(ref: ref)
     )
   ];
 }

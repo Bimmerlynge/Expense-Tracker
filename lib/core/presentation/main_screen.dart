@@ -1,4 +1,5 @@
 import 'package:expense_tracker/app/navigation/navigation_bar.dart';
+import 'package:expense_tracker/features/categories/presentation/household_page.dart';
 import 'package:expense_tracker/features/finance/presentation/finance_page.dart';
 import 'package:expense_tracker/features/summaries/presentation/summary_page.dart';
 import 'package:expense_tracker/features/settings/view/settings_page.dart';
@@ -24,7 +25,7 @@ class _MainScreenState extends ConsumerState<MainScreen>
   final List<Widget> _pages = [
     const SummaryPage(),
     const FinancePage(),
-    const Scaffold(),
+    const HouseholdPage(),
     const SettingsPage(),
   ];
 

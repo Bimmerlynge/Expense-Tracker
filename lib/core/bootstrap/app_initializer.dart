@@ -19,7 +19,6 @@ class _AppInitializerState extends ConsumerState<AppInitializer> {
     super.initState();
 
     Future.microtask(() {
-      ref.read(categoryStreamProvider);
       ref.read(personStreamProvider);
 
       _lifecycleService = ref.read(lifecycleServiceProvider);
