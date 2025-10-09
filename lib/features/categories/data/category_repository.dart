@@ -10,4 +10,5 @@ abstract class CategoryRepository {
   Future<bool> createCategory(Category category);
   Future<bool> removeCategory(String categoryId);
   Future<void> updateDefaultCategory(Category category);
+  Future<void> updateCategoryColor(Category category);
 }

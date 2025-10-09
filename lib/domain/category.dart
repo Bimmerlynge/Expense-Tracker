@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Category {
@@ -5,12 +7,14 @@ class Category {
   final String name;
   String? iconName;
   bool? isDefault;
+  Color? color;
 
   Category({
     this.id,
     required this.name,
     this.iconName,
-    this.isDefault
+    this.isDefault,
+    this.color
   });
 
   factory Category.fromFirestore(DocumentSnapshot doc) {
@@ -21,20 +25,22 @@ class Category {
       name: data['name'],
       iconName: data['icon'] as String?,
       isDefault: data['isDefault'] as bool,
+      color: data['color'] != null ? Color(data['color'] as int) : null,
     );
   }
 
   factory Category.fixedExpense() {
     return Category(
         name: 'Faste udgifter',
-        isDefault: false
+        isDefault: false,
     );
   }
 
   Map<String, dynamic> toFirestore() {
     return {
       'name' : name,
-      'isDefault' : isDefault
+      'isDefault' : isDefault,
+      'color': color?.toARGB32(),
     };
   }
 
@@ -42,13 +48,15 @@ class Category {
     String? id,
     String? name,
     String? iconName,
-    bool? isDefault
+    bool? isDefault,
+    Color? color
   }) {
     return Category(
       id: id ?? this.id,
       name: name ?? this.name,
       iconName: iconName ?? this.iconName,
-      isDefault: isDefault ?? this.isDefault
+      isDefault: isDefault ?? this.isDefault,
+      color: color ?? this.color,
     );
   }
 

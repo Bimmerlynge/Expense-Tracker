@@ -39,6 +39,8 @@ class TransactionService {
     }
   }
 
-
+  Future<List<Transaction>> getTransactionInRange(DateTime start, DateTime end) async {
+    return await transactionRepository.getTransactionsInRange(start, end);
+  }
 }
 

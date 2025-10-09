@@ -43,6 +43,18 @@ class FirebaseTransactionRepository implements TransactionRepository {
     }
   }
 
+  @override
+  Future<List<Transaction>> getTransactionsInRange(DateTime start, DateTime end) async {
+    final snapshot = await _getCollection()
+        .where('transactionTime', isGreaterThanOrEqualTo: start)
+        .where('transactionTime', isLessThan: end)
+        .get();
+
+    return snapshot.docs.map(
+        (doc) => Transaction.fromFire(doc)
+    ).toList();
+  }
+
   CollectionReference<Map<String, dynamic>> _getCollection() {
     final householdId = ref.watch(currentUserProvider).householdId;
     return ref.read(firestoreProvider)
