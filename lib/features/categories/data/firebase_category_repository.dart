@@ -57,6 +57,23 @@ class FirebaseCategoryRepository implements CategoryRepository {
     await batch.commit();
   }
 
+  @override
+  Future<void> updateCategoryColor(Category category) async {
+    final snapshot = await _getCollection()
+        .where('name', isEqualTo: category.name)
+        .limit(1)
+        .get();
+
+    if (snapshot.docs.isEmpty) {
+      throw Exception('No category found with name ${category.name}');
+    }
+
+    final doc = snapshot.docs.first.reference;
+    await doc.update({
+      'color': category.color?.toARGB32(),
+    });
+  }
+
   CollectionReference<Map<String, dynamic>> _getCollection() {
     final householdId = ref.read(currentUserProvider).householdId;
     return ref.read(firestoreProvider)

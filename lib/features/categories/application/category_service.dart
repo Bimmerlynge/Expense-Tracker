@@ -28,4 +28,8 @@ class CategoryService {
   Future<bool> removeCategory(String categoryId) async {
     return await categoryRepository.removeCategory(categoryId);
   }
+
+  Future<void> updateCategoryColor(Category category) async {
+    return await categoryRepository.updateCategoryColor(category);
+  }
 }
