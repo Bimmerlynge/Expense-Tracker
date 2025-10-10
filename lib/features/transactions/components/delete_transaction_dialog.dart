@@ -1,12 +1,18 @@
 import 'package:expense_tracker/app/config/theme/app_colors.dart';
 import 'package:expense_tracker/domain/transaction.dart';
+import 'package:expense_tracker/features/common/widget/popup_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class DeleteTransactionDialog extends StatelessWidget {
   final Transaction transaction;
+  final void Function() onConfirm;
 
-  const DeleteTransactionDialog({super.key, required this.transaction});
+  const DeleteTransactionDialog({
+    super.key,
+    required this.transaction,
+    required this.onConfirm
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -20,57 +26,28 @@ class DeleteTransactionDialog extends StatelessWidget {
       );
     }
 
-    return AlertDialog(
-      icon: const Icon(Icons.info_outline_rounded),
-      title: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const Text('Bekræft sletning'),
-          const SizedBox(height: 8),
-          Divider(thickness: 1, color: AppColors.onPrimary),
-        ],
-      ),
-      content: SizedBox(
-          width: MediaQuery.of(context).size.width * 0.7,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const Text('Vil du slette denne transaktion?', textAlign: TextAlign.center,),
-              const SizedBox(height: 30),
-              Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  createRow('Kategori', transaction.category.name),
-                  createRow('Beløb', transaction.amount.toString()),
-                  createRow('Dato', DateFormat('dd-MM-yyyy').format(transaction.transactionTime!)),
-                  createRow('Person', transaction.user.name)
-                ],
-              )
-            ],
-          )
-      ),
-      actions: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    return PopupWidget(
+        popupIcon: const Icon(Icons.info_outline_rounded),
+        bodyContent: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(false),
-              child: Text(
-                'Afbryd',
-                style: TextStyle(color: AppColors.onPrimary.withAlpha(200)),
-              ),
-            ),
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(true),
-              child: const Text(
-                'Slet',
-                style: TextStyle(color: Colors.red),
-              ),
-            ),
+            const Text('Vil du slette denne transaktion?', textAlign: TextAlign.center,),
+            const SizedBox(height: 30),
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                createRow('Kategori', transaction.category.name),
+                createRow('Beløb', transaction.amount.toString()),
+                createRow('Dato', DateFormat('dd-MM-yyyy').format(transaction.transactionTime!)),
+                createRow('Person', transaction.user.name)
+              ],
+            )
           ],
-        )
-      ],
+        ),
+        onConfirm: onConfirm,
+        confirmText: "Slet",
+        headerTitle: "Bekræft sletning",
     );
   }
 }
