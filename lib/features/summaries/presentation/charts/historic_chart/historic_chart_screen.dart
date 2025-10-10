@@ -1,6 +1,7 @@
 import 'package:expense_tracker/app/config/theme/text_theme.dart';
 import 'package:expense_tracker/domain/category.dart';
 import 'package:expense_tracker/features/common/widget/async_value_widget.dart';
+import 'package:expense_tracker/features/common/widget/popup_widget.dart';
 import 'package:expense_tracker/features/summaries/components/historic_chart.dart';
 import 'package:expense_tracker/features/summaries/domain/historic_category_list.dart';
 import 'package:expense_tracker/features/summaries/presentation/charts/historic_chart/historic_chart_color_controller.dart';
@@ -26,7 +27,6 @@ class _HistoricChartScreenState extends ConsumerState<HistoricChartScreen> {
   void initState() {
     super.initState();
 
-    // Defer until build phase is done
     Future.microtask(() async {
       final controller = ref.read(historicChartScreenControllerProvider.notifier);
       final list = await controller.getList();
@@ -44,7 +44,7 @@ class _HistoricChartScreenState extends ConsumerState<HistoricChartScreen> {
     final filterController =
     ref.read(historicChartFilterControllerProvider.notifier);
     final filteredList =
-      ref.watch(historicChartFilterControllerProvider); // watch filtered data
+      ref.watch(historicChartFilterControllerProvider);
 
     return Column(
       children: [
@@ -152,40 +152,32 @@ class _HistoricChartScreenState extends ConsumerState<HistoricChartScreen> {
       context: context,
       builder: (context) {
         Color pickerColor = category.color ?? Colors.grey;
-
-        return AlertDialog(
-          title: const Text('Choose a color'),
-          content: SingleChildScrollView(
-            child: ColorPicker(
-              pickerColor: pickerColor,
-              onColorChanged: (color) {
-                pickerColor = color;
-              },
-              enableAlpha: false,
-              showLabel: true,
-              pickerAreaHeightPercent: 0.7,
+        return PopupWidget(
+            popupIcon: Icon(Icons.info_outline_rounded),
+            headerTitle: "Vælg farve",
+            bodyContent: Theme(
+              data: Theme.of(context).copyWith(
+                  textTheme: TTextTheme.mainTheme
+              ),
+              child: ColorPicker(
+                labelTypes: [ColorLabelType.rgb],
+                pickerColor: pickerColor,
+                onColorChanged: (color) {
+                  category.color = color;
+                },
+                enableAlpha: false,
+                pickerAreaHeightPercent: 0.7,
+              ),
             ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(),
-              child: const Text('Cancel'),
-            ),
-            ElevatedButton(
-              onPressed: () async {
-                setState(() {
-                  category.color = pickerColor;
-                });
-                ref.read(historicChartScreenControllerProvider.notifier)
-                    .updateLegendColor(category);
-
-                Navigator.of(context).pop();
-              },
-              child: const Text('Select'),
-            ),
-          ],
+            onConfirm: () => _onColorChange(category),
+            confirmText: "Ændre farve",
         );
       },
     );
+  }
+
+  Future<void> _onColorChange(Category updatedCategory) async {
+    await ref.read(historicChartScreenControllerProvider.notifier)
+        .updateLegendColor(updatedCategory);
   }
 }
