@@ -72,13 +72,10 @@ class _CategoryListScreenState extends ConsumerState<CategoryListScreen> {
       return;
     }
 
-    final shouldDelete = await _showDeleteConfirmationDialog(category);
-    if (!shouldDelete) return;
-
-    _deleteTransaction(category);
+    await _showDeleteConfirmationDialog(category);
   }
 
-  Future<void> _deleteTransaction(Category category) async {
+  Future<void> _deleteCategory(Category category) async {
     try {
       await ref.read(categoryListScreenControllerProvider.notifier)
           .removeCategory(category.id!);
@@ -88,11 +85,16 @@ class _CategoryListScreenState extends ConsumerState<CategoryListScreen> {
     }
   }
 
-  Future<bool> _showDeleteConfirmationDialog(Category category) async {
-    return await showDialog<bool>(
+  Future<void> _showDeleteConfirmationDialog(Category category) async {
+    await showDialog<bool>(
         context: context,
-        builder: (dialogContext) => DeleteCategoryDialog(category: category)
-    ) ?? false;
+        builder: (dialogContext) => DeleteCategoryDialog(
+            category: category,
+            onConfirm: () async {
+              await _deleteCategory(category);
+            },
+        )
+    );
   }
 
   Future<void> _toggleDefault(Category category) async {

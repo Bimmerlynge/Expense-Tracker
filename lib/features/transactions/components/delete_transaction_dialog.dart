@@ -6,7 +6,7 @@ import 'package:intl/intl.dart';
 
 class DeleteTransactionDialog extends StatelessWidget {
   final Transaction transaction;
-  final void Function() onConfirm;
+  final Future<void> Function() onConfirm;
 
   const DeleteTransactionDialog({
     super.key,
