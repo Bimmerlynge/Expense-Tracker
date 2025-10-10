@@ -7,7 +7,7 @@ class PopupWidget<T> extends ConsumerStatefulWidget {
   final Icon popupIcon;
   final String? headerTitle;
   final Widget bodyContent;
-  final void Function() onConfirm;
+  final Future<void> Function() onConfirm;
   final String confirmText;
 
   const PopupWidget({
@@ -73,8 +73,8 @@ class _PopupWidgetState extends ConsumerState<PopupWidget> {
             ),
           ),
           TextButton(
-            onPressed: () => {
-              widget.onConfirm.call(),
+            onPressed: () async => {
+              await widget.onConfirm.call(),
               Navigator.of(context).pop(true),
             },
             child: Text(

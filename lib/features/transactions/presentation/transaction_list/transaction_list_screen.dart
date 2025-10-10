@@ -62,10 +62,15 @@ class _TransactionListScreenState extends ConsumerState<TransactionListScreen> {
   }
 
   Future<void> _handleOnDelete(Transaction transaction) async {
-    final shouldDelete = await _showDeleteConfirmationDialog(transaction);
-    if (!shouldDelete) return;
-
-    _deleteTransaction(transaction);
+    await showDialog(
+        context: context,
+        builder: (dialogContext) => DeleteTransactionDialog(
+            transaction: transaction,
+            onConfirm: () async {
+              await _deleteTransaction(transaction);
+            }
+        )
+    );
   }
 
   Future<void> _deleteTransaction(Transaction transaction) async {
@@ -75,12 +80,5 @@ class _TransactionListScreenState extends ConsumerState<TransactionListScreen> {
     } catch (e) {
       ToastService.showErrorToast("Failed to delete transaction.");
     }
-  }
-
-  Future<bool> _showDeleteConfirmationDialog(Transaction transaction) async {
-    return await showDialog<bool>(
-        context: context,
-        builder: (dialogContext) => DeleteTransactionDialog(transaction: transaction)
-    ) ?? false;
   }
 }

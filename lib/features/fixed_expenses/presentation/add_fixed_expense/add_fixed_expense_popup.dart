@@ -3,6 +3,7 @@ import 'package:expense_tracker/app/config/theme/text_theme.dart';
 import 'package:expense_tracker/app/shared/util/static_widgets.dart';
 import 'package:expense_tracker/app/shared/util/toast_service.dart';
 import 'package:expense_tracker/domain/fixed_expense.dart';
+import 'package:expense_tracker/features/common/widget/popup_widget.dart';
 import 'package:expense_tracker/features/fixed_expenses/presentation/add_fixed_expense/add_fixed_expense_popup_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -25,84 +26,40 @@ class _AddFixedExpensePopupState extends ConsumerState<AddFixedExpensePopup> {
     final controller = ref.read(addFixedExpensePopupControllerProvider.notifier);
     final expense = ref.watch(addFixedExpensePopupControllerProvider);
 
-    return AlertDialog(
-      icon: const Icon(Icons.new_releases_outlined),
-      title: _buildTitle(),
-      content: _buildDialogContent(controller, expense),
-      actions: _buildActions(controller),
+    return PopupWidget(
+        popupIcon: const Icon(Icons.new_releases_outlined),
+        bodyContent: _buildDialogContent(controller, expense),
+        onConfirm: () => _handleConfirm(controller),
+        confirmText: "Opret",
+        headerTitle: "Ny fast udgift",
     );
   }
 
-  Widget _buildTitle() {
+  Future<void> _handleConfirm(AddFixedExpensePopupController controller) async {
+    final success = await controller.createFixedExpense();
+
+    if (success) {
+      ToastService.showSuccessToast('Fast udgift oprettet!');
+    } else {
+      ToastService.showErrorToast('Fejl ved oprettelse af fast udgift.');
+    }
+  }
+
+  Widget _buildDialogContent(AddFixedExpensePopupController controller, FixedExpense expense) {
     return Column(
-      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        const Text('Ny fast udgift'),
-        const SizedBox(height: 8),
-        Divider(thickness: 1, color: AppColors.onPrimary),
+        _buildTitleRow(controller, expense),
+        const SizedBox(height: 16),
+        _buildAmountRow(controller, expense),
+        const SizedBox(height: 24),
+        _buildTypeRow(controller, expense),
+        const SizedBox(height: 24),
+        _buildDateRow(controller, expense),
       ],
     );
   }
 
-  Widget _buildDialogContent(AddFixedExpensePopupController controller, FixedExpense expense) {
-    return SingleChildScrollView(
-      child: SizedBox(
-        width: MediaQuery.of(context).size.width * 0.9,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            _buildTitleRow(controller, expense),
-            const SizedBox(height: 16),
-            _buildAmountRow(controller, expense),
-            const SizedBox(height: 24),
-            _buildTypeRow(controller, expense),
-            const SizedBox(height: 24),
-            _buildDateRow(controller, expense),
-          ],
-        ),
-      ),
-    );
-  }
-
-  List<Widget> _buildActions(AddFixedExpensePopupController controller) {
-    return [
-      Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          TextButton(
-            onPressed: isLoading ? null : () => Navigator.of(context).pop(false),
-            child: Text(
-              'Afbryd',
-              style: TextStyle(color: AppColors.onPrimary.withAlpha(200)),
-            ),
-          ),
-          TextButton(
-            onPressed: isLoading
-                ? null
-                : () async {
-              setState(() => isLoading = true);
-              final success = await controller.createFixedExpense();
-              setState(() => isLoading = false);
-
-              if (success) {
-                ToastService.showSuccessToast('Fast udgift oprettet!');
-                Navigator.of(context).pop(true);
-              } else {
-                ToastService.showErrorToast('Fejl ved oprettelse af fast udgift.');
-              }
-            },
-            child: isLoading
-                ? const SizedBox(
-              width: 20,
-              height: 20,
-              child: CircularProgressIndicator(strokeWidth: 2),
-            )
-                : Text('Opret', style: TextStyle(color: AppColors.primaryText)),
-          ),
-        ],
-      ),
-    ];
-  }
 
   Widget _buildTitleRow(AddFixedExpensePopupController controller, FixedExpense expense) {
     return Column(

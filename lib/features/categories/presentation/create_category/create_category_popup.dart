@@ -3,6 +3,7 @@ import 'package:expense_tracker/app/shared/util/static_widgets.dart';
 import 'package:expense_tracker/app/shared/util/toast_service.dart';
 import 'package:expense_tracker/domain/category.dart';
 import 'package:expense_tracker/features/categories/presentation/create_category/create_category_popup_controller.dart';
+import 'package:expense_tracker/features/common/widget/popup_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -21,77 +22,28 @@ class _CreateCategoryPopupState extends ConsumerState<CreateCategoryPopup> {
     final controller = ref.read(createCategoryPopupControllerProvider.notifier);
     final category = ref.watch(createCategoryPopupControllerProvider);
 
-    return AlertDialog(
-      icon: const Icon(Icons.new_releases_outlined),
-      title: _buildTitle(),
-      content: _buildDialogContent(controller, category),
-      actions: _buildActions(controller),
-    );
-  }
-
-  Widget _buildTitle() {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        const Text('Ny kategori'),
-        const SizedBox(height: 8),
-        Divider(thickness: 1, color: AppColors.onPrimary)
-      ]
-    );
-  }
-
-  Widget _buildDialogContent(CreateCategoryPopupController controller, Category category) {
-    return SingleChildScrollView(
-      child: SizedBox(
-        width: MediaQuery.of(context).size.width * 0.9,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            _buildTitleRow(controller, category),
-          ],
+    return PopupWidget(
+        popupIcon: const Icon(Icons.new_releases_outlined),
+        bodyContent: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+            _buildTitleRow(controller, category)
+            ]
         ),
-      ),
+        onConfirm: () => _handleConfirm(controller),
+        confirmText: "Opret",
+        headerTitle: "Ny kategori",
     );
   }
 
-  List<Widget> _buildActions(CreateCategoryPopupController controller) {
-    return [
-      Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          TextButton(
-              onPressed: isLoading ? null : () => Navigator.of(context).pop(false),
-              child: Text(
-                'Afbryd',
-                style: TextStyle(color: AppColors.onPrimary.withAlpha(200))
-              )
-          ),
-          TextButton(
-              onPressed: isLoading
-                  ? null
-                  : () async {
-                setState(() => isLoading = true);
-                final success = await controller.createCategory();
-                setState(() => isLoading = false);
+  Future<void> _handleConfirm(CreateCategoryPopupController controller) async {
+    final success = await controller.createCategory();
 
-                if (success) {
-                  ToastService.showSuccessToast('Ny kategori oprettet!');
-                  Navigator.of(context).pop(true);
-                } else {
-                  ToastService.showErrorToast('Kunne ikke oprette ny kategori');
-                }
-              },
-              child: isLoading
-                ? const SizedBox(
-                width: 20,
-                height: 20,
-                child: CircularProgressIndicator(strokeWidth: 2),
-              )
-                  : Text('Opret', style: TextStyle(color: AppColors.primaryText))
-          )
-        ]
-      )
-    ];
+    if (success) {
+      ToastService.showSuccessToast('Ny kategori oprettet!');
+    } else {
+      ToastService.showErrorToast('Kunne ikke oprette ny kategori');
+    }
   }
 
   Widget _buildTitleRow(CreateCategoryPopupController controller, Category category) {
