@@ -17,7 +17,6 @@ class HistoricChartFilterController extends _$HistoricChartFilterController {
     state = _originalList;
   }
 
-  /// Filter list to last 6 months
   HistoricCategoryList _filterLast6Months(HistoricCategoryList list) {
     final now = DateTime.now();
     final sixMonthsAgo = DateTime(now.year, now.month - 5, 1);
@@ -46,14 +45,13 @@ class HistoricChartFilterController extends _$HistoricChartFilterController {
   bool _isSameMonth(DateTime a, DateTime b) =>
       a.year == b.year && a.month == b.month;
 
-  /// Toggle visibility but **don’t remove the category**
   void toggleCategory(String categoryName) {
     if (_hiddenCategories.contains(categoryName)) {
       _hiddenCategories.remove(categoryName);
     } else {
       _hiddenCategories.add(categoryName);
     }
-    // Simply trigger rebuild; state remains same list
+
     state = HistoricCategoryList()..list.addAll(_originalList!.getAll());
   }
 

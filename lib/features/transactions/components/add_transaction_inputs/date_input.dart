@@ -1,5 +1,6 @@
 import 'package:date_picker_plus/date_picker_plus.dart';
 import 'package:expense_tracker/app/config/theme/app_colors.dart';
+import 'package:expense_tracker/app/config/theme/text_theme.dart';
 import 'package:expense_tracker/app/shared/util/static_widgets.dart';
 import 'package:expense_tracker/features/transactions/providers/add_transaction_providers.dart';
 import 'package:flutter/material.dart';
@@ -42,6 +43,25 @@ class _DateInputState extends ConsumerState<DateInput> {
             ),
               onPressed: () async {
                 final date = await showDatePickerDialog(
+                  daysOfTheWeekTextStyle: TTextTheme.mainTheme.labelSmall,
+                  enabledCellsTextStyle: TTextTheme.mainTheme.labelMedium,
+                    currentDateDecoration: BoxDecoration(
+                      border: Border.all(color: AppColors.onPrimary, width: 2),
+                      borderRadius: BorderRadius.circular(45),
+                      color: Colors.transparent,
+                    ),
+                    centerLeadingDate: true,
+                    leadingDateTextStyle: TTextTheme.mainTheme.labelMedium,
+                    slidersColor: AppColors.onPrimary,
+                    selectedCellDecoration: BoxDecoration(
+                        border: Border.all(color: AppColors.onPrimary, width: 2),
+                        borderRadius: BorderRadius.circular(45),
+                        color: AppColors.onPrimary
+                    ),
+                    currentDateTextStyle: TTextTheme.mainTheme.labelMedium!.copyWith(
+                      color: AppColors.onPrimary,
+                      fontWeight: FontWeight.w600,
+                    ),
                   initialDate: selectedDate,
                   context: context,
                   maxDate: DateTime(2026),
