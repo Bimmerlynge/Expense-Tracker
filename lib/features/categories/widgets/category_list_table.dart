@@ -51,9 +51,11 @@ class CategoryListTable extends StatelessWidget {
 
   List<Widget> _buildList() {
     return categories.map((category) {
-      return GestureDetector(
-        onLongPress: ()  {
-          onDeleteCategory(category);
+      return Dismissible(
+        key: ValueKey(category.id),
+        confirmDismiss: (_) async {
+          await onDeleteCategory(category);
+          return false;
         },
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
