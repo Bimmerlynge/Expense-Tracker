@@ -22,6 +22,10 @@ class PersonInput extends ConsumerWidget {
           return const Text('No persons available');
         }
 
+        if (persons.length < 2) {
+          return SizedBox(height: 0,);
+        }
+
         final twoPersons = persons.take(2).toList();
 
         return Row(
