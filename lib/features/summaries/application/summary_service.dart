@@ -27,11 +27,8 @@ class SummaryService {
     return transactionService.getTransactionsInRange(start, end);
   }
 
-  Future<List<Transaction>> getTransactionsInRange() async {
-    final s = DateTime(2025, 4, 1);
-    final e = DateTime(2025, 11, 0);
-
-    return await transactionService.getTransactionInRange(s, e);
+  Future<List<Transaction>> getTransactionsInRange(DateTime start, DateTime end) async {
+    return await transactionService.getTransactionInRange(start, end);
   }
 
   Future<void> updateHistoricLegendColor(Category category) async {
