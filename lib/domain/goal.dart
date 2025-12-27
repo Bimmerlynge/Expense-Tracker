@@ -29,9 +29,9 @@ class Goal {
         title: data['title'],
         creator: Person(id: data['creator']['id'], name: data['creator']['name']),
         isShared: data['isShared'],
-        goalAmount: data['goalAmount'],
-        currentAmount: data['currentAmount'],
-        uri: data['imageUrl']
+        goalAmount: (data['goalAmount'] as num).toDouble(),
+        currentAmount: (data['currentAmount'] as num).toDouble(),
+        uri: data['imageUri']
     );
   }
 

@@ -36,9 +36,15 @@ class FirebaseGoalRepository implements GoalRepository {
   }
 
   @override
-  Future<bool> updateGoal(Goal goal) {
-    // TODO: implement updateGoal
-    throw UnimplementedError();
+  Future<bool> updateGoal(Goal goal) async {
+    try {
+      await _getCollection()
+          .doc(goal.id)
+          .update(goal.toFirestore());
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
 
   CollectionReference<Map<String, dynamic>> _getCollection() {

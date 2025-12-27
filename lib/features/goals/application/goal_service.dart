@@ -20,4 +20,8 @@ class GoalService {
   Stream<List<Goal>> getGoalsStream() {
     return goalRepository.getGoalsStream();
   }
+
+  Future<bool> updateGoal(Goal goal) async {
+    return await goalRepository.updateGoal(goal);
+  }
 }

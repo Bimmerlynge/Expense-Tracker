@@ -2,6 +2,7 @@ import 'package:expense_tracker/app/config/theme/app_colors.dart';
 import 'package:expense_tracker/domain/goal.dart';
 import 'package:expense_tracker/features/common/widget/async_value_widget.dart';
 import 'package:expense_tracker/features/goals/components/goal_list_item.dart';
+import 'package:expense_tracker/features/goals/presentation/goal_detail_popup/goal_detail_popup.dart';
 import 'package:expense_tracker/features/goals/presentation/goals_screen/goals_screen_controller.dart';
 import 'package:expense_tracker/features/goals/providers/goal_providers.dart';
 import 'package:flutter/material.dart';
@@ -107,8 +108,22 @@ class _GoalsScreenState extends ConsumerState<GoalsScreen> {
         padding: const EdgeInsets.all(16),
         itemCount: goals.length,
         itemBuilder: (context, index) {
-          return GoalListItem(goal: goals[index]);
+          final goal = goals[index];
+
+          return GestureDetector(
+              onTap: () => _showGoalPopup(goal) ,
+              child: GoalListItem(goal: goal)
+          );
         }
+    );
+  }
+
+  void _showGoalPopup(Goal goal) async {
+    await showDialog(
+      context: context,
+      builder: (context) {
+        return GoalDetailPopup(goal: goal);
+      },
     );
   }
 }

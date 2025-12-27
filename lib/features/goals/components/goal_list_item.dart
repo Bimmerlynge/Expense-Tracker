@@ -40,6 +40,12 @@ class GoalListItem extends StatelessWidget {
           ? Image.network(
               goal.uri!,
               fit: BoxFit.cover,
+              errorBuilder: (context, error, stackTrace) {
+                return Image.asset(
+                  'lib/app/assets/images/istockphoto.jpg',
+                  fit: BoxFit.cover,
+                );
+              },
             )
           : Image.asset('lib/app/assets/images/istockphoto.jpg', fit: BoxFit.cover)
       ),

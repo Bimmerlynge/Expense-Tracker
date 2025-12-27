@@ -3,7 +3,6 @@ import 'package:expense_tracker/app/shared/util/static_widgets.dart';
 import 'package:expense_tracker/app/shared/util/toast_service.dart';
 import 'package:expense_tracker/domain/goal.dart';
 import 'package:expense_tracker/features/common/widget/popup_widget.dart';
-import 'package:expense_tracker/features/goals/application/goal_service.dart';
 import 'package:expense_tracker/features/goals/presentation/create_saving_goal/create_saving_goal_popup_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -52,7 +51,6 @@ class _CreateSavingGoalPopupState extends ConsumerState<CreateSavingGoalPopup> {
 
     if (success) {
       ToastService.showSuccessToast('Nyt opsparingsmål oprettet!');
-      ref.read(goalServiceProvider).getGoalsStream();
     } else {
       ToastService.showErrorToast('Kunne ikke oprette nyt opsparingsmål');
     }
