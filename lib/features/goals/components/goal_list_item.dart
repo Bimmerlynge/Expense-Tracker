@@ -5,28 +5,47 @@ import 'package:flutter/material.dart';
 
 class GoalListItem extends StatelessWidget {
   final Goal goal;
+  final Future<void> Function(Goal) onDelete;
 
   const GoalListItem({
     super.key,
-    required this.goal
+    required this.goal,
+    required this.onDelete
   });
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      margin: EdgeInsets.symmetric(vertical: 8),
-      color: AppColors.secondary,
-      elevation: 2,
-      child: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: Row(
-          children: [
-            _buildImage(),
-            const SizedBox(width: 12),
-            _buildInfo()
-          ],
+    return Stack(
+      clipBehavior: Clip.none,
+      alignment: Alignment.topRight,
+      children: [
+        Card(
+          margin: EdgeInsets.symmetric(vertical: 8),
+          color: AppColors.secondary,
+          elevation: 2,
+          child: Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Row(
+              children: [
+                _buildImage(),
+                const SizedBox(width: 12),
+                _buildInfo()
+              ],
+            ),
+          ),
         ),
-      ),
+        Positioned(
+          right: -23,
+          top: -13,
+            child: IconButton(
+              onPressed: () async {
+                await onDelete(goal);
+              },
+              color: Colors.red,
+              icon: Icon(Icons.delete),
+            )
+        )
+      ]
     );
   }
 

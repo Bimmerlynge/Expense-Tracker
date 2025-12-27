@@ -54,7 +54,7 @@ class _PopupWidgetState extends ConsumerState<PopupWidget> {
   Widget _buildContent() {
     return SingleChildScrollView(
       child: SizedBox(
-        width: MediaQuery.sizeOf(context).width * widget.popupWidthScale,
+        width: MediaQuery.sizeOf(context).width,
         child: widget.bodyContent,
       ),
     );
