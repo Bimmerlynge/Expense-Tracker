@@ -35,7 +35,7 @@ class PageNavigationBar extends StatelessWidget {
               ),
               _addTransaction(context),
               _navItem(icon: Icons.house, label: 'Husstand', index: 2),
-              _navItem(icon: Icons.settings, label: 'Indstillinger', index: 3),
+              _navItem(icon: Icons.savings, label: 'Opsparing', index: 3),
             ],
           ),
         ),

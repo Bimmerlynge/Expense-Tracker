@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class PopupWidget<T> extends ConsumerStatefulWidget {
   final double popupWidthScale;
-  final Icon popupIcon;
+  final Icon? popupIcon;
   final String? headerTitle;
   final Widget bodyContent;
   final Future<void> Function() onConfirm;
@@ -12,8 +12,8 @@ class PopupWidget<T> extends ConsumerStatefulWidget {
 
   const PopupWidget({
     super.key,
-    required this.popupIcon,
-    this.popupWidthScale = 0.7,
+    this.popupIcon,
+    this.popupWidthScale = 0.9,
     this.headerTitle,
     required this.bodyContent,
     required this.onConfirm,
@@ -45,7 +45,7 @@ class _PopupWidgetState extends ConsumerState<PopupWidget> {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(widget.headerTitle!),
-          const SizedBox(height: 8),
+          const SizedBox(height: 4),
           Divider(thickness: 1, color: AppColors.onPrimary),
         ]
     );

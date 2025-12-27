@@ -45,3 +45,4 @@ flutter:
     - lib/app/config/environment/
     - lib/app/repository/mock/responses/
     - lib/app/shared/util/icon_map.dart
+    - lib/app/assets/images/istockphoto.jpg
