@@ -30,9 +30,13 @@ class FirebaseGoalRepository implements GoalRepository {
   }
 
   @override
-  Future<bool> removeGoal(String goalId) {
-    // TODO: implement removeGoal
-    throw UnimplementedError();
+  Future<bool> removeGoal(String goalId) async {
+    try {
+      await _getCollection().doc(goalId).delete();
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
 
   @override

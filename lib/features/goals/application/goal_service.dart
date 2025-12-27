@@ -24,4 +24,8 @@ class GoalService {
   Future<bool> updateGoal(Goal goal) async {
     return await goalRepository.updateGoal(goal);
   }
+
+  Future<bool> deleteGoal(String goalId) async {
+    return await goalRepository.removeGoal(goalId);
+  }
 }

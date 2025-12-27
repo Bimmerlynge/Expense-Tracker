@@ -57,4 +57,8 @@ class GoalsScreenController extends _$GoalsScreenController {
   bool _isAllowedGoal(Goal goal, String currentUserId) {
     return goal.creator.id == currentUserId || goal.isShared;
   }
+
+  Future<bool> deleteGoal(String goalId) async {
+    return await ref.read(goalServiceProvider).deleteGoal(goalId);
+  }
 }

@@ -1,5 +1,6 @@
 import 'package:expense_tracker/app/config/theme/app_colors.dart';
 import 'package:expense_tracker/app/shared/components/image_widget.dart';
+import 'package:expense_tracker/app/shared/components/toggle.dart';
 import 'package:expense_tracker/app/shared/util/toast_service.dart';
 import 'package:expense_tracker/domain/goal.dart';
 import 'package:expense_tracker/extensions/goal_extensions.dart';
@@ -21,6 +22,7 @@ class GoalDetailPopup extends ConsumerStatefulWidget {
 class _EditSavingGoalPopupState extends ConsumerState<GoalDetailPopup> {
   late final TextEditingController _amountController;
   late String _currentUri;
+  late bool _isSharedGoal;
   double _currentAddAmount = 0;
   String _inputUri = "";
 
@@ -28,6 +30,7 @@ class _EditSavingGoalPopupState extends ConsumerState<GoalDetailPopup> {
   void initState() {
     super.initState();
     _currentUri = widget.goal.uri ?? '';
+    _isSharedGoal = widget.goal.isShared;
     _amountController =
         TextEditingController(text: _currentAddAmount.toString());
   }
@@ -46,70 +49,69 @@ class _EditSavingGoalPopupState extends ConsumerState<GoalDetailPopup> {
     return Column(
       children: [
         _image(),
+        Divider(thickness: 1, color: AppColors.primaryText, height: 1),
         _amountSection(),
-        _updateAmountSection()
+        Divider(thickness: 1, color: AppColors.primaryText, height: 1),
+        _updateAmountSection(),
+        Divider(thickness: 1, color: AppColors.primaryText, height: 1),
+        _setSharedRow(),
+        Divider(thickness: 1, color: AppColors.primaryText, height: 1),
       ],
     );
   }
 
   Widget _image() {
-    return Container(
-      color: AppColors.primary,
-      child: Column(
-        children: [
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 12),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                ImageWidget(
-                  uri: _currentUri,
-                  height: 80,
-                  width: 80,
-                ),
-                SizedBox(width: 12),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('Billed url'),
-                      SizedBox(height: 8),
-                      _urlInput(),
-                      SizedBox(height: 10,),
-                      SizedBox(
-                        width: double.infinity,
-                        child: TextButton(
-                          onPressed: _previewImage,
-                          style: TextButton.styleFrom(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(3)
-                            ),
-                            backgroundColor: AppColors.onPrimary,
-                            padding: EdgeInsets.symmetric(vertical: 0),
-                            minimumSize: Size(0, 0),
-                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                            alignment: Alignment.center,
+    return Column(
+      children: [
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 12),
+          child: Row(
+            children: [
+              ImageWidget(
+                uri: _currentUri,
+                height: 80,
+                width: 80,
+              ),
+              SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('Billed url', style: Theme.of(context).primaryTextTheme.labelSmall,),
+                    SizedBox(height: 8),
+                    _urlInput(),
+                    SizedBox(height: 10),
+                    SizedBox(
+                      width: double.infinity,
+                      child: TextButton(
+                        onPressed: _previewImage,
+                        style: TextButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(3)
                           ),
-                          child: Text(
-                            'Forhåndsvis billed',
-                            style: TextStyle(
-                              color: AppColors.primary,
-                              fontSize: 14,
-                            ),
+                          backgroundColor: AppColors.onPrimary,
+                          padding: EdgeInsets.symmetric(vertical: 0),
+                          minimumSize: Size(0, 0),
+                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                          alignment: Alignment.center,
+                        ),
+                        child: Text(
+                          'Upload billed',
+                          style: TextStyle(
+                            color: AppColors.primary,
+                            fontSize: 14,
                           ),
                         ),
-                      )
-                    ],
-                  ),
+                      ),
+                    )
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-          SizedBox(height: 8,),
-          Divider(thickness: 1, color: AppColors.primaryText, height: 1),
-        ],
-      ),
+        ),
+        SizedBox(height: 24),
+      ],
     );
   }
 
@@ -144,74 +146,60 @@ class _EditSavingGoalPopupState extends ConsumerState<GoalDetailPopup> {
   }
 
   Widget _amountSection() {
-    return Container(
-      color: AppColors.primary,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12.0),
       child: Column(
+        spacing: 12,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           _savedRow(),
           _progressRow(),
           _summaryRow(),
-
-
-          Divider(thickness: 1, color: AppColors.primaryText, height: 1),
         ],
       ),
     );
   }
 
   Widget _savedRow() {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text('${widget.goal.currentAmount.toStringAsFixed(0)} opsparet'),
-          Text('${widget.goal.savedPercentage.toStringAsFixed(0)}% opsparet')
-        ],
-      ),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text('${widget.goal.currentAmount.toStringAsFixed(0)} opsparet'),
+        Text('${widget.goal.savedPercentage.toStringAsFixed(0)}% opsparet')
+      ],
     );
   }
 
   Widget _progressRow() {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(8),
-        child: LinearProgressIndicator(
-          value: widget.goal.savedPercentage / 100,
-          minHeight: 8,
-          backgroundColor: Colors.grey.shade300,
-          color: Colors.green.shade400,
-        ),
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(8),
+      child: LinearProgressIndicator(
+        value: widget.goal.savedPercentage / 100,
+        minHeight: 8,
+        backgroundColor: Colors.grey.shade300,
+        color: Colors.green.shade400,
       ),
     );
   }
   Widget _summaryRow() {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text('${widget.goal.remaining.toStringAsFixed(0)} tilbage'),
-          Text('${widget.goal.goalAmount} i alt')
-        ],
-      ),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text('${widget.goal.remaining.toStringAsFixed(0)} tilbage'),
+        Text('${widget.goal.goalAmount.toStringAsFixed(0)} i alt')
+      ],
     );
   }
 
-
   Widget _updateAmountSection() {
-    return Container(
-      color: AppColors.primary,
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 12.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(height: 8),
           _addAmountTitle(),
-          SizedBox(height: 8),
+          SizedBox(height: 12),
           _addAmountInput(),
-          SizedBox(height: 8),
-          Divider(thickness: 1, color: AppColors.primaryText, height: 1),
         ]
       ),
     );
@@ -221,8 +209,32 @@ class _EditSavingGoalPopupState extends ConsumerState<GoalDetailPopup> {
     return Padding(
         padding: EdgeInsets.symmetric(horizontal: 16),
         child: Text(
-          'Tilføj beløb',
+          'Tilføj beløb til opsparing',
           style: TextStyle(color: AppColors.primaryText, fontSize: 14),
+        ),
+    );
+  }
+
+  Widget _setSharedRow() {
+    return Padding(
+        padding: EdgeInsets.symmetric(horizontal: 16),
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text('Del opsaringsmål'),
+                Toggle(
+                  initState: _isSharedGoal,
+                  onToggled: (val) {
+                    setState(() {
+                      _isSharedGoal = val;
+                    });
+                  },
+                )
+              ],
+            ),
+          ],
         ),
     );
   }
@@ -335,7 +347,8 @@ class _EditSavingGoalPopupState extends ConsumerState<GoalDetailPopup> {
   Future<void> _handleConfirm() async {
     final updatedGoal = widget.goal.copyWith(
       uri: _currentUri,
-      currentAmount: widget.goal.currentAmount += _currentAddAmount
+      currentAmount: widget.goal.currentAmount += _currentAddAmount,
+      isShared: _isSharedGoal
     );
 
     final success = await ref.read(goalDetailPopupControllerProvider.notifier).updateGoal(updatedGoal);

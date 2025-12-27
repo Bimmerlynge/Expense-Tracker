@@ -1,6 +1,8 @@
 import 'package:expense_tracker/app/config/theme/app_colors.dart';
+import 'package:expense_tracker/app/shared/util/toast_service.dart';
 import 'package:expense_tracker/domain/goal.dart';
 import 'package:expense_tracker/features/common/widget/async_value_widget.dart';
+import 'package:expense_tracker/features/goals/components/delete_goal_dialog.dart';
 import 'package:expense_tracker/features/goals/components/goal_list_item.dart';
 import 'package:expense_tracker/features/goals/presentation/goal_detail_popup/goal_detail_popup.dart';
 import 'package:expense_tracker/features/goals/presentation/goals_screen/goals_screen_controller.dart';
@@ -112,10 +114,35 @@ class _GoalsScreenState extends ConsumerState<GoalsScreen> {
 
           return GestureDetector(
               onTap: () => _showGoalPopup(goal) ,
-              child: GoalListItem(goal: goal)
+              child: GoalListItem(
+                  goal: goal,
+                  onDelete: _showDeleteGoalPopup,
+              )
           );
         }
     );
+  }
+
+  Future<void> _showDeleteGoalPopup(Goal goal) async {
+    await showDialog(
+      context: context,
+      builder: (context) {
+        return DeleteGoalDialog(
+          goal: goal,
+          onConfirm: () => _handleOnDelete(goal.id!),
+        );
+      },
+    );
+  }
+
+  Future<void> _handleOnDelete(String goalId) async {
+    final success = await ref.read(goalsScreenControllerProvider.notifier).deleteGoal(goalId);
+
+    if (success) {
+      ToastService.showSuccessToast("Opsarings mål blev slettet!");
+    } else {
+      ToastService.showErrorToast("Kunne ikke slette opsparingsmål");
+    }
   }
 
   void _showGoalPopup(Goal goal) async {
