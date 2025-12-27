@@ -14,7 +14,7 @@ class GoalListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      margin: EdgeInsets.symmetric(vertical: 8),
       color: AppColors.secondary,
       elevation: 2,
       child: Padding(

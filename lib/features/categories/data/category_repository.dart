@@ -2,7 +2,7 @@ import 'package:expense_tracker/domain/category.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final categoryRepositoryProvider = Provider<CategoryRepository>((ref) {
-  throw UnimplementedError("CategoryRepository must be overriden");
+  throw UnimplementedError("CategoryRepository must be overridden");
 });
 
 abstract class CategoryRepository {

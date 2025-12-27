@@ -4,6 +4,8 @@ import 'package:expense_tracker/features/categories/data/category_repository.dar
 import 'package:expense_tracker/features/categories/data/firebase_category_repository.dart';
 import 'package:expense_tracker/features/fixed_expenses/data/firebase_fixed_expenses_repository.dart';
 import 'package:expense_tracker/features/fixed_expenses/data/fixed_expense_repository.dart';
+import 'package:expense_tracker/features/goals/data/firebase_goal_repository.dart';
+import 'package:expense_tracker/features/goals/data/goal_repository.dart';
 import 'package:expense_tracker/features/transactions/data/firebase_transaction_repository.dart';
 import 'package:expense_tracker/features/transactions/data/transaction_repository.dart';
 import 'package:expense_tracker/features/users/data/firebase_user_repository.dart';
@@ -32,6 +34,9 @@ List<Override> _repositoryOverrides() {
     ),
     categoryRepositoryProvider.overrideWith(
         (ref) => FirebaseCategoryRepository(ref: ref)
+    ),
+    goalRepositoryProvider.overrideWith(
+        (ref) => FirebaseGoalRepository(ref: ref)
     )
   ];
 }
