@@ -11,7 +11,8 @@ final selectedTypeProvider = StateProvider<TransactionType>(
 final selectedPersonProvider = StateProvider<Person>((ref) {
   return ref.read(currentUserProvider);
 });
-final selectedCategoryProvider = StateProvider
-    .autoDispose<Category?>((ref) => null);
+final selectedCategoryProvider = StateProvider.autoDispose<Category?>(
+  (ref) => null,
+);
 final selectedDescriptionProvider = StateProvider<String>((ref) => '');
 final selectedDateProvider = StateProvider<DateTime>((ref) => DateTime.now());

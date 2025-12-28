@@ -8,10 +8,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final fixedExpenseServiceProvider = Provider<FixedExpenseService>((ref) {
   return FixedExpenseService(
-      transactionService: ref.read(transactionServiceProvider),
-      localStorageService: ref.read(localStorageService),
-      fixedExpenseRepository: ref.read(fixedExpenseRepositoryProvider),
-      ref: ref
+    transactionService: ref.read(transactionServiceProvider),
+    localStorageService: ref.read(localStorageService),
+    fixedExpenseRepository: ref.read(fixedExpenseRepositoryProvider),
+    ref: ref,
   );
 });
 
@@ -25,7 +25,7 @@ class FixedExpenseService {
     required this.transactionService,
     required this.localStorageService,
     required this.fixedExpenseRepository,
-    required this.ref
+    required this.ref,
   });
 
   Stream<List<FixedExpense>> getAllFixedExpensesStream() {
@@ -72,8 +72,7 @@ class FixedExpenseService {
   }
 
   bool _paymentIsDue(FixedExpense expense) {
-    return _isCurrentMonth(expense) &&
-            _isAutoPayEnabled(expense);
+    return _isCurrentMonth(expense) && _isAutoPayEnabled(expense);
   }
 
   bool _isCurrentMonth(FixedExpense expense) {

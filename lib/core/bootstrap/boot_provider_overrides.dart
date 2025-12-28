@@ -1,4 +1,3 @@
-
 import 'package:expense_tracker/core/bootstrap/prefences/shared_preferences_provider.dart';
 import 'package:expense_tracker/features/categories/data/category_repository.dart';
 import 'package:expense_tracker/features/categories/data/firebase_category_repository.dart';
@@ -15,29 +14,26 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 Future<List<Override>> getOverrides() async {
-  return [
-    await _sharedPrefsOverride(),
-    ..._repositoryOverrides()
-  ];
+  return [await _sharedPrefsOverride(), ..._repositoryOverrides()];
 }
 
 List<Override> _repositoryOverrides() {
   return [
     transactionRepositoryProvider.overrideWith(
-        (ref) => FirebaseTransactionRepository(ref: ref)
+      (ref) => FirebaseTransactionRepository(ref: ref),
     ),
     fixedExpenseRepositoryProvider.overrideWith(
-        (ref) => FirebaseFixedExpensesRepository(ref: ref)
+      (ref) => FirebaseFixedExpensesRepository(ref: ref),
     ),
     userRepositoryProvider.overrideWith(
-        (ref) => FirebaseUserRepository(ref: ref)
+      (ref) => FirebaseUserRepository(ref: ref),
     ),
     categoryRepositoryProvider.overrideWith(
-        (ref) => FirebaseCategoryRepository(ref: ref)
+      (ref) => FirebaseCategoryRepository(ref: ref),
     ),
     goalRepositoryProvider.overrideWith(
-        (ref) => FirebaseGoalRepository(ref: ref)
-    )
+      (ref) => FirebaseGoalRepository(ref: ref),
+    ),
   ];
 }
 

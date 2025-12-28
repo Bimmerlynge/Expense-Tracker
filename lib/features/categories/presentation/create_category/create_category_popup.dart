@@ -11,7 +11,8 @@ class CreateCategoryPopup extends ConsumerStatefulWidget {
   const CreateCategoryPopup({super.key});
 
   @override
-  ConsumerState<CreateCategoryPopup> createState() => _CreateCategoryPopupState();
+  ConsumerState<CreateCategoryPopup> createState() =>
+      _CreateCategoryPopupState();
 }
 
 class _CreateCategoryPopupState extends ConsumerState<CreateCategoryPopup> {
@@ -23,16 +24,14 @@ class _CreateCategoryPopupState extends ConsumerState<CreateCategoryPopup> {
     final category = ref.watch(createCategoryPopupControllerProvider);
 
     return PopupWidget(
-        popupIcon: const Icon(Icons.new_releases_outlined),
-        bodyContent: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-            _buildTitleRow(controller, category)
-            ]
-        ),
-        onConfirm: () => _handleConfirm(controller),
-        confirmText: "Opret",
-        headerTitle: "Ny kategori",
+      popupIcon: const Icon(Icons.new_releases_outlined),
+      bodyContent: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [_buildTitleRow(controller, category)],
+      ),
+      onConfirm: () => _handleConfirm(controller),
+      confirmText: "Opret",
+      headerTitle: "Ny kategori",
     );
   }
 
@@ -46,7 +45,10 @@ class _CreateCategoryPopupState extends ConsumerState<CreateCategoryPopup> {
     }
   }
 
-  Widget _buildTitleRow(CreateCategoryPopupController controller, Category category) {
+  Widget _buildTitleRow(
+    CreateCategoryPopupController controller,
+    Category category,
+  ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

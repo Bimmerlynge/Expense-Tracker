@@ -31,7 +31,7 @@ class FixedExpense {
       title: data['title'],
       amount: (data['amount'] as num).toDouble(),
       paymentType: PaymentType.values.firstWhere(
-          (type) => type.toString() == 'PaymentType.${data['paymentType']}'
+        (type) => type.toString() == 'PaymentType.${data['paymentType']}',
       ),
       hasBeenPaid: data['hasBeenPaid'],
       autoPay: data['autoPay'],

@@ -22,10 +22,8 @@ class FirebaseGoalRepository implements GoalRepository {
   @override
   Stream<List<Goal>> getGoalsStream() {
     return _getCollection().snapshots().map(
-        (snapshots) =>
-            snapshots.docs.map(
-                (doc) => Goal.fromFirestore(doc)
-            ).toList()
+      (snapshots) =>
+          snapshots.docs.map((doc) => Goal.fromFirestore(doc)).toList(),
     );
   }
 
@@ -42,9 +40,7 @@ class FirebaseGoalRepository implements GoalRepository {
   @override
   Future<bool> updateGoal(Goal goal) async {
     try {
-      await _getCollection()
-          .doc(goal.id)
-          .update(goal.toFirestore());
+      await _getCollection().doc(goal.id).update(goal.toFirestore());
       return true;
     } catch (e) {
       return false;
@@ -53,7 +49,8 @@ class FirebaseGoalRepository implements GoalRepository {
 
   CollectionReference<Map<String, dynamic>> _getCollection() {
     final householdId = ref.read(currentUserProvider).householdId;
-    return ref.read(firestoreProvider)
+    return ref
+        .read(firestoreProvider)
         .collection('households')
         .doc(householdId)
         .collection('saving_goals');

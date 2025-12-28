@@ -4,8 +4,8 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'collapsed_fixed_expenses_controller.g.dart';
 
 @riverpod
-class CollapsedFixedExpensesController extends _$CollapsedFixedExpensesController {
-
+class CollapsedFixedExpensesController
+    extends _$CollapsedFixedExpensesController {
   @override
   List<String> build() {
     final service = ref.read(fixedExpenseServiceProvider);

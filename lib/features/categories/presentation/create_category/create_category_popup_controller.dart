@@ -6,7 +6,6 @@ part 'create_category_popup_controller.g.dart';
 
 @riverpod
 class CreateCategoryPopupController extends _$CreateCategoryPopupController {
-
   @override
   Category build() {
     return Category(name: '', isDefault: false);

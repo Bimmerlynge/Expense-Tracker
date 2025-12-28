@@ -9,7 +9,7 @@ class SettingSection extends StatelessWidget {
   const SettingSection({
     super.key,
     required this.title,
-    required this.children
+    required this.children,
   });
 
   @override
@@ -18,12 +18,12 @@ class SettingSection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-            title,
+          title,
           style: TTextTheme.mainTheme.labelMedium!.copyWith(
-            color: AppColors.onPrimary
+            color: AppColors.onPrimary,
           ),
         ),
-        ...children
+        ...children,
       ],
     );
   }

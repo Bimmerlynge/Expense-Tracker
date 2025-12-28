@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:expense_tracker/app/providers/app_providers.dart';
 import 'package:expense_tracker/core/bootstrap/app_lifecycle_service.dart';
 import 'package:expense_tracker/core/presentation/main_screen.dart';

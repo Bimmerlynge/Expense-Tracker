@@ -3,9 +3,7 @@ import 'package:expense_tracker/features/users/data/user_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final userServicerProvider = Provider((ref) {
-  return UserService(
-      userRepository: ref.watch(userRepositoryProvider)
-  );
+  return UserService(userRepository: ref.watch(userRepositoryProvider));
 });
 
 class UserService {

@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final localStorageService = Provider<LocalStorageService>((ref) {
   return LocalStorageService(
-      prefsRepository: ref.read(sharedPrefsRepositoryProvider)
+    prefsRepository: ref.read(sharedPrefsRepositoryProvider),
   );
 });
 

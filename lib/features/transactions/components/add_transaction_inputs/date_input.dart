@@ -32,49 +32,48 @@ class _DateInputState extends ConsumerState<DateInput> {
               style: TextStyle(color: AppColors.onPrimary),
               textAlign: TextAlign.center,
               readOnly: true,
-            )
+            ),
           ),
         ),
         SizedBox(width: 16),
         Expanded(
           child: OutlinedButton(
-            style: OutlinedButton.styleFrom(
-              padding: EdgeInsets.all(16.0),
-            ),
-              onPressed: () async {
-                final date = await showDatePickerDialog(
-                  daysOfTheWeekTextStyle: TTextTheme.mainTheme.labelSmall,
-                  enabledCellsTextStyle: TTextTheme.mainTheme.labelMedium,
-                    currentDateDecoration: BoxDecoration(
-                      border: Border.all(color: AppColors.onPrimary, width: 2),
-                      borderRadius: BorderRadius.circular(45),
-                      color: Colors.transparent,
-                    ),
-                    centerLeadingDate: true,
-                    leadingDateTextStyle: TTextTheme.mainTheme.labelMedium,
-                    slidersColor: AppColors.onPrimary,
-                    selectedCellDecoration: BoxDecoration(
-                        border: Border.all(color: AppColors.onPrimary, width: 2),
-                        borderRadius: BorderRadius.circular(45),
-                        color: AppColors.onPrimary
-                    ),
-                    currentDateTextStyle: TTextTheme.mainTheme.labelMedium!.copyWith(
+            style: OutlinedButton.styleFrom(padding: EdgeInsets.all(16.0)),
+            onPressed: () async {
+              final date = await showDatePickerDialog(
+                daysOfTheWeekTextStyle: TTextTheme.mainTheme.labelSmall,
+                enabledCellsTextStyle: TTextTheme.mainTheme.labelMedium,
+                currentDateDecoration: BoxDecoration(
+                  border: Border.all(color: AppColors.onPrimary, width: 2),
+                  borderRadius: BorderRadius.circular(45),
+                  color: Colors.transparent,
+                ),
+                centerLeadingDate: true,
+                leadingDateTextStyle: TTextTheme.mainTheme.labelMedium,
+                slidersColor: AppColors.onPrimary,
+                selectedCellDecoration: BoxDecoration(
+                  border: Border.all(color: AppColors.onPrimary, width: 2),
+                  borderRadius: BorderRadius.circular(45),
+                  color: AppColors.onPrimary,
+                ),
+                currentDateTextStyle: TTextTheme.mainTheme.labelMedium!
+                    .copyWith(
                       color: AppColors.onPrimary,
                       fontWeight: FontWeight.w600,
                     ),
-                  initialDate: selectedDate,
-                  context: context,
-                  maxDate: DateTime(2026),
-                  minDate: DateTime(2025)
-                );
+                initialDate: selectedDate,
+                context: context,
+                maxDate: DateTime(2026),
+                minDate: DateTime(2025),
+              );
 
-                if (date != null) {
-                   selectedDateNotifier.state = date;
-                }
-              },
-              child: Text('Ændre dato')
+              if (date != null) {
+                selectedDateNotifier.state = date;
+              }
+            },
+            child: Text('Ændre dato'),
           ),
-        )
+        ),
       ],
     );
   }

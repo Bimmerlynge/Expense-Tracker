@@ -7,7 +7,8 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'fixed_expense_list_screen_controller.g.dart';
 
 @riverpod
-class FixedExpenseListScreenController extends _$FixedExpenseListScreenController {
+class FixedExpenseListScreenController
+    extends _$FixedExpenseListScreenController {
   late final StreamSubscription<List<FixedExpense>> _subscription;
 
   @override
@@ -32,6 +33,8 @@ class FixedExpenseListScreenController extends _$FixedExpenseListScreenControlle
   }
 
   Future<void> payFixedExpense(FixedExpense expense) async {
-    await ref.read(fixedExpenseServiceProvider).registerAutoPayFixedExpense(expense);
+    await ref
+        .read(fixedExpenseServiceProvider)
+        .registerAutoPayFixedExpense(expense);
   }
 }

@@ -24,7 +24,5 @@ class HistoricChartColorController extends _$HistoricChartColorController {
     return await stream.first;
   }
 
-  Future<void> updateColor() async {
-
-  }
+  Future<void> updateColor() async {}
 }

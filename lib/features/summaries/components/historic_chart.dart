@@ -13,38 +13,36 @@ class HistoricChart extends StatelessWidget {
   const HistoricChart({
     super.key,
     required this.list,
-    required this.hiddenCategories
+    required this.hiddenCategories,
   });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(right: 32),
-      child: LineChart(
-          lineChartData
-      ),
+      child: LineChart(lineChartData),
     );
   }
 
   LineChartData get lineChartData => LineChartData(
-    maxY: ((list.getMaxAmountSpend(hiddenCategories) + 500) / 500).floor() * 500,
+    maxY:
+        ((list.getMaxAmountSpend(hiddenCategories) + 500) / 500).floor() * 500,
     minY: 0,
     minX: 1,
     // maxX: showFullYear ? 12 : 6,
-    lineBarsData: HistoricChartMapper.toLineChartDataList(list, hiddenCategories),
+    lineBarsData: HistoricChartMapper.toLineChartDataList(
+      list,
+      hiddenCategories,
+    ),
     gridData: const FlGridData(show: false),
-    titlesData: titlesData
+    titlesData: titlesData,
   );
 
   FlTitlesData get titlesData => FlTitlesData(
-    leftTitles: AxisTitles(
-      sideTitles: leftTitles
-    ),
-    bottomTitles: AxisTitles(
-      sideTitles: bottomTitles
-    ),
+    leftTitles: AxisTitles(sideTitles: leftTitles),
+    bottomTitles: AxisTitles(sideTitles: bottomTitles),
     topTitles: AxisTitles(),
-    rightTitles: AxisTitles()
+    rightTitles: AxisTitles(),
   );
 
   SideTitles get leftTitles => SideTitles(
@@ -83,7 +81,20 @@ class HistoricChart extends StatelessWidget {
     final date = HistoricChartMapper.xToDateMap[value];
     if (date == null) return const SizedBox.shrink();
 
-    final month = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'][date.month - 1];
+    final month = [
+      'JAN',
+      'FEB',
+      'MAR',
+      'APR',
+      'MAY',
+      'JUN',
+      'JUL',
+      'AUG',
+      'SEP',
+      'OCT',
+      'NOV',
+      'DEC',
+    ][date.month - 1];
 
     return SideTitleWidget(
       meta: meta,
@@ -91,7 +102,9 @@ class HistoricChart extends StatelessWidget {
       child: Transform.translate(
         offset: const Offset(0, 20),
         child: Transform.rotate(
-          angle: -math.pi / 2, // ~ -34° in radians (negative = tilt up to the left)
+          angle:
+              -math.pi /
+              2, // ~ -34° in radians (negative = tilt up to the left)
           alignment: Alignment.center,
           child: Text(
             '$month ${date.year.toString().substring(2)}',

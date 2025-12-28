@@ -49,7 +49,7 @@ final transactionRangeProvider = StateProvider<DateTimeRange>((ref) {
   final now = DateTime.now();
 
   return DateTimeRange(
-      start: DateTime(now.year, now.month, 1),
-      end: DateTime(now.year, now.month + 1, 1)
+    start: DateTime(now.year, now.month, 1),
+    end: DateTime(now.year, now.month + 1, 1),
   );
 });

@@ -5,11 +5,7 @@ class AsyncValueWidget<T> extends StatelessWidget {
   final AsyncValue<T> value;
   final Widget Function(T data) data;
 
-  const AsyncValueWidget({
-    super.key,
-    required this.value,
-    required this.data,
-  });
+  const AsyncValueWidget({super.key, required this.value, required this.data});
 
   @override
   Widget build(BuildContext context) {

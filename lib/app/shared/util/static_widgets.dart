@@ -8,7 +8,6 @@ Container inputContainer(Widget child) {
     decoration: BoxDecoration(
       border: BoxBorder.fromBorderSide(
         BorderSide(color: AppColors.primarySecondText),
-
       ),
       color: AppColors.primary,
       borderRadius: BorderRadius.circular(45),
@@ -20,26 +19,21 @@ Container inputContainer(Widget child) {
 Widget labelInputContainer({
   required String label,
   required TextEditingController controller,
-  bool obscureText = false
+  bool obscureText = false,
 }) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: Text(
-            label,
-            style: TTextTheme.mainTheme.labelMedium
-        ),
+        child: Text(label, style: TTextTheme.mainTheme.labelMedium),
       ),
       inputContainer(
-          TextFormField(
-            style: TextStyle(
-              color: AppColors.onPrimary,
-            ),
-            obscureText: obscureText,
-            controller: controller,
-          )
+        TextFormField(
+          style: TextStyle(color: AppColors.onPrimary),
+          obscureText: obscureText,
+          controller: controller,
+        ),
       ),
     ],
   );

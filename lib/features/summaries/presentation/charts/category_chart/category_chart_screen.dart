@@ -15,7 +15,8 @@ class CategoryChartScreen extends ConsumerStatefulWidget {
   const CategoryChartScreen({super.key});
 
   @override
-  ConsumerState<CategoryChartScreen> createState() => _CategoryChartScreenState();
+  ConsumerState<CategoryChartScreen> createState() =>
+      _CategoryChartScreenState();
 }
 
 class _CategoryChartScreenState extends ConsumerState<CategoryChartScreen> {
@@ -30,14 +31,16 @@ class _CategoryChartScreenState extends ConsumerState<CategoryChartScreen> {
             style: Theme.of(context).primaryTextTheme.labelMedium,
           ),
           _createGraphButtons(),
-          _buildChart()
+          _buildChart(),
         ],
       ),
     );
   }
 
   Widget _buildChart() {
-    final categorySpendingListAsync = ref.watch(categoryChartScreenControllerProvider);
+    final categorySpendingListAsync = ref.watch(
+      categoryChartScreenControllerProvider,
+    );
     final showOnlyMine = ref.watch(showOnlyMineProvider);
     final currentUser = ref.watch(currentUserProvider);
     final excludedCategories = ref.watch(excludedCategoriesControllerProvider);
@@ -45,20 +48,20 @@ class _CategoryChartScreenState extends ConsumerState<CategoryChartScreen> {
     final predicates = <bool Function(Transaction)>[];
 
     return AsyncValueWidget(
-        value: categorySpendingListAsync,
-        data: (list) {
-          if (excludedCategories.isNotEmpty) {
-            predicates.add(excludeCategoriesPredicate(excludedCategories));
-          }
-
-          if(showOnlyMine) {
-            predicates.add(onlyUserPredicate(currentUser.id));
-          }
-
-          return CategoryBarChart(
-            categorySpendingList: list.filter(predicates).getAll()
-          );
+      value: categorySpendingListAsync,
+      data: (list) {
+        if (excludedCategories.isNotEmpty) {
+          predicates.add(excludeCategoriesPredicate(excludedCategories));
         }
+
+        if (showOnlyMine) {
+          predicates.add(onlyUserPredicate(currentUser.id));
+        }
+
+        return CategoryBarChart(
+          categorySpendingList: list.filter(predicates).getAll(),
+        );
+      },
     );
   }
 
@@ -69,7 +72,7 @@ class _CategoryChartScreenState extends ConsumerState<CategoryChartScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           _showOnlyCurrentUserCheckbox(),
-          IconButton(onPressed: _openFilterDialog, icon: Icon(Icons.rule))
+          IconButton(onPressed: _openFilterDialog, icon: Icon(Icons.rule)),
         ],
       ),
     );
@@ -98,13 +101,12 @@ class _CategoryChartScreenState extends ConsumerState<CategoryChartScreen> {
     return Row(
       children: [
         Checkbox(
-            value: showOnlyMine,
-            onChanged: (changed) {
-              ref.read(showOnlyMineProvider.notifier).state = changed ?? false;
-            }
+          value: showOnlyMine,
+          onChanged: (changed) {
+            ref.read(showOnlyMineProvider.notifier).state = changed ?? false;
+          },
         ),
-        Text('Vis kun mit',
-        style: TTextTheme.mainTheme.labelSmall,)
+        Text('Vis kun mit', style: TTextTheme.mainTheme.labelSmall),
       ],
     );
   }

@@ -22,7 +22,7 @@ class Transaction {
     required this.amount,
     required this.category,
     required this.type,
-    this.description
+    this.description,
   });
 
   factory Transaction.fromJson(Map<String, dynamic> json, String id) {
@@ -49,7 +49,7 @@ class Transaction {
         (e) => e.toString() == 'TransactionType.${data['type']}',
       ),
       createdTime: (data['createdTime'] as DateTime),
-      transactionTime: (data['transactionTime'] as DateTime)
+      transactionTime: (data['transactionTime'] as DateTime),
     );
   }
 
@@ -66,7 +66,7 @@ class Transaction {
       ),
       createdTime: (data['createdTime'] as Timestamp).toDate(),
       transactionTime: (data['transactionTime'] as Timestamp).toDate(),
-      description: data['description']
+      description: data['description'],
     );
   }
 

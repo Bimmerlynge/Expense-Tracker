@@ -5,7 +5,6 @@ part 'excluded_categories_controller.g.dart';
 
 @riverpod
 class ExcludedCategoriesController extends _$ExcludedCategoriesController {
-
   @override
   List<String> build() {
     final service = ref.read(localStorageService);

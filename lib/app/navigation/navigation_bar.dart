@@ -17,8 +17,11 @@ class PageNavigationBar extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         border: Border(
-          top: BorderSide(color: AppColors.onPrimary.withAlpha(100), width: 1), // 👈 top border
-        )
+          top: BorderSide(
+            color: AppColors.onPrimary.withAlpha(100),
+            width: 1,
+          ), // 👈 top border
+        ),
       ),
       child: BottomAppBar(
         notchMargin: 5,
@@ -28,11 +31,7 @@ class PageNavigationBar extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               _navItem(icon: Icons.bar_chart, label: 'Overblik', index: 0),
-              _navItem(
-                icon: Icons.compare_arrows,
-                label: 'Økonomi',
-                index: 1,
-              ),
+              _navItem(icon: Icons.compare_arrows, label: 'Økonomi', index: 1),
               _addTransaction(context),
               _navItem(icon: Icons.house, label: 'Husstand', index: 2),
               _navItem(icon: Icons.savings, label: 'Opsparing', index: 3),
@@ -47,10 +46,10 @@ class PageNavigationBar extends StatelessWidget {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         shape: CircleBorder(),
-        padding: EdgeInsets.all(14)
+        padding: EdgeInsets.all(14),
       ),
-        onPressed: () => onAddTransaction(context),
-        child: Icon(Icons.add)
+      onPressed: () => onAddTransaction(context),
+      child: Icon(Icons.add),
     );
   }
 

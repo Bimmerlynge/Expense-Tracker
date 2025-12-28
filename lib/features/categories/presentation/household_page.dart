@@ -11,26 +11,19 @@ class HouseholdPage extends ConsumerStatefulWidget {
 
 class _HouseholdPageState extends ConsumerState<HouseholdPage>
     with SingleTickerProviderStateMixin {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: NestedScrollView(
-            headerSliverBuilder: (context, boxIsScrolled) =>
-                _headerSliverBuilder(context, boxIsScrolled),
-            body: _buildBody()
-        )
+      body: NestedScrollView(
+        headerSliverBuilder: (context, boxIsScrolled) =>
+            _headerSliverBuilder(context, boxIsScrolled),
+        body: _buildBody(),
+      ),
     );
   }
 
-  List<Widget> _headerSliverBuilder(BuildContext context,
-      bool boxIsScrolled) {
-    return <Widget>[
-      SliverAppBar(
-        pinned: true,
-        toolbarHeight: 16,
-      )
-    ];
+  List<Widget> _headerSliverBuilder(BuildContext context, bool boxIsScrolled) {
+    return <Widget>[SliverAppBar(pinned: true, toolbarHeight: 16)];
   }
 
   Widget _buildBody() {

@@ -18,22 +18,22 @@ class HistoricChartScreen extends ConsumerStatefulWidget {
   const HistoricChartScreen({super.key});
 
   @override
-  ConsumerState<HistoricChartScreen> createState() => _HistoricChartScreenState();
+  ConsumerState<HistoricChartScreen> createState() =>
+      _HistoricChartScreenState();
 }
 
 class _HistoricChartScreenState extends ConsumerState<HistoricChartScreen> {
-
   @override
   void initState() {
     super.initState();
 
     Future.microtask(() async {
-      final controller = ref.read(historicChartScreenControllerProvider.notifier);
+      final controller = ref.read(
+        historicChartScreenControllerProvider.notifier,
+      );
       final list = await controller.getList();
 
-      ref
-          .read(historicChartFilterControllerProvider.notifier)
-          .setData(list);
+      ref.read(historicChartFilterControllerProvider.notifier).setData(list);
     });
   }
 
@@ -41,10 +41,10 @@ class _HistoricChartScreenState extends ConsumerState<HistoricChartScreen> {
   Widget build(BuildContext context) {
     final controller = ref.read(historicChartScreenControllerProvider.notifier);
     final categoriesAsync = ref.watch(historicChartColorControllerProvider);
-    final filterController =
-    ref.read(historicChartFilterControllerProvider.notifier);
-    final filteredList =
-      ref.watch(historicChartFilterControllerProvider);
+    final filterController = ref.read(
+      historicChartFilterControllerProvider.notifier,
+    );
+    final filteredList = ref.watch(historicChartFilterControllerProvider);
 
     return Column(
       children: [
@@ -74,7 +74,10 @@ class _HistoricChartScreenState extends ConsumerState<HistoricChartScreen> {
                       _buildLegend(historicCategoryList),
                       const SizedBox(height: 32),
                       Expanded(
-                        child: HistoricChart(list: filteredList, hiddenCategories: filterController.hiddenCategories),
+                        child: HistoricChart(
+                          list: filteredList,
+                          hiddenCategories: filterController.hiddenCategories,
+                        ),
                       ),
                     ],
                   );
@@ -83,15 +86,18 @@ class _HistoricChartScreenState extends ConsumerState<HistoricChartScreen> {
             );
           },
         ),
-        const SizedBox(height: 50)
+        const SizedBox(height: 50),
       ],
     );
   }
 
-  void _updateLineChartColors(List<Category> categories, List<HistoricCategorySpending> spendingList) {
+  void _updateLineChartColors(
+    List<Category> categories,
+    List<HistoricCategorySpending> spendingList,
+  ) {
     for (final item in spendingList) {
       final matched = categories.firstWhere(
-            (c) => c.name == item.category.name,
+        (c) => c.name == item.category.name,
         orElse: () => item.category,
       );
       item.category = matched;
@@ -153,31 +159,30 @@ class _HistoricChartScreenState extends ConsumerState<HistoricChartScreen> {
       builder: (context) {
         Color pickerColor = category.color ?? Colors.grey;
         return PopupWidget(
-            popupIcon: Icon(Icons.info_outline_rounded),
-            headerTitle: "Vælg farve",
-            bodyContent: Theme(
-              data: Theme.of(context).copyWith(
-                  textTheme: TTextTheme.mainTheme
-              ),
-              child: ColorPicker(
-                labelTypes: [ColorLabelType.rgb],
-                pickerColor: pickerColor,
-                onColorChanged: (color) {
-                  category.color = color;
-                },
-                enableAlpha: false,
-                pickerAreaHeightPercent: 0.7,
-              ),
+          popupIcon: Icon(Icons.info_outline_rounded),
+          headerTitle: "Vælg farve",
+          bodyContent: Theme(
+            data: Theme.of(context).copyWith(textTheme: TTextTheme.mainTheme),
+            child: ColorPicker(
+              labelTypes: [ColorLabelType.rgb],
+              pickerColor: pickerColor,
+              onColorChanged: (color) {
+                category.color = color;
+              },
+              enableAlpha: false,
+              pickerAreaHeightPercent: 0.7,
             ),
-            onConfirm: () => _onColorChange(category),
-            confirmText: "Ændre farve",
+          ),
+          onConfirm: () => _onColorChange(category),
+          confirmText: "Ændre farve",
         );
       },
     );
   }
 
   Future<void> _onColorChange(Category updatedCategory) async {
-    await ref.read(historicChartScreenControllerProvider.notifier)
+    await ref
+        .read(historicChartScreenControllerProvider.notifier)
         .updateLegendColor(updatedCategory);
   }
 }

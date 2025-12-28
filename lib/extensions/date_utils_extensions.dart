@@ -1,4 +1,3 @@
-
 import 'package:intl/intl.dart';
 
 extension TransactionDateFormatting on DateTime {

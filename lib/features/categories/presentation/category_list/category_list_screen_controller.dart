@@ -19,8 +19,8 @@ class CategoryListScreenController extends _$CategoryListScreenController {
     final stream = service.getHouseholdCategoriesStream();
 
     _subscription = stream.listen(
-        (categories) => state = AsyncData(categories),
-      onError: (error, stack) => state = AsyncError(error, stack)
+      (categories) => state = AsyncData(categories),
+      onError: (error, stack) => state = AsyncError(error, stack),
     );
 
     ref.onDispose(() => _subscription.cancel());

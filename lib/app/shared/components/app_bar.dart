@@ -8,7 +8,7 @@ class TAppBar extends ConsumerStatefulWidget {
     required this.innerBoxScrolled,
     this.tabs = const [],
     this.title = '',
-    this.tabController
+    this.tabController,
   });
 
   final bool innerBoxScrolled;
@@ -21,7 +21,6 @@ class TAppBar extends ConsumerStatefulWidget {
 }
 
 class _TAppBarState extends ConsumerState<TAppBar> {
-
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(
@@ -33,10 +32,7 @@ class _TAppBarState extends ConsumerState<TAppBar> {
       surfaceTintColor: Colors.transparent,
       title: Text(widget.title),
       bottom: (widget.tabs.isNotEmpty && widget.tabController != null)
-          ? TabBar(
-              controller: widget.tabController,
-              tabs: widget.tabs,
-            )
+          ? TabBar(controller: widget.tabController, tabs: widget.tabs)
           : null,
     );
   }

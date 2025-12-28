@@ -6,16 +6,16 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'create_saving_goal_popup_controller.g.dart';
 
 @riverpod
-class CreateSavingGoalPopupController extends _$CreateSavingGoalPopupController {
-
+class CreateSavingGoalPopupController
+    extends _$CreateSavingGoalPopupController {
   @override
   Goal build() {
     return Goal(
-        title: "",
-        creator: ref.read(currentUserProvider),
-        isShared: false,
-        goalAmount: 0.0,
-        currentAmount: 0.0
+      title: "",
+      creator: ref.read(currentUserProvider),
+      isShared: false,
+      goalAmount: 0.0,
+      currentAmount: 0.0,
     );
   }
 

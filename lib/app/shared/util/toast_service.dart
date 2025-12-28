@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 enum ToastEnum { success, failure, info }
 
 final GlobalKey<ScaffoldMessengerState> rootScaffoldMessengerKey =
-GlobalKey<ScaffoldMessengerState>();
+    GlobalKey<ScaffoldMessengerState>();
 
 class ToastService {
   static void _buildSnackBar({
@@ -50,9 +50,6 @@ class ToastService {
   }
 
   static void showErrorToast(String message) {
-    _buildSnackBar(
-      message: message,
-      icon: const Icon(Icons.cancel_outlined),
-    );
+    _buildSnackBar(message: message, icon: const Icon(Icons.cancel_outlined));
   }
 }

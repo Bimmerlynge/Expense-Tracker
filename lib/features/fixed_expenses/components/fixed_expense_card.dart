@@ -19,7 +19,7 @@ class FixedExpenseCard extends ConsumerStatefulWidget {
     this.isExpanded = true,
     required this.onToggleCollapse,
     required this.onChanged,
-    required this.onManualPay
+    required this.onManualPay,
   });
 
   @override
@@ -45,10 +45,7 @@ class _FixedExpenseCardState extends ConsumerState<FixedExpenseCard> {
       color: AppColors.secondary,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _buildHeader(),
-          if (widget.isExpanded) _buildBody()
-        ],
+        children: [_buildHeader(), if (widget.isExpanded) _buildBody()],
       ),
     );
   }
@@ -79,7 +76,7 @@ class _FixedExpenseCardState extends ConsumerState<FixedExpenseCard> {
                 Text(
                   'Automatisk',
                   style: TTextTheme.mainTheme.labelMedium?.copyWith(
-                      color: AppColors.primary
+                    color: AppColors.primary,
                   ),
                 ),
                 SizedBox(width: 4),
@@ -123,15 +120,15 @@ class _FixedExpenseCardState extends ConsumerState<FixedExpenseCard> {
             style: TTextTheme.mainTheme.labelMedium,
             onTap: () {
               _amountController.selection = TextSelection(
-                  baseOffset: 0,
-                  extentOffset: _amountController.text.length
+                baseOffset: 0,
+                extentOffset: _amountController.text.length,
               );
             },
             onSubmitted: (value) {
               widget.expense.amount = double.parse(value);
               _updateItem();
               FocusScope.of(context).unfocus();
-            }
+            },
           ),
         ),
       ],
@@ -221,10 +218,7 @@ class _FixedExpenseCardState extends ConsumerState<FixedExpenseCard> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         _label('Manuel betaling'),
-        ElevatedButton(
-            onPressed: _registerManuelPay,
-            child: Text('Registrer'),
-        )
+        ElevatedButton(onPressed: _registerManuelPay, child: Text('Registrer')),
       ],
     );
   }

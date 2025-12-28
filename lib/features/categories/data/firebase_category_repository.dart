@@ -12,10 +12,8 @@ class FirebaseCategoryRepository implements CategoryRepository {
   @override
   Stream<List<Category>> getCategoriesStream() {
     return _getCollection().snapshots().map(
-          (snapshot) =>
-          snapshot.docs.map(
-                  (doc) => Category.fromFirestore(doc)
-          ).toList(),
+      (snapshot) =>
+          snapshot.docs.map((doc) => Category.fromFirestore(doc)).toList(),
     );
   }
 
@@ -69,14 +67,13 @@ class FirebaseCategoryRepository implements CategoryRepository {
     }
 
     final doc = snapshot.docs.first.reference;
-    await doc.update({
-      'color': category.color?.toARGB32(),
-    });
+    await doc.update({'color': category.color?.toARGB32()});
   }
 
   CollectionReference<Map<String, dynamic>> _getCollection() {
     final householdId = ref.read(currentUserProvider).householdId;
-    return ref.read(firestoreProvider)
+    return ref
+        .read(firestoreProvider)
         .collection('households')
         .doc(householdId)
         .collection('categories');

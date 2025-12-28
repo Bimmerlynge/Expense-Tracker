@@ -31,17 +31,18 @@ class _EditSavingGoalPopupState extends ConsumerState<GoalDetailPopup> {
     super.initState();
     _currentUri = widget.goal.uri ?? '';
     _isSharedGoal = widget.goal.isShared;
-    _amountController =
-        TextEditingController(text: _currentAddAmount.toString());
+    _amountController = TextEditingController(
+      text: _currentAddAmount.toString(),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return PopupWidget(
-        bodyContent: _buildBodyContent(),
-        onConfirm: () => _handleConfirm(),
-        confirmText: "Gem",
-        headerTitle: widget.goal.title,
+      bodyContent: _buildBodyContent(),
+      onConfirm: () => _handleConfirm(),
+      confirmText: "Gem",
+      headerTitle: widget.goal.title,
     );
   }
 
@@ -67,17 +68,16 @@ class _EditSavingGoalPopupState extends ConsumerState<GoalDetailPopup> {
           padding: EdgeInsets.symmetric(horizontal: 12),
           child: Row(
             children: [
-              ImageWidget(
-                uri: _currentUri,
-                height: 80,
-                width: 80,
-              ),
+              ImageWidget(uri: _currentUri, height: 80, width: 80),
               SizedBox(width: 12),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Billed url', style: Theme.of(context).primaryTextTheme.labelSmall,),
+                    Text(
+                      'Billed url',
+                      style: Theme.of(context).primaryTextTheme.labelSmall,
+                    ),
                     SizedBox(height: 8),
                     _urlInput(),
                     SizedBox(height: 10),
@@ -87,7 +87,7 @@ class _EditSavingGoalPopupState extends ConsumerState<GoalDetailPopup> {
                         onPressed: _previewImage,
                         style: TextButton.styleFrom(
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(3)
+                            borderRadius: BorderRadius.circular(3),
                           ),
                           backgroundColor: AppColors.onPrimary,
                           padding: EdgeInsets.symmetric(vertical: 0),
@@ -103,7 +103,7 @@ class _EditSavingGoalPopupState extends ConsumerState<GoalDetailPopup> {
                           ),
                         ),
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),
@@ -135,7 +135,7 @@ class _EditSavingGoalPopupState extends ConsumerState<GoalDetailPopup> {
           borderSide: BorderSide(color: Colors.pink.shade200, width: 2),
         ),
         enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: AppColors.primaryText)
+          borderSide: BorderSide(color: AppColors.primaryText),
         ),
         isDense: true,
         filled: true,
@@ -151,11 +151,7 @@ class _EditSavingGoalPopupState extends ConsumerState<GoalDetailPopup> {
       child: Column(
         spacing: 12,
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          _savedRow(),
-          _progressRow(),
-          _summaryRow(),
-        ],
+        children: [_savedRow(), _progressRow(), _summaryRow()],
       ),
     );
   }
@@ -165,7 +161,7 @@ class _EditSavingGoalPopupState extends ConsumerState<GoalDetailPopup> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text('${widget.goal.currentAmount.toStringAsFixed(0)} opsparet'),
-        Text('${widget.goal.savedPercentage.toStringAsFixed(0)}% opsparet')
+        Text('${widget.goal.savedPercentage.toStringAsFixed(0)}% opsparet'),
       ],
     );
   }
@@ -181,12 +177,13 @@ class _EditSavingGoalPopupState extends ConsumerState<GoalDetailPopup> {
       ),
     );
   }
+
   Widget _summaryRow() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text('${widget.goal.remaining.toStringAsFixed(0)} tilbage'),
-        Text('${widget.goal.goalAmount.toStringAsFixed(0)} i alt')
+        Text('${widget.goal.goalAmount.toStringAsFixed(0)} i alt'),
       ],
     );
   }
@@ -196,46 +193,42 @@ class _EditSavingGoalPopupState extends ConsumerState<GoalDetailPopup> {
       padding: const EdgeInsets.symmetric(vertical: 12.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _addAmountTitle(),
-          SizedBox(height: 12),
-          _addAmountInput(),
-        ]
+        children: [_addAmountTitle(), SizedBox(height: 12), _addAmountInput()],
       ),
     );
   }
 
   Widget _addAmountTitle() {
     return Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16),
-        child: Text(
-          'Tilføj beløb til opsparing',
-          style: TextStyle(color: AppColors.primaryText, fontSize: 14),
-        ),
+      padding: EdgeInsets.symmetric(horizontal: 16),
+      child: Text(
+        'Tilføj beløb til opsparing',
+        style: TextStyle(color: AppColors.primaryText, fontSize: 14),
+      ),
     );
   }
 
   Widget _setSharedRow() {
     return Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16),
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text('Del opsaringsmål'),
-                Toggle(
-                  initState: _isSharedGoal,
-                  onToggled: (val) {
-                    setState(() {
-                      _isSharedGoal = val;
-                    });
-                  },
-                )
-              ],
-            ),
-          ],
-        ),
+      padding: EdgeInsets.symmetric(horizontal: 16),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text('Del opsaringsmål'),
+              Toggle(
+                initState: _isSharedGoal,
+                onToggled: (val) {
+                  setState(() {
+                    _isSharedGoal = val;
+                  });
+                },
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 
@@ -270,9 +263,7 @@ class _EditSavingGoalPopupState extends ConsumerState<GoalDetailPopup> {
                 decimal: true,
               ),
               inputFormatters: [
-                FilteringTextInputFormatter.allow(
-                  RegExp(r'^-?\d*\.?\d*$'),
-                ),
+                FilteringTextInputFormatter.allow(RegExp(r'^-?\d*\.?\d*$')),
               ],
               style: TextStyle(color: AppColors.primaryText, fontSize: 12),
               textAlign: TextAlign.center,
@@ -282,8 +273,10 @@ class _EditSavingGoalPopupState extends ConsumerState<GoalDetailPopup> {
                 });
               },
               decoration: InputDecoration(
-                contentPadding:
-                EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+                contentPadding: EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 5,
+                ),
                 isDense: true,
                 filled: true,
                 fillColor: AppColors.secondary,
@@ -299,8 +292,7 @@ class _EditSavingGoalPopupState extends ConsumerState<GoalDetailPopup> {
                     topRight: Radius.circular(0),
                     bottomRight: Radius.circular(0),
                   ),
-                  borderSide:
-                  BorderSide(color: Colors.pink.shade200, width: 1),
+                  borderSide: BorderSide(color: Colors.pink.shade200, width: 1),
                 ),
               ),
             ),
@@ -331,7 +323,7 @@ class _EditSavingGoalPopupState extends ConsumerState<GoalDetailPopup> {
                 ),
               ),
             ),
-          )
+          ),
         ],
       ),
     );
@@ -348,10 +340,12 @@ class _EditSavingGoalPopupState extends ConsumerState<GoalDetailPopup> {
     final updatedGoal = widget.goal.copyWith(
       uri: _currentUri,
       currentAmount: widget.goal.currentAmount += _currentAddAmount,
-      isShared: _isSharedGoal
+      isShared: _isSharedGoal,
     );
 
-    final success = await ref.read(goalDetailPopupControllerProvider.notifier).updateGoal(updatedGoal);
+    final success = await ref
+        .read(goalDetailPopupControllerProvider.notifier)
+        .updateGoal(updatedGoal);
 
     if (success) {
       ToastService.showSuccessToast('Opsparingsmål opdateret!');

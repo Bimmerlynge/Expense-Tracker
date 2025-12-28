@@ -12,15 +12,16 @@ class FirebaseUserRepository implements UserRepository {
   Stream<List<Person>> getHouseholdUsersStream() {
     final householdId = ref.watch(currentUserProvider).householdId;
 
-    var response = ref.read(firestoreProvider)
+    var response = ref
+        .read(firestoreProvider)
         .collection('households')
         .doc(householdId)
         .collection('users')
         .snapshots()
         .map(
           (snapshot) =>
-          snapshot.docs.map((doc) => Person.fromFirestore(doc)).toList(),
-    );
+              snapshot.docs.map((doc) => Person.fromFirestore(doc)).toList(),
+        );
 
     return response;
   }

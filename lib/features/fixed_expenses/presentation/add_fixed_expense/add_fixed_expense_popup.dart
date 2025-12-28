@@ -15,7 +15,8 @@ class AddFixedExpensePopup extends ConsumerStatefulWidget {
   const AddFixedExpensePopup({super.key});
 
   @override
-  ConsumerState<AddFixedExpensePopup> createState() => _AddFixedExpensePopupState();
+  ConsumerState<AddFixedExpensePopup> createState() =>
+      _AddFixedExpensePopupState();
 }
 
 class _AddFixedExpensePopupState extends ConsumerState<AddFixedExpensePopup> {
@@ -23,15 +24,17 @@ class _AddFixedExpensePopupState extends ConsumerState<AddFixedExpensePopup> {
 
   @override
   Widget build(BuildContext context) {
-    final controller = ref.read(addFixedExpensePopupControllerProvider.notifier);
+    final controller = ref.read(
+      addFixedExpensePopupControllerProvider.notifier,
+    );
     final expense = ref.watch(addFixedExpensePopupControllerProvider);
 
     return PopupWidget(
-        popupIcon: const Icon(Icons.new_releases_outlined),
-        bodyContent: _buildDialogContent(controller, expense),
-        onConfirm: () => _handleConfirm(controller),
-        confirmText: "Opret",
-        headerTitle: "Ny fast udgift",
+      popupIcon: const Icon(Icons.new_releases_outlined),
+      bodyContent: _buildDialogContent(controller, expense),
+      onConfirm: () => _handleConfirm(controller),
+      confirmText: "Opret",
+      headerTitle: "Ny fast udgift",
     );
   }
 
@@ -45,7 +48,10 @@ class _AddFixedExpensePopupState extends ConsumerState<AddFixedExpensePopup> {
     }
   }
 
-  Widget _buildDialogContent(AddFixedExpensePopupController controller, FixedExpense expense) {
+  Widget _buildDialogContent(
+    AddFixedExpensePopupController controller,
+    FixedExpense expense,
+  ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -60,8 +66,10 @@ class _AddFixedExpensePopupState extends ConsumerState<AddFixedExpensePopup> {
     );
   }
 
-
-  Widget _buildTitleRow(AddFixedExpensePopupController controller, FixedExpense expense) {
+  Widget _buildTitleRow(
+    AddFixedExpensePopupController controller,
+    FixedExpense expense,
+  ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -81,7 +89,10 @@ class _AddFixedExpensePopupState extends ConsumerState<AddFixedExpensePopup> {
     );
   }
 
-  Widget _buildAmountRow(AddFixedExpensePopupController controller, FixedExpense expense) {
+  Widget _buildAmountRow(
+    AddFixedExpensePopupController controller,
+    FixedExpense expense,
+  ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -95,14 +106,18 @@ class _AddFixedExpensePopupState extends ConsumerState<AddFixedExpensePopup> {
             style: TextStyle(color: AppColors.onPrimary),
             keyboardType: const TextInputType.numberWithOptions(decimal: true),
             textAlign: TextAlign.center,
-            onChanged: (val) => controller.updateAmount(double.tryParse(val) ?? 0),
+            onChanged: (val) =>
+                controller.updateAmount(double.tryParse(val) ?? 0),
           ),
         ),
       ],
     );
   }
 
-  Widget _buildTypeRow(AddFixedExpensePopupController controller, FixedExpense expense) {
+  Widget _buildTypeRow(
+    AddFixedExpensePopupController controller,
+    FixedExpense expense,
+  ) {
     return inputContainer(
       DropdownButtonHideUnderline(
         child: DropdownButton<PaymentType>(
@@ -111,9 +126,18 @@ class _AddFixedExpensePopupState extends ConsumerState<AddFixedExpensePopup> {
           style: TextStyle(color: AppColors.primaryText, fontSize: 16),
           value: expense.paymentType,
           items: const [
-            DropdownMenuItem(value: PaymentType.monthly, child: Text('Månedlig')),
-            DropdownMenuItem(value: PaymentType.twoMonthly, child: Text('Hver 2. måned')),
-            DropdownMenuItem(value: PaymentType.quarterly, child: Text('Kvartalsvis')),
+            DropdownMenuItem(
+              value: PaymentType.monthly,
+              child: Text('Månedlig'),
+            ),
+            DropdownMenuItem(
+              value: PaymentType.twoMonthly,
+              child: Text('Hver 2. måned'),
+            ),
+            DropdownMenuItem(
+              value: PaymentType.quarterly,
+              child: Text('Kvartalsvis'),
+            ),
           ],
           onChanged: controller.updatePaymentType,
         ),
@@ -121,7 +145,10 @@ class _AddFixedExpensePopupState extends ConsumerState<AddFixedExpensePopup> {
     );
   }
 
-  Widget _buildDateRow(AddFixedExpensePopupController controller, FixedExpense expense) {
+  Widget _buildDateRow(
+    AddFixedExpensePopupController controller,
+    FixedExpense expense,
+  ) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [

@@ -11,11 +11,9 @@ class FirebaseFixedExpensesRepository implements FixedExpenseRepository {
 
   @override
   Stream<List<FixedExpense>> getFixedExpensesStream() {
-    final response = _getCollection()
-        .snapshots()
-        .map((snapshot) => snapshot.docs
-        .map((doc) => FixedExpense.fromFirestore(doc))
-        .toList()
+    final response = _getCollection().snapshots().map(
+      (snapshot) =>
+          snapshot.docs.map((doc) => FixedExpense.fromFirestore(doc)).toList(),
     );
 
     return response;
@@ -27,7 +25,6 @@ class FirebaseFixedExpensesRepository implements FixedExpenseRepository {
       await _getCollection().add(fixedExpense.toFirestore());
       return true;
     } catch (e) {
-      print('Failed to add fixed expense: $e');
       return false;
     }
   }
@@ -41,7 +38,8 @@ class FirebaseFixedExpensesRepository implements FixedExpenseRepository {
 
   CollectionReference<Map<String, dynamic>> _getCollection() {
     final userId = ref.watch(currentUserProvider).id;
-    return ref.read(firestoreProvider)
+    return ref
+        .read(firestoreProvider)
         .collection('users')
         .doc(userId)
         .collection('fixed-expenses');

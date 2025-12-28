@@ -6,7 +6,6 @@ import 'package:expense_tracker/features/summaries/presentation/summary_page.dar
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-
 class MainScreen extends ConsumerStatefulWidget {
   const MainScreen({super.key});
 
@@ -16,7 +15,6 @@ class MainScreen extends ConsumerStatefulWidget {
 
 class _MainScreenState extends ConsumerState<MainScreen>
     with SingleTickerProviderStateMixin {
-
   int _currentPageIndex = 0;
 
   late AnimationController _animationController;

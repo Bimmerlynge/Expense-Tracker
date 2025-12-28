@@ -13,15 +13,20 @@ class FixedExpenseListScreen extends ConsumerStatefulWidget {
   const FixedExpenseListScreen({super.key});
 
   @override
-  ConsumerState<FixedExpenseListScreen> createState() => _FixedExpenseListScreenState();
+  ConsumerState<FixedExpenseListScreen> createState() =>
+      _FixedExpenseListScreenState();
 }
 
-class _FixedExpenseListScreenState extends ConsumerState<FixedExpenseListScreen> {
-
+class _FixedExpenseListScreenState
+    extends ConsumerState<FixedExpenseListScreen> {
   @override
   Widget build(BuildContext context) {
-    final fixedExpensesAsync = ref.watch(fixedExpenseListScreenControllerProvider);
-    final collapsedExpenses = ref.watch(collapsedFixedExpensesControllerProvider);
+    final fixedExpensesAsync = ref.watch(
+      fixedExpenseListScreenControllerProvider,
+    );
+    final collapsedExpenses = ref.watch(
+      collapsedFixedExpensesControllerProvider,
+    );
 
     return Column(
       children: [
@@ -30,16 +35,16 @@ class _FixedExpenseListScreenState extends ConsumerState<FixedExpenseListScreen>
           'Mine faste udgifter',
           style: Theme.of(context).primaryTextTheme.labelMedium,
         ),
-        SizedBox(height: 8,),
+        SizedBox(height: 8),
         OutlinedButton(
-            onPressed: _showAddFixedExpensePopup,
-            child: Text('Opret fast udgift')
+          onPressed: _showAddFixedExpensePopup,
+          child: Text('Opret fast udgift'),
         ),
         Expanded(
           child: AsyncValueWidget(
-              value: fixedExpensesAsync,
-              data: (expenses) => _buildList(expenses, collapsedExpenses)
-          )
+            value: fixedExpensesAsync,
+            data: (expenses) => _buildList(expenses, collapsedExpenses),
+          ),
         ),
       ],
     );
@@ -47,16 +52,21 @@ class _FixedExpenseListScreenState extends ConsumerState<FixedExpenseListScreen>
 
   void _showAddFixedExpensePopup() async {
     await showDialog(
-        context: context,
-        builder: (context) {
-          return AddFixedExpensePopup();
-        }
+      context: context,
+      builder: (context) {
+        return AddFixedExpensePopup();
+      },
     );
   }
 
-  Widget _buildList(List<FixedExpense> expenses, List<String> collapsedExpenses) {
+  Widget _buildList(
+    List<FixedExpense> expenses,
+    List<String> collapsedExpenses,
+  ) {
     if (expenses.isEmpty) {
-      return Center(child: EmptyListText(text: 'Ingen fase udgifter defineret'));
+      return Center(
+        child: EmptyListText(text: 'Ingen fase udgifter defineret'),
+      );
     }
 
     return ListView.builder(
@@ -64,30 +74,34 @@ class _FixedExpenseListScreenState extends ConsumerState<FixedExpenseListScreen>
       itemBuilder: (context, index) {
         final expense = expenses[index];
         return FixedExpenseCard(
-            key: ValueKey(expense.id),
-            expense: expenses[index],
-            onChanged: _fixedExpenseChanged,
-            onToggleCollapse: _toggleFixedExpenseCollapse,
-            isExpanded: !collapsedExpenses.contains(expense.id),
-            onManualPay: _onManualPay,
+          key: ValueKey(expense.id),
+          expense: expenses[index],
+          onChanged: _fixedExpenseChanged,
+          onToggleCollapse: _toggleFixedExpenseCollapse,
+          isExpanded: !collapsedExpenses.contains(expense.id),
+          onManualPay: _onManualPay,
         );
       },
     );
   }
 
   Future<void> _onManualPay(FixedExpense expense) async {
-    await ref.read(fixedExpenseListScreenControllerProvider.notifier)
+    await ref
+        .read(fixedExpenseListScreenControllerProvider.notifier)
         .payFixedExpense(expense);
 
     ToastService.showSuccessToast('Fast udgift registreret!');
   }
 
   void _toggleFixedExpenseCollapse(String expenseId) {
-    ref.read(collapsedFixedExpensesControllerProvider.notifier).toggle(expenseId);
+    ref
+        .read(collapsedFixedExpensesControllerProvider.notifier)
+        .toggle(expenseId);
   }
 
   Future<void> _fixedExpenseChanged(FixedExpense expense) async {
-    await ref.read(fixedExpenseListScreenControllerProvider.notifier)
+    await ref
+        .read(fixedExpenseListScreenControllerProvider.notifier)
         .updateExpense(expense);
   }
 }

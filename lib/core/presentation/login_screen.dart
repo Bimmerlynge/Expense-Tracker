@@ -47,10 +47,7 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            labelInputContainer(
-                label: "Email",
-                controller: _emailController
-            ),
+            labelInputContainer(label: "Email", controller: _emailController),
             SizedBox(height: 32),
             labelInputContainer(
               label: "Password",

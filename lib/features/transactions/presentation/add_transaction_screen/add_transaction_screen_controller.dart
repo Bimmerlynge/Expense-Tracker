@@ -6,7 +6,6 @@ part 'add_transaction_screen_controller.g.dart';
 
 @riverpod
 class AddTransactionScreenController extends _$AddTransactionScreenController {
-
   @override
   void build() {
     // no-op

@@ -7,14 +7,15 @@ class HistoricCategorySpending {
 
   Map<DateTime, CategorySpending> dataSet = {};
 
-  HistoricCategorySpending({
-    required this.category
-  });
+  HistoricCategorySpending({required this.category});
 
   void insertTransaction(Transaction transaction) {
     final dataKey = dataSet.putIfAbsent(
-        DateTime(transaction.transactionTime!.year, transaction.transactionTime!.month),
-        () => CategorySpending(name: transaction.category.name)
+      DateTime(
+        transaction.transactionTime!.year,
+        transaction.transactionTime!.month,
+      ),
+      () => CategorySpending(name: transaction.category.name),
     );
 
     dataKey.insertTransaction(transaction);
