@@ -1,4 +1,6 @@
-import 'package:expense_tracker/app/config/theme/app_colors.dart';
+import 'package:expense_tracker/app/shared/components/actions_row.dart';
+import 'package:expense_tracker/app/shared/components/simple_text_button.dart';
+import 'package:expense_tracker/app/shared/components/toggle.dart';
 import 'package:expense_tracker/app/shared/util/toast_service.dart';
 import 'package:expense_tracker/domain/goal.dart';
 import 'package:expense_tracker/features/common/widget/async_value_widget.dart';
@@ -44,62 +46,29 @@ class _GoalsScreenState extends ConsumerState<GoalsScreen> {
   }
 
   Widget _actions() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-      child: Container(
-        decoration: BoxDecoration(
-          border: Border(
-            bottom: BorderSide(
-              color: AppColors.primarySecondText.withAlpha(100),
-              width: 1,
-            ),
-          ),
-        ),
-        padding: EdgeInsets.symmetric(vertical: 16),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return ActionsRow(
+      alignment: MainAxisAlignment.spaceBetween,
+      actions: [
+        Row(
           children: [
-            Row(
-              children: [
-                Switch(
-                  value: ref.watch(showOnlyMyGoalsProvider),
-                  onChanged: (val) {
-                    ref.read(showOnlyMyGoalsProvider.notifier).state = val;
-                  },
-                  inactiveThumbColor: AppColors.onPrimary.withAlpha(150),
-                  inactiveTrackColor: AppColors.secondary.withAlpha(150),
-                  trackOutlineColor: WidgetStateProperty.all(
-                    AppColors.onPrimary.withAlpha(150),
-                  ),
-                  activeTrackColor: AppColors.onPrimary.withAlpha(220),
-                  thumbColor: WidgetStateProperty.resolveWith<Color>((states) {
-                    if (states.contains(WidgetState.selected)) {
-                      return Colors.white70;
-                    }
-                    return AppColors.onPrimary;
-                  }),
-                ),
-                Text(
-                  'Vis kun mine mål',
-                  style: Theme.of(context).primaryTextTheme.labelSmall,
-                ),
-              ],
+            Toggle(
+              value: ref.watch(showOnlyMyGoalsProvider),
+              onToggled: (val) {
+                ref.read(showOnlyMyGoalsProvider.notifier).state = val;
+              },
             ),
-            TextButton.icon(
-              onPressed: _showCreateSavingGoal,
-              icon: Icon(Icons.add, color: AppColors.onPrimary),
-              label: Text(
-                'Opret mål',
-                style: TextStyle(
-                  color: AppColors.onPrimary,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              style: TextButton.styleFrom(backgroundColor: Colors.transparent),
+            Text(
+              'Vis kun mine mål',
+              style: Theme.of(context).primaryTextTheme.labelSmall,
             ),
           ],
         ),
-      ),
+        SimpleTextButton(
+          iconData: Icons.add,
+          onPress: _showCreateSavingGoal,
+          labelText: 'Opret mål',
+        ),
+      ],
     );
   }
 

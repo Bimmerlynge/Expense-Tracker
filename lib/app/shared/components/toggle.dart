@@ -1,17 +1,17 @@
 import 'package:expense_tracker/app/config/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 
-class Toggle extends StatefulWidget {
-  final bool initState;
+class Toggle extends StatelessWidget {
+  final bool value;
+  final ValueChanged<bool> onToggled;
   final Color accentColor;
   final Color backgroundColor;
   final Color activeAccentColor;
   final Color activeBackgroundColor;
-  final ValueChanged<bool> onToggled;
 
   Toggle({
     super.key,
-    this.initState = false,
+    required this.value,
     required this.onToggled,
     Color? accentColor,
     Color? backgroundColor,
@@ -24,37 +24,19 @@ class Toggle extends StatefulWidget {
        activeBackgroundColor = activeBackgroundColor ?? Colors.white70;
 
   @override
-  State<Toggle> createState() => _ToggleState();
-}
-
-class _ToggleState extends State<Toggle> {
-  late bool _value;
-
-  @override
-  void initState() {
-    super.initState();
-    _value = widget.initState;
-  }
-
-  void _onToggle(bool val) {
-    setState(() => _value = val);
-    widget.onToggled.call(val);
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Switch(
-      value: _value,
-      onChanged: _onToggle,
-      inactiveThumbColor: widget.accentColor,
-      inactiveTrackColor: widget.backgroundColor,
-      trackOutlineColor: WidgetStateProperty.all(widget.accentColor),
-      activeTrackColor: widget.activeAccentColor,
+      value: value,
+      onChanged: onToggled,
+      inactiveThumbColor: accentColor,
+      inactiveTrackColor: backgroundColor,
+      trackOutlineColor: WidgetStateProperty.all(accentColor),
+      activeTrackColor: activeAccentColor,
       thumbColor: WidgetStateProperty.resolveWith<Color>((states) {
         if (states.contains(WidgetState.selected)) {
-          return widget.activeBackgroundColor;
+          return activeBackgroundColor;
         }
-        return widget.activeAccentColor;
+        return activeAccentColor;
       }),
     );
   }
