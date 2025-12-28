@@ -210,7 +210,7 @@ class _EditSavingGoalPopupState extends ConsumerState<GoalDetailPopup> {
 
   Widget _setSharedRow() {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16),
+      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: Column(
         children: [
           Row(
@@ -218,7 +218,7 @@ class _EditSavingGoalPopupState extends ConsumerState<GoalDetailPopup> {
             children: [
               Text('Del opsaringsmål'),
               Toggle(
-                initState: _isSharedGoal,
+                value: _isSharedGoal,
                 onToggled: (val) {
                   setState(() {
                     _isSharedGoal = val;

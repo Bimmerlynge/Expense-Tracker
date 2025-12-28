@@ -1,5 +1,6 @@
 import 'package:expense_tracker/app/config/theme/app_colors.dart';
 import 'package:expense_tracker/app/config/theme/text_theme.dart';
+import 'package:expense_tracker/app/shared/components/toggle.dart';
 import 'package:expense_tracker/domain/category.dart';
 import 'package:flutter/material.dart';
 
@@ -18,7 +19,6 @@ class CategoryListTable extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      padding: const EdgeInsets.symmetric(horizontal: 24),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -72,23 +72,11 @@ class CategoryListTable extends StatelessWidget {
                   color: AppColors.primaryText,
                 ),
               ),
-              Switch(
+              Toggle(
                 value: category.isDefault ?? false,
-                onChanged: (v) {
-                  if (v) onDefaultChange(category);
+                onToggled: (val) {
+                  if (val) onDefaultChange(category);
                 },
-                inactiveThumbColor: AppColors.onPrimary.withAlpha(150),
-                inactiveTrackColor: AppColors.secondary.withAlpha(150),
-                trackOutlineColor: WidgetStateProperty.all(
-                  AppColors.onPrimary.withAlpha(150),
-                ),
-                activeTrackColor: AppColors.onPrimary.withAlpha(190),
-                thumbColor: WidgetStateProperty.resolveWith<Color>((states) {
-                  if (states.contains(WidgetState.selected)) {
-                    return const Color.fromARGB(255, 206, 206, 206);
-                  }
-                  return AppColors.onPrimary;
-                }),
               ),
             ],
           ),

@@ -1,3 +1,5 @@
+import 'package:expense_tracker/app/shared/components/actions_row.dart';
+import 'package:expense_tracker/app/shared/components/simple_text_button.dart';
 import 'package:expense_tracker/app/shared/util/toast_service.dart';
 import 'package:expense_tracker/domain/fixed_expense.dart';
 import 'package:expense_tracker/features/common/widget/async_value_widget.dart';
@@ -36,15 +38,24 @@ class _FixedExpenseListScreenState
           style: Theme.of(context).primaryTextTheme.labelMedium,
         ),
         SizedBox(height: 8),
-        OutlinedButton(
-          onPressed: _showAddFixedExpensePopup,
-          child: Text('Opret fast udgift'),
-        ),
+        _actions(),
         Expanded(
           child: AsyncValueWidget(
             value: fixedExpensesAsync,
             data: (expenses) => _buildList(expenses, collapsedExpenses),
           ),
+        ),
+      ],
+    );
+  }
+
+  Widget _actions() {
+    return ActionsRow(
+      actions: [
+        SimpleTextButton(
+          iconData: Icons.add,
+          onPress: _showAddFixedExpensePopup,
+          labelText: 'Opret fast udgift',
         ),
       ],
     );

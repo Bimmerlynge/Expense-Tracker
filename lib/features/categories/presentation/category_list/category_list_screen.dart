@@ -1,3 +1,5 @@
+import 'package:expense_tracker/app/shared/components/actions_row.dart';
+import 'package:expense_tracker/app/shared/components/simple_text_button.dart';
 import 'package:expense_tracker/app/shared/util/toast_service.dart';
 import 'package:expense_tracker/domain/category.dart';
 import 'package:expense_tracker/features/categories/presentation/category_list/category_list_screen_controller.dart';
@@ -23,23 +25,30 @@ class _CategoryListScreenState extends ConsumerState<CategoryListScreen> {
 
     return Column(
       children: [
-        Text('hej'),
         SizedBox(height: 16),
         Text(
           'Kategorier i husstanden',
           style: Theme.of(context).primaryTextTheme.labelMedium,
         ),
         SizedBox(height: 8),
-        OutlinedButton(
-          onPressed: _showCreateCategoryPopup,
-          child: Text('Opret kategori'),
-        ),
-        SizedBox(height: 8),
+        _actions(),
         Expanded(
           child: AsyncValueWidget(
             value: categoriesAsync,
             data: (categories) => _buildList(categories),
           ),
+        ),
+      ],
+    );
+  }
+
+  Widget _actions() {
+    return ActionsRow(
+      actions: [
+        SimpleTextButton(
+          labelText: 'Opret kategori',
+          iconData: Icons.add,
+          onPress: _showCreateCategoryPopup,
         ),
       ],
     );
@@ -59,10 +68,13 @@ class _CategoryListScreenState extends ConsumerState<CategoryListScreen> {
       return Center(child: EmptyListText(text: 'Ingen kategorier defineret'));
     }
 
-    return CategoryListTable(
-      categories: categories,
-      onDefaultChange: _toggleDefault,
-      onDeleteCategory: _handleOnDelete,
+    return Padding(
+      padding: const EdgeInsets.all(24.0),
+      child: CategoryListTable(
+        categories: categories,
+        onDefaultChange: _toggleDefault,
+        onDeleteCategory: _handleOnDelete,
+      ),
     );
   }
 

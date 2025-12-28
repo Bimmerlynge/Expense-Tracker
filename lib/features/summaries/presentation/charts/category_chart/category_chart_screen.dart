@@ -1,9 +1,11 @@
 import 'package:expense_tracker/app/config/theme/text_theme.dart';
 import 'package:expense_tracker/app/providers/app_providers.dart';
+import 'package:expense_tracker/app/shared/components/actions_row.dart';
+import 'package:expense_tracker/app/shared/components/toggle.dart';
 import 'package:expense_tracker/domain/transaction.dart';
 import 'package:expense_tracker/features/common/widget/async_value_widget.dart';
-import 'package:expense_tracker/features/summaries/components/category_filter_chip_field.dart';
 import 'package:expense_tracker/features/summaries/components/category_bar_chart.dart';
+import 'package:expense_tracker/features/summaries/components/category_filter_chip_field.dart';
 import 'package:expense_tracker/features/summaries/domain/category_spending_filter_predicates.dart';
 import 'package:expense_tracker/features/summaries/presentation/charts/category_chart/category_chart_screen_controller.dart';
 import 'package:expense_tracker/features/summaries/presentation/charts/category_chart/excluded_categories_controller.dart';
@@ -30,10 +32,30 @@ class _CategoryChartScreenState extends ConsumerState<CategoryChartScreen> {
             'Denne måneds forbrug',
             style: Theme.of(context).primaryTextTheme.labelMedium,
           ),
-          _createGraphButtons(),
+          _actions(),
           _buildChart(),
         ],
       ),
+    );
+  }
+
+  Widget _actions() {
+    return ActionsRow(
+      alignment: MainAxisAlignment.spaceBetween,
+      actions: [
+        Row(
+          children: [
+            Toggle(
+              value: ref.watch(showOnlyMineProvider),
+              onToggled: (val) {
+                ref.read(showOnlyMineProvider.notifier).state = val;
+              },
+            ),
+            Text('Vis kun mit', style: TTextTheme.mainTheme.labelSmall),
+          ],
+        ),
+        IconButton(onPressed: _openFilterDialog, icon: Icon(Icons.rule)),
+      ],
     );
   }
 
@@ -65,19 +87,6 @@ class _CategoryChartScreenState extends ConsumerState<CategoryChartScreen> {
     );
   }
 
-  Widget _createGraphButtons() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          _showOnlyCurrentUserCheckbox(),
-          IconButton(onPressed: _openFilterDialog, icon: Icon(Icons.rule)),
-        ],
-      ),
-    );
-  }
-
   Future<void> _openFilterDialog() async {
     final spendingList = ref.watch(categoryChartScreenControllerProvider);
     final excluded = ref.watch(excludedCategoriesControllerProvider);
@@ -92,22 +101,6 @@ class _CategoryChartScreenState extends ConsumerState<CategoryChartScreen> {
           excluded: excluded,
         );
       },
-    );
-  }
-
-  Widget _showOnlyCurrentUserCheckbox() {
-    final showOnlyMine = ref.watch(showOnlyMineProvider);
-
-    return Row(
-      children: [
-        Checkbox(
-          value: showOnlyMine,
-          onChanged: (changed) {
-            ref.read(showOnlyMineProvider.notifier).state = changed ?? false;
-          },
-        ),
-        Text('Vis kun mit', style: TTextTheme.mainTheme.labelSmall),
-      ],
     );
   }
 }
