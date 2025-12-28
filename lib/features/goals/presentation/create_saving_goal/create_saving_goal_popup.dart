@@ -11,22 +11,24 @@ class CreateSavingGoalPopup extends ConsumerStatefulWidget {
   const CreateSavingGoalPopup({super.key});
 
   @override
-  ConsumerState<CreateSavingGoalPopup> createState() => _CreateSavingGoalPopupState();
+  ConsumerState<CreateSavingGoalPopup> createState() =>
+      _CreateSavingGoalPopupState();
 }
 
 class _CreateSavingGoalPopupState extends ConsumerState<CreateSavingGoalPopup> {
-
   @override
   Widget build(BuildContext context) {
-    final controller = ref.read(createSavingGoalPopupControllerProvider.notifier);
+    final controller = ref.read(
+      createSavingGoalPopupControllerProvider.notifier,
+    );
     final goal = ref.watch(createSavingGoalPopupControllerProvider);
 
     return PopupWidget(
-        popupIcon: const Icon(Icons.new_releases_outlined),
-        bodyContent: _buildBody(controller, goal),
-        onConfirm: () => _handleConfirm(controller),
-        confirmText: "Opret",
-        headerTitle: "Nyt opsparingsmål",
+      popupIcon: const Icon(Icons.new_releases_outlined),
+      bodyContent: _buildBody(controller, goal),
+      onConfirm: () => _handleConfirm(controller),
+      confirmText: "Opret",
+      headerTitle: "Nyt opsparingsmål",
     );
   }
 
@@ -41,12 +43,13 @@ class _CreateSavingGoalPopupState extends ConsumerState<CreateSavingGoalPopup> {
         _buildUriRow(controller, goal),
         const SizedBox(height: 16),
         _buildIsSharedRow(controller, goal),
-
       ],
     );
   }
 
-  Future<void> _handleConfirm(CreateSavingGoalPopupController controller) async {
+  Future<void> _handleConfirm(
+    CreateSavingGoalPopupController controller,
+  ) async {
     final success = await controller.createSavingGoal();
 
     if (success) {
@@ -76,7 +79,10 @@ class _CreateSavingGoalPopupState extends ConsumerState<CreateSavingGoalPopup> {
     );
   }
 
-  Widget _buildAmountRow(CreateSavingGoalPopupController controller, Goal goal) {
+  Widget _buildAmountRow(
+    CreateSavingGoalPopupController controller,
+    Goal goal,
+  ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -90,21 +96,26 @@ class _CreateSavingGoalPopupState extends ConsumerState<CreateSavingGoalPopup> {
             style: TextStyle(color: AppColors.onPrimary),
             keyboardType: const TextInputType.numberWithOptions(decimal: true),
             textAlign: TextAlign.center,
-            onChanged: (val) => controller.updateGoalAmount(double.tryParse(val) ?? 0),
+            onChanged: (val) =>
+                controller.updateGoalAmount(double.tryParse(val) ?? 0),
           ),
         ),
       ],
     );
   }
 
-  Widget _buildIsSharedRow(CreateSavingGoalPopupController controller, Goal goal) {
+  Widget _buildIsSharedRow(
+    CreateSavingGoalPopupController controller,
+    Goal goal,
+  ) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         Text('Fælles opsparing'),
         Checkbox(
-            value: goal.isShared,
-            onChanged: (val) => controller.updateIsShared(!goal.isShared))
+          value: goal.isShared,
+          onChanged: (val) => controller.updateIsShared(!goal.isShared),
+        ),
       ],
     );
   }

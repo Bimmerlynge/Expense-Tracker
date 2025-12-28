@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:convert';
 
 import 'package:expense_tracker/app/config/environment/environment.dart';
@@ -8,7 +10,9 @@ import 'package:http/http.dart' as http;
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-final versionResolverProvider = Provider<VersionResolver>((ref) => VersionResolver());
+final versionResolverProvider = Provider<VersionResolver>(
+  (ref) => VersionResolver(),
+);
 
 class VersionResolver {
   VersionResolver();
@@ -19,9 +23,7 @@ class VersionResolver {
 
     final gitVersion = await http.get(
       Uri.parse(Environment.gitUrl),
-      headers: {
-        'Authorization': 'Bearer ${Environment.gitToken}'
-      }
+      headers: {'Authorization': 'Bearer ${Environment.gitToken}'},
     );
 
     final data = jsonDecode(gitVersion.body);
@@ -64,22 +66,25 @@ class VersionResolver {
             Divider(thickness: 1, color: AppColors.onPrimary),
           ],
         ),
-        content: const Text('En ny opdatering er tilgængelig. Installation påkrævet.', textAlign: TextAlign.center,),
+        content: const Text(
+          'En ny opdatering er tilgængelig. Installation påkrævet.',
+          textAlign: TextAlign.center,
+        ),
         actions: [
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               TextButton(
-                  onPressed: () => _performUpdate(context, downloadUrl),
-                  child: Text(
-                    'Download',
-                    style: TextStyle(color: AppColors.onPrimary)
-                  )
+                onPressed: () => _performUpdate(context, downloadUrl),
+                child: Text(
+                  'Download',
+                  style: TextStyle(color: AppColors.onPrimary),
+                ),
               ),
             ],
-          )
+          ),
         ],
-      )
+      ),
     );
   }
 
@@ -91,8 +96,9 @@ class VersionResolver {
     } catch (e) {
       Navigator.pop(context);
       debugPrint('Update failed: $e');
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text('Failed to update app')));
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Failed to update app')));
     }
   }
 

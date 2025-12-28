@@ -8,19 +8,17 @@ part 'historic_chart_screen_controller.g.dart';
 
 @riverpod
 class HistoricChartScreenController extends _$HistoricChartScreenController {
-  
-  
   @override
-  void build() {
-
-  }
+  void build() {}
 
   Future<HistoricCategoryList> getList() async {
     final now = DateTime.now();
     final end = DateTime(now.year, now.month + 1, 1);
     final start = DateTime(end.year, end.month - 6, 1);
-    
-    final transactions = await ref.read(summaryServiceProvider).getTransactionsInRange(start, end);
+
+    final transactions = await ref
+        .read(summaryServiceProvider)
+        .getTransactionsInRange(start, end);
     return _toHistoric(transactions);
   }
 

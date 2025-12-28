@@ -5,9 +5,7 @@ class CategorySpending {
   late double total;
   late List<Transaction> transactions;
 
-  CategorySpending({
-    required this.name
-  }) {
+  CategorySpending({required this.name}) {
     transactions = [];
     total = 0;
   }

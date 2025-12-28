@@ -16,13 +16,13 @@ class CategorySpendingList {
 
   CategorySpending _getOrCreateCategory(Category category) {
     return list.firstWhere(
-            (c) => c.name == category.name,
-        orElse: () {
-          final newCategory = CategorySpending(name: category.name);
+      (c) => c.name == category.name,
+      orElse: () {
+        final newCategory = CategorySpending(name: category.name);
 
-          list.add(newCategory);
-          return newCategory;
-        }
+        list.add(newCategory);
+        return newCategory;
+      },
     );
   }
 

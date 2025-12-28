@@ -8,9 +8,6 @@ class EmptyListText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      text,
-      style: TTextTheme.mainTheme.bodyMedium,
-    );
+    return Text(text, style: TTextTheme.mainTheme.bodyMedium);
   }
 }

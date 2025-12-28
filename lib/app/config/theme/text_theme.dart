@@ -3,15 +3,31 @@ import 'package:flutter/material.dart';
 
 class TTextTheme {
   static final TextTheme mainTheme = TextTheme(
-    bodyMedium: TextStyle(fontSize: 16, color: AppColors.primaryText, letterSpacing: 2),
+    bodyMedium: TextStyle(
+      fontSize: 16,
+      color: AppColors.primaryText,
+      letterSpacing: 2,
+    ),
     bodySmall: TextStyle(color: AppColors.primaryText),
     // headlineLarge:
     headlineMedium: TextStyle(),
     titleSmall: TextStyle(fontSize: 12, color: AppColors.primaryText),
     titleMedium: TextStyle(fontSize: 16, color: AppColors.primaryText),
     titleLarge: TextStyle(fontSize: 24, color: AppColors.primaryText),
-    labelSmall: TextStyle(fontSize: 12, color: AppColors.primaryText, letterSpacing: 2),
-    labelMedium: TextStyle(fontSize: 16, color: AppColors.primaryText, letterSpacing: 2),
-    labelLarge: TextStyle(fontSize: 20, color: AppColors.primaryText, letterSpacing: 2)
+    labelSmall: TextStyle(
+      fontSize: 12,
+      color: AppColors.primaryText,
+      letterSpacing: 2,
+    ),
+    labelMedium: TextStyle(
+      fontSize: 16,
+      color: AppColors.primaryText,
+      letterSpacing: 2,
+    ),
+    labelLarge: TextStyle(
+      fontSize: 20,
+      color: AppColors.primaryText,
+      letterSpacing: 2,
+    ),
   );
 }

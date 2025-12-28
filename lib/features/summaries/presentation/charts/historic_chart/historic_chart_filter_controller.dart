@@ -25,14 +25,17 @@ class HistoricChartFilterController extends _$HistoricChartFilterController {
 
     for (final historic in list.getAll()) {
       final filteredSpending = historic.dataSet.entries
-          .where((entry) =>
-      entry.key.isAfter(sixMonthsAgo) ||
-          _isSameMonth(entry.key, sixMonthsAgo))
+          .where(
+            (entry) =>
+                entry.key.isAfter(sixMonthsAgo) ||
+                _isSameMonth(entry.key, sixMonthsAgo),
+          )
           .toList();
 
       if (filteredSpending.isNotEmpty) {
-        final newHistoric =
-        HistoricCategorySpending(category: historic.category);
+        final newHistoric = HistoricCategorySpending(
+          category: historic.category,
+        );
         for (final entry in filteredSpending) {
           newHistoric.dataSet[entry.key] = entry.value;
         }
@@ -59,5 +62,4 @@ class HistoricChartFilterController extends _$HistoricChartFilterController {
       _hiddenCategories.contains(categoryName);
 
   Set<String> get hiddenCategories => _hiddenCategories;
-
 }

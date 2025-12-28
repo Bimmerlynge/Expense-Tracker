@@ -60,10 +60,10 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
         physics: NeverScrollableScrollPhysics(),
         controller: _scrollController,
         slivers: [
-          TAppBar(innerBoxScrolled: true, title: "Ny Overførsel",),
-          SliverFillRemaining(child: _buildForm())
-        ]
-      )
+          TAppBar(innerBoxScrolled: true, title: "Ny Overførsel"),
+          SliverFillRemaining(child: _buildForm()),
+        ],
+      ),
     );
   }
 
@@ -73,16 +73,10 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
         return SingleChildScrollView(
           physics: BouncingScrollPhysics(),
           child: ConstrainedBox(
-            constraints: BoxConstraints(
-              minHeight: constraints.maxHeight,
-            ),
+            constraints: BoxConstraints(minHeight: constraints.maxHeight),
             child: IntrinsicHeight(
               child: Padding(
-                padding: const EdgeInsets.only(
-                  right: 32,
-                  left: 32,
-                  bottom: 32
-                ),
+                padding: const EdgeInsets.only(right: 32, left: 32, bottom: 32),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
@@ -132,7 +126,9 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
   }
 
   Future<void> onAdd() async {
-    final controller = ref.read(addTransactionScreenControllerProvider.notifier);
+    final controller = ref.read(
+      addTransactionScreenControllerProvider.notifier,
+    );
 
     var amount = ref.watch(selectedAmountProvider);
     var category = ref.watch(selectedCategoryProvider);
@@ -152,7 +148,7 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
           category: category!,
           type: type,
           transactionTime: date,
-          description: description
+          description: description,
         ),
       );
 
@@ -160,7 +156,9 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
 
       ToastService.showSuccessToast('Transaction was added!');
     } catch (e) {
-      ToastService.showErrorToast('An error occurred trying to add transaction.');
+      ToastService.showErrorToast(
+        'An error occurred trying to add transaction.',
+      );
     }
   }
 

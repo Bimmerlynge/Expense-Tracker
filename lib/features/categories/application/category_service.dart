@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final categoryServiceProvider = Provider<CategoryService>((ref) {
   return CategoryService(
-      categoryRepository: ref.read(categoryRepositoryProvider)
+    categoryRepository: ref.read(categoryRepositoryProvider),
   );
 });
 

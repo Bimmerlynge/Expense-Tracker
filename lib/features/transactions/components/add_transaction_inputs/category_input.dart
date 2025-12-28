@@ -15,23 +15,22 @@ class CategoryInput extends ConsumerStatefulWidget {
 }
 
 class _CategoryInputState extends ConsumerState<CategoryInput> {
-
   @override
   Widget build(BuildContext context) {
     final categoriesAsync = ref.watch(categoryListScreenControllerProvider);
 
     return inputContainer(
       AsyncValueWidget(
-          value: categoriesAsync,
-          data: (categories) => _buildDropdown(categories)
+        value: categoriesAsync,
+        data: (categories) => _buildDropdown(categories),
       ),
     );
   }
 
   Category _getDefaultCategory(List<Category> categories) {
     return categories.firstWhere(
-            (c) => c.isDefault == true,
-        orElse: () => categories.first
+      (c) => c.isDefault == true,
+      orElse: () => categories.first,
     );
   }
 
@@ -46,8 +45,7 @@ class _CategoryInputState extends ConsumerState<CategoryInput> {
       final defaultCategory = _getDefaultCategory(categories);
 
       if (selectedCategory == null) {
-        ref.read(selectedCategoryProvider.notifier)
-            .state = defaultCategory;
+        ref.read(selectedCategoryProvider.notifier).state = defaultCategory;
       }
     });
 

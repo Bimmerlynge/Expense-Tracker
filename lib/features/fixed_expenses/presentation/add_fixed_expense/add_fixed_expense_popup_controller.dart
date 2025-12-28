@@ -6,23 +6,23 @@ part 'add_fixed_expense_popup_controller.g.dart';
 
 @riverpod
 class AddFixedExpensePopupController extends _$AddFixedExpensePopupController {
-
   @override
   FixedExpense build() {
     return FixedExpense(
-        id: '',
-        title: '',
-        amount: 0,
-        paymentType: PaymentType.monthly,
-        hasBeenPaid: false,
-        nextPaymentDate: DateTime.now(),
-        lastPaymentDate: DateTime(1995),
-        autoPay: false,
+      id: '',
+      title: '',
+      amount: 0,
+      paymentType: PaymentType.monthly,
+      hasBeenPaid: false,
+      nextPaymentDate: DateTime.now(),
+      lastPaymentDate: DateTime(1995),
+      autoPay: false,
     );
   }
 
   Future<bool> createFixedExpense() async {
-    final success = await ref.read(fixedExpenseServiceProvider)
+    final success = await ref
+        .read(fixedExpenseServiceProvider)
         .createFixedExpense(state);
 
     if (!success) {

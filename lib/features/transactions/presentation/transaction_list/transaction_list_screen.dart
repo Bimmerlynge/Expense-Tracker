@@ -12,7 +12,8 @@ class TransactionListScreen extends ConsumerStatefulWidget {
   const TransactionListScreen({super.key});
 
   @override
-  ConsumerState<TransactionListScreen> createState() => _TransactionListScreenState();
+  ConsumerState<TransactionListScreen> createState() =>
+      _TransactionListScreenState();
 }
 
 class _TransactionListScreenState extends ConsumerState<TransactionListScreen> {
@@ -35,20 +36,22 @@ class _TransactionListScreenState extends ConsumerState<TransactionListScreen> {
           'Alle transaktioner',
           style: Theme.of(context).primaryTextTheme.labelMedium,
         ),
-        _buildList()
+        _buildList(),
       ],
     );
   }
 
   void _listenForControllerStateError() {
     ref.listen<AsyncValue<List<Transaction>>>(
-        transactionListScreenControllerProvider,
-            (_, state) => state.showToastOnError()
+      transactionListScreenControllerProvider,
+      (_, state) => state.showToastOnError(),
     );
   }
 
   Widget _buildList() {
-    final transactionsAsync = ref.watch(transactionListScreenControllerProvider);
+    final transactionsAsync = ref.watch(
+      transactionListScreenControllerProvider,
+    );
 
     return Expanded(
       child: AsyncValueWidget(
@@ -63,13 +66,13 @@ class _TransactionListScreenState extends ConsumerState<TransactionListScreen> {
 
   Future<void> _handleOnDelete(Transaction transaction) async {
     await showDialog(
-        context: context,
-        builder: (dialogContext) => DeleteTransactionDialog(
-            transaction: transaction,
-            onConfirm: () async {
-              await _deleteTransaction(transaction);
-            }
-        )
+      context: context,
+      builder: (dialogContext) => DeleteTransactionDialog(
+        transaction: transaction,
+        onConfirm: () async {
+          await _deleteTransaction(transaction);
+        },
+      ),
     );
   }
 

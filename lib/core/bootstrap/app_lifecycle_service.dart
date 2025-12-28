@@ -6,10 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final lifecycleServiceProvider = Provider<AppLifecycleService>((ref) {
-  return AppLifecycleService(
-    ref.read(versionResolverProvider),
-    ref
-  );
+  return AppLifecycleService(ref.read(versionResolverProvider), ref);
 });
 
 class AppLifecycleService with WidgetsBindingObserver {

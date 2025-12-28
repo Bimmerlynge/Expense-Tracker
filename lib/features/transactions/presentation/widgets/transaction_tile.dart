@@ -22,7 +22,8 @@ class TransactionTile extends StatelessWidget {
           ? Text('${transaction.category.name} - ${transaction.description}')
           : Text(transaction.category.name),
       subtitle: Text(
-          '${transaction.transactionTime!.formatDate()} \n${transaction.user.name}'),
+        '${transaction.transactionTime!.formatDate()} \n${transaction.user.name}',
+      ),
       trailing: Text('${transaction.amount} DKK'),
     );
   }

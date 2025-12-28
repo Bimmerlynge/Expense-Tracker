@@ -19,8 +19,8 @@ class GoalsScreenController extends _$GoalsScreenController {
     final stream = _filteredGoalsStream();
 
     _subscription = stream.listen(
-        (goals) => state = AsyncData(goals),
-      onError: (error, stack) => state = AsyncError(error, stack)
+      (goals) => state = AsyncData(goals),
+      onError: (error, stack) => state = AsyncError(error, stack),
     );
 
     ref.onDispose(() => _subscription.cancel());
@@ -34,17 +34,13 @@ class GoalsScreenController extends _$GoalsScreenController {
     final showOnlyMine = ref.watch(showOnlyMyGoalsProvider);
 
     return service.getGoalsStream().map(
-          (goals) => goals.where(
-            (goal) => _isVisibleGoal(goal, currentUserId, showOnlyMine),
-      ).toList(),
+      (goals) => goals
+          .where((goal) => _isVisibleGoal(goal, currentUserId, showOnlyMine))
+          .toList(),
     );
   }
 
-  bool _isVisibleGoal(
-      Goal goal,
-      String currentUserId,
-      bool showOnlyMine,
-      ) {
+  bool _isVisibleGoal(Goal goal, String currentUserId, bool showOnlyMine) {
     if (!_isAllowedGoal(goal, currentUserId)) return false;
 
     if (showOnlyMine) {

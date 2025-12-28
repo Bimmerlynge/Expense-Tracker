@@ -9,7 +9,7 @@ class DeleteGoalDialog extends StatelessWidget {
   const DeleteGoalDialog({
     super.key,
     required this.goal,
-    required this.onConfirm
+    required this.onConfirm,
   });
 
   @override
@@ -17,32 +17,30 @@ class DeleteGoalDialog extends StatelessWidget {
     Row createRow(String title, String value) {
       return Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Text(title),
-          Text(value)
-        ],
+        children: [Text(title), Text(value)],
       );
     }
 
     return PopupWidget(
-        popupIcon: const Icon(Icons.info_outline_rounded),
-        bodyContent: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const Text('Vil du slette dette opsparingsmål?', textAlign: TextAlign.center,),
-            const SizedBox(height: 30),
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                createRow('Titel', goal.title),
-              ],
-            )
-          ],
-        ),
-        onConfirm: onConfirm,
-        confirmText: "Slet",
-        headerTitle: "Bekræft sletning",
+      popupIcon: const Icon(Icons.info_outline_rounded),
+      bodyContent: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          const Text(
+            'Vil du slette dette opsparingsmål?',
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 30),
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [createRow('Titel', goal.title)],
+          ),
+        ],
+      ),
+      onConfirm: onConfirm,
+      confirmText: "Slet",
+      headerTitle: "Bekræft sletning",
     );
   }
 }

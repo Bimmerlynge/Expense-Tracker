@@ -18,20 +18,20 @@ class Goal {
     required this.isShared,
     required this.goalAmount,
     required this.currentAmount,
-    this.uri
+    this.uri,
   });
 
   factory Goal.fromFirestore(DocumentSnapshot doc) {
     final data = doc.data() as Map<String, dynamic>;
 
     return Goal(
-        id: doc.id,
-        title: data['title'],
-        creator: Person(id: data['creator']['id'], name: data['creator']['name']),
-        isShared: data['isShared'],
-        goalAmount: (data['goalAmount'] as num).toDouble(),
-        currentAmount: (data['currentAmount'] as num).toDouble(),
-        uri: data['imageUri']
+      id: doc.id,
+      title: data['title'],
+      creator: Person(id: data['creator']['id'], name: data['creator']['name']),
+      isShared: data['isShared'],
+      goalAmount: (data['goalAmount'] as num).toDouble(),
+      currentAmount: (data['currentAmount'] as num).toDouble(),
+      uri: data['imageUri'],
     );
   }
 
@@ -42,10 +42,9 @@ class Goal {
       'isShared': isShared,
       'goalAmount': goalAmount,
       'currentAmount': currentAmount,
-      'imageUri': uri
+      'imageUri': uri,
     };
   }
-
 
   Goal copyWith({
     String? id,
@@ -54,7 +53,7 @@ class Goal {
     bool? isShared,
     double? goalAmount,
     double? currentAmount,
-    String? uri
+    String? uri,
   }) {
     return Goal(
       id: id ?? this.id,
@@ -63,7 +62,7 @@ class Goal {
       isShared: isShared ?? this.isShared,
       goalAmount: goalAmount ?? this.goalAmount,
       currentAmount: currentAmount ?? this.currentAmount,
-      uri: uri ?? this.uri
+      uri: uri ?? this.uri,
     );
   }
 }

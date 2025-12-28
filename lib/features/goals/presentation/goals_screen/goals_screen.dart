@@ -20,7 +20,6 @@ class GoalsScreen extends ConsumerStatefulWidget {
 }
 
 class _GoalsScreenState extends ConsumerState<GoalsScreen> {
-
   @override
   Widget build(BuildContext context) {
     final goalsAsync = ref.watch(goalsScreenControllerProvider);
@@ -29,18 +28,18 @@ class _GoalsScreenState extends ConsumerState<GoalsScreen> {
       children: [
         SizedBox(height: 16),
         Text(
-            'Opsparingsmål',
+          'Opsparingsmål',
           style: Theme.of(context).primaryTextTheme.labelMedium,
         ),
         SizedBox(height: 8),
         _actions(),
         Expanded(
-            child: AsyncValueWidget(
-              value: goalsAsync,
-              data: (goals) => _buildList(goals)
-            )
-        )
-      ]
+          child: AsyncValueWidget(
+            value: goalsAsync,
+            data: (goals) => _buildList(goals),
+          ),
+        ),
+      ],
     );
   }
 
@@ -50,7 +49,10 @@ class _GoalsScreenState extends ConsumerState<GoalsScreen> {
       child: Container(
         decoration: BoxDecoration(
           border: Border(
-            bottom: BorderSide(color: AppColors.primarySecondText.withAlpha(100), width: 1),
+            bottom: BorderSide(
+              color: AppColors.primarySecondText.withAlpha(100),
+              width: 1,
+            ),
           ),
         ),
         padding: EdgeInsets.symmetric(vertical: 16),
@@ -67,16 +69,20 @@ class _GoalsScreenState extends ConsumerState<GoalsScreen> {
                   inactiveThumbColor: AppColors.onPrimary.withAlpha(150),
                   inactiveTrackColor: AppColors.secondary.withAlpha(150),
                   trackOutlineColor: WidgetStateProperty.all(
-                      AppColors.onPrimary.withAlpha(150)),
+                    AppColors.onPrimary.withAlpha(150),
+                  ),
                   activeTrackColor: AppColors.onPrimary.withAlpha(220),
                   thumbColor: WidgetStateProperty.resolveWith<Color>((states) {
                     if (states.contains(WidgetState.selected)) {
                       return Colors.white70;
                     }
                     return AppColors.onPrimary;
-                  })
+                  }),
                 ),
-                Text('Vis kun mine mål', style: Theme.of(context).primaryTextTheme.labelSmall),
+                Text(
+                  'Vis kun mine mål',
+                  style: Theme.of(context).primaryTextTheme.labelSmall,
+                ),
               ],
             ),
             TextButton.icon(
@@ -84,11 +90,12 @@ class _GoalsScreenState extends ConsumerState<GoalsScreen> {
               icon: Icon(Icons.add, color: AppColors.onPrimary),
               label: Text(
                 'Opret mål',
-                style: TextStyle(color: AppColors.onPrimary, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  color: AppColors.onPrimary,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-              style: TextButton.styleFrom(
-                backgroundColor: Colors.transparent,
-              ),
+              style: TextButton.styleFrom(backgroundColor: Colors.transparent),
             ),
           ],
         ),
@@ -98,28 +105,25 @@ class _GoalsScreenState extends ConsumerState<GoalsScreen> {
 
   void _showCreateSavingGoal() async {
     await showDialog(
-        context: context,
-        builder: (context) {
-          return CreateSavingGoalPopup();
-        }
+      context: context,
+      builder: (context) {
+        return CreateSavingGoalPopup();
+      },
     );
   }
 
   Widget _buildList(List<Goal> goals) {
     return ListView.builder(
-        padding: const EdgeInsets.all(16),
-        itemCount: goals.length,
-        itemBuilder: (context, index) {
-          final goal = goals[index];
+      padding: const EdgeInsets.all(16),
+      itemCount: goals.length,
+      itemBuilder: (context, index) {
+        final goal = goals[index];
 
-          return GestureDetector(
-              onTap: () => _showGoalPopup(goal) ,
-              child: GoalListItem(
-                  goal: goal,
-                  onDelete: _showDeleteGoalPopup,
-              )
-          );
-        }
+        return GestureDetector(
+          onTap: () => _showGoalPopup(goal),
+          child: GoalListItem(goal: goal, onDelete: _showDeleteGoalPopup),
+        );
+      },
     );
   }
 
@@ -136,7 +140,9 @@ class _GoalsScreenState extends ConsumerState<GoalsScreen> {
   }
 
   Future<void> _handleOnDelete(String goalId) async {
-    final success = await ref.read(goalsScreenControllerProvider.notifier).deleteGoal(goalId);
+    final success = await ref
+        .read(goalsScreenControllerProvider.notifier)
+        .deleteGoal(goalId);
 
     if (success) {
       ToastService.showSuccessToast("Opsarings mål blev slettet!");

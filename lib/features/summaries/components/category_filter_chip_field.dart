@@ -33,8 +33,12 @@ class CategoryFilterChipField extends ConsumerWidget {
             ),
             MultiSelectChipField<String?>(
               onSaved: (_) {},
-              initialValue: categories.where((c) => !excluded.contains(c)).toList(),
-              items: categories.map((c) => MultiSelectItem<String?>(c, c)).toList(),
+              initialValue: categories
+                  .where((c) => !excluded.contains(c))
+                  .toList(),
+              items: categories
+                  .map((c) => MultiSelectItem<String?>(c, c))
+                  .toList(),
               scroll: false,
               showHeader: false,
               height: 220,
@@ -43,39 +47,56 @@ class CategoryFilterChipField extends ConsumerWidget {
                 border: Border(
                   top: BorderSide(
                     color: AppColors.onPrimary.withAlpha(150),
-                    width: 1.5
+                    width: 1.5,
                   ),
                 ),
               ),
-              itemBuilder: (MultiSelectItem<String?> item, FormFieldState<List<String?>> state) {
-                final isSelected = state.value?.contains(item.value) ?? true;
+              itemBuilder:
+                  (
+                    MultiSelectItem<String?> item,
+                    FormFieldState<List<String?>> state,
+                  ) {
+                    final isSelected =
+                        state.value?.contains(item.value) ?? true;
 
-                return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                  child: ChoiceChip(
-                    label: Text(item.value ?? ''),
-                    selected: isSelected,
-                    onSelected: (selected) {
-                      final currentValue = state.value ?? [];
-                      List<String?> newValue;
-                      if (selected) {
-                        newValue = [...currentValue, item.value];
-                      } else {
-                        newValue = currentValue.where((v) => v != item.value).toList();
-                      }
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                      child: ChoiceChip(
+                        label: Text(item.value ?? ''),
+                        selected: isSelected,
+                        onSelected: (selected) {
+                          final currentValue = state.value ?? [];
+                          List<String?> newValue;
+                          if (selected) {
+                            newValue = [...currentValue, item.value];
+                          } else {
+                            newValue = currentValue
+                                .where((v) => v != item.value)
+                                .toList();
+                          }
 
-                      state.didChange(newValue);
+                          state.didChange(newValue);
 
-                      final allSelected = newValue.whereType<String>().toList();
-                      final newExcluded = categories.where((c) => !allSelected.contains(c)).toList();
-                      ref.read(excludedCategoriesControllerProvider.notifier).updateExcluded(newExcluded);
-                    },
-                    labelStyle: TextStyle(
-                      color: isSelected ? Colors.black : AppColors.primaryText,
-                    ),
-                  ),
-                );
-              },
+                          final allSelected = newValue
+                              .whereType<String>()
+                              .toList();
+                          final newExcluded = categories
+                              .where((c) => !allSelected.contains(c))
+                              .toList();
+                          ref
+                              .read(
+                                excludedCategoriesControllerProvider.notifier,
+                              )
+                              .updateExcluded(newExcluded);
+                        },
+                        labelStyle: TextStyle(
+                          color: isSelected
+                              ? Colors.black
+                              : AppColors.primaryText,
+                        ),
+                      ),
+                    );
+                  },
             ),
           ],
         ),

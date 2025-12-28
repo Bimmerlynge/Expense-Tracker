@@ -20,17 +20,13 @@ class MultiSelectMenu<T> extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return SizedBox(
-      child: _buildButton(context),
-    );
+    return SizedBox(child: _buildButton(context));
   }
 
   Widget _buildButton(BuildContext context) {
     return OutlinedButton(
       onPressed: () => _showMultiSelectDialog(context),
-      child: Text(
-        label,
-      ),
+      child: Text(label),
     );
   }
 
@@ -43,7 +39,6 @@ class MultiSelectMenu<T> extends ConsumerWidget {
         itemsTextStyle: TTextTheme.mainTheme.labelMedium,
         selectedItemsTextStyle: TTextTheme.mainTheme.labelMedium,
         checkColor: AppColors.onPrimary,
-
       ),
     );
 

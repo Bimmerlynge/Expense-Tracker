@@ -17,11 +17,11 @@ class Toggle extends StatefulWidget {
     Color? backgroundColor,
     Color? activeAccentColor,
     Color? activeBackgroundColor,
-  })  : accentColor = accentColor ?? AppColors.onPrimary.withAlpha(150),
-        backgroundColor = backgroundColor ?? AppColors.secondary.withAlpha(150),
-        activeAccentColor = activeAccentColor ?? AppColors.onPrimary.withAlpha(220),
-        activeBackgroundColor = activeBackgroundColor ?? Colors.white70
-  ;
+  }) : accentColor = accentColor ?? AppColors.onPrimary.withAlpha(150),
+       backgroundColor = backgroundColor ?? AppColors.secondary.withAlpha(150),
+       activeAccentColor =
+           activeAccentColor ?? AppColors.onPrimary.withAlpha(220),
+       activeBackgroundColor = activeBackgroundColor ?? Colors.white70;
 
   @override
   State<Toggle> createState() => _ToggleState();
@@ -55,7 +55,7 @@ class _ToggleState extends State<Toggle> {
           return widget.activeBackgroundColor;
         }
         return widget.activeAccentColor;
-      })
+      }),
     );
   }
 }

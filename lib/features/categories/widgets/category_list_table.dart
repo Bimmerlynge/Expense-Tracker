@@ -12,7 +12,7 @@ class CategoryListTable extends StatelessWidget {
     super.key,
     required this.categories,
     required this.onDefaultChange,
-    required this.onDeleteCategory
+    required this.onDeleteCategory,
   });
 
   @override
@@ -36,14 +36,8 @@ class CategoryListTable extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            'Kategori',
-            style: TTextTheme.mainTheme.labelMedium,
-          ),
-          Text(
-            'Default udgift',
-            style: TTextTheme.mainTheme.labelMedium,
-          ),
+          Text('Kategori', style: TTextTheme.mainTheme.labelMedium),
+          Text('Default udgift', style: TTextTheme.mainTheme.labelMedium),
         ],
       ),
     );
@@ -86,7 +80,8 @@ class CategoryListTable extends StatelessWidget {
                 inactiveThumbColor: AppColors.onPrimary.withAlpha(150),
                 inactiveTrackColor: AppColors.secondary.withAlpha(150),
                 trackOutlineColor: WidgetStateProperty.all(
-                    AppColors.onPrimary.withAlpha(150)),
+                  AppColors.onPrimary.withAlpha(150),
+                ),
                 activeTrackColor: AppColors.onPrimary.withAlpha(190),
                 thumbColor: WidgetStateProperty.resolveWith<Color>((states) {
                   if (states.contains(WidgetState.selected)) {
@@ -100,9 +95,5 @@ class CategoryListTable extends StatelessWidget {
         ),
       );
     }).toList();
-  }
-
-  void _onLongPress(Category category, BuildContext context) async {
-
   }
 }

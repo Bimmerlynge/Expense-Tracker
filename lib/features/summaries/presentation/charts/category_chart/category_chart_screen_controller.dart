@@ -16,13 +16,14 @@ class CategoryChartScreenController extends _$CategoryChartScreenController {
     state = AsyncLoading();
 
     final service = ref.read(summaryServiceProvider);
-    
-    final stream = service.getTransactionsCurrentMonth()
-        .map(_toCategorySpending);
+
+    final stream = service.getTransactionsCurrentMonth().map(
+      _toCategorySpending,
+    );
 
     _subscription = stream.listen(
-        (categorySpendingList) => state = AsyncData(categorySpendingList),
-      onError: (error, stack) => state = AsyncError(error, stack)
+      (categorySpendingList) => state = AsyncData(categorySpendingList),
+      onError: (error, stack) => state = AsyncError(error, stack),
     );
 
     ref.onDispose(() => _subscription.cancel());

@@ -14,7 +14,7 @@ class Category {
     required this.name,
     this.iconName,
     this.isDefault,
-    this.color
+    this.color,
   });
 
   factory Category.fromFirestore(DocumentSnapshot doc) {
@@ -30,18 +30,11 @@ class Category {
   }
 
   factory Category.fixedExpense() {
-    return Category(
-        name: 'Faste udgifter',
-        isDefault: false,
-    );
+    return Category(name: 'Faste udgifter', isDefault: false);
   }
 
   Map<String, dynamic> toFirestore() {
-    return {
-      'name' : name,
-      'isDefault' : isDefault,
-      'color': color?.toARGB32(),
-    };
+    return {'name': name, 'isDefault': isDefault, 'color': color?.toARGB32()};
   }
 
   Category copyWith({
@@ -49,7 +42,7 @@ class Category {
     String? name,
     String? iconName,
     bool? isDefault,
-    Color? color
+    Color? color,
   }) {
     return Category(
       id: id ?? this.id,
@@ -67,9 +60,7 @@ class Category {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-          other is Category &&
-              runtimeType == other.runtimeType &&
-              id == other.id;
+      other is Category && runtimeType == other.runtimeType && id == other.id;
 
   @override
   int get hashCode => id.hashCode;

@@ -14,7 +14,6 @@ class BalancePieChart extends ConsumerStatefulWidget {
 }
 
 class _BalancePieChartState extends ConsumerState<BalancePieChart> {
-
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -29,8 +28,8 @@ class _BalancePieChartState extends ConsumerState<BalancePieChart> {
           ),
           SizedBox(height: 24),
           Expanded(child: _buildChart()),
-        ]
-      )
+        ],
+      ),
     );
   }
 
@@ -41,8 +40,8 @@ class _BalancePieChartState extends ConsumerState<BalancePieChart> {
         _buildPieChart(),
         _buildChartTitle(),
         _buildChartLegend(),
-        _buildIncomeLegend()
-      ]
+        _buildIncomeLegend(),
+      ],
     );
   }
 
@@ -52,7 +51,7 @@ class _BalancePieChartState extends ConsumerState<BalancePieChart> {
         startDegreeOffset: 270,
         centerSpaceRadius: 60,
         sections: _buildSections(),
-      )
+      ),
     );
   }
 
@@ -67,7 +66,7 @@ class _BalancePieChartState extends ConsumerState<BalancePieChart> {
         value: (widget.balanceTotal.income - widget.balanceTotal.expense),
         color: Colors.green.shade400,
         showTitle: false,
-      )
+      ),
     ];
   }
 
@@ -75,16 +74,16 @@ class _BalancePieChartState extends ConsumerState<BalancePieChart> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text(
-          'Rest',
-          style: TTextTheme.mainTheme.labelSmall,
-        ),
+        Text('Rest', style: TTextTheme.mainTheme.labelSmall),
         Text(
           '${(widget.balanceTotal.income - widget.balanceTotal.expense).toStringAsFixed(2)} kr.',
-          style: TextStyle(color: widget.balanceTotal.expense < widget.balanceTotal.income ?
-          Colors.green.shade400 : Colors.red.shade400),
-        )
-      ]
+          style: TextStyle(
+            color: widget.balanceTotal.expense < widget.balanceTotal.income
+                ? Colors.green.shade400
+                : Colors.red.shade400,
+          ),
+        ),
+      ],
     );
   }
 
@@ -99,14 +98,15 @@ class _BalancePieChartState extends ConsumerState<BalancePieChart> {
                 'Indkomst',
                 style: Theme.of(context).primaryTextTheme.labelSmall,
               ),
-              Text(widget.balanceTotal.income.toStringAsFixed(2),
+              Text(
+                widget.balanceTotal.income.toStringAsFixed(2),
                 textAlign: TextAlign.end,
                 style: Theme.of(context).primaryTextTheme.labelSmall,
-              )
-            ]
-          )
-        ]
-      )
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 
@@ -125,16 +125,17 @@ class _BalancePieChartState extends ConsumerState<BalancePieChart> {
                     'Forbrug',
                     style: Theme.of(context).primaryTextTheme.labelSmall,
                   ),
-                  Text(widget.balanceTotal.expense.toStringAsFixed(2),
+                  Text(
+                    widget.balanceTotal.expense.toStringAsFixed(2),
                     textAlign: TextAlign.end,
                     style: Theme.of(context).primaryTextTheme.labelSmall,
-                  )
-                ]
-              )
-            ]
-          )
-        ]
-      )
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }

@@ -32,8 +32,8 @@ class HistoricCategoryList {
     final maxAmount = list
         .where((h) => !hiddenCategories.contains(h.category.name))
         .expand((h) => h.dataSet.values)
-      .map((c) => c.total)
-      .fold<double>(0, (max, amount) => amount > max ? amount : max);
+        .map((c) => c.total)
+        .fold<double>(0, (max, amount) => amount > max ? amount : max);
 
     return maxAmount;
   }

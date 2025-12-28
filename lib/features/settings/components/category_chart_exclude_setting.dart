@@ -17,16 +17,17 @@ class CategoryChartExcludeSetting extends ConsumerWidget {
     final allCategories = spendingList.value?.getAllCategories() ?? [];
 
     return SettingsTile(
-    icon: Transform.rotate(
-      angle: math.pi / 2,
-      child: Icon(Icons.bar_chart),
-    ),
-    label: 'Månedsforbrug kategorier',
-    onTap: () => _openDialog(context, allCategories, excludedCategories));
+      icon: Transform.rotate(angle: math.pi / 2, child: Icon(Icons.bar_chart)),
+      label: 'Månedsforbrug kategorier',
+      onTap: () => _openDialog(context, allCategories, excludedCategories),
+    );
   }
 
   Future<void> _openDialog(
-      BuildContext context, List<String> categories, List<String> excluded) async {
+    BuildContext context,
+    List<String> categories,
+    List<String> excluded,
+  ) async {
     await showModalBottomSheet(
       context: context,
       isScrollControlled: true,

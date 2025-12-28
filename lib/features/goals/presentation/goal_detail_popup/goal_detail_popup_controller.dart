@@ -6,7 +6,6 @@ part 'goal_detail_popup_controller.g.dart';
 
 @riverpod
 class GoalDetailPopupController extends _$GoalDetailPopupController {
-
   @override
   void build() {}
 

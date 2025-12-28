@@ -13,15 +13,13 @@ class SettingsPage extends ConsumerWidget {
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            SizedBox(height: 32,),
+            SizedBox(height: 32),
             SettingSection(
-                title: 'Grafer',
-                children: [
-                  CategoryChartExcludeSetting()
-                ]
-            )
+              title: 'Grafer',
+              children: [CategoryChartExcludeSetting()],
+            ),
           ],
-        )
+        ),
       ),
     );
   }

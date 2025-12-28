@@ -7,11 +7,7 @@ class GoalListItem extends StatelessWidget {
   final Goal goal;
   final Future<void> Function(Goal) onDelete;
 
-  const GoalListItem({
-    super.key,
-    required this.goal,
-    required this.onDelete
-  });
+  const GoalListItem({super.key, required this.goal, required this.onDelete});
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +25,7 @@ class GoalListItem extends StatelessWidget {
               children: [
                 _buildImage(),
                 const SizedBox(width: 12),
-                _buildInfo()
+                _buildInfo(),
               ],
             ),
           ),
@@ -37,15 +33,15 @@ class GoalListItem extends StatelessWidget {
         Positioned(
           right: -23,
           top: -13,
-            child: IconButton(
-              onPressed: () async {
-                await onDelete(goal);
-              },
-              color: Colors.red,
-              icon: Icon(Icons.delete),
-            )
-        )
-      ]
+          child: IconButton(
+            onPressed: () async {
+              await onDelete(goal);
+            },
+            color: Colors.red,
+            icon: Icon(Icons.delete),
+          ),
+        ),
+      ],
     );
   }
 
@@ -56,43 +52,47 @@ class GoalListItem extends StatelessWidget {
         width: 90,
         height: 90,
         child: goal.uri != null
-          ? Image.network(
-              goal.uri!,
-              fit: BoxFit.cover,
-              errorBuilder: (context, error, stackTrace) {
-                return Image.asset(
-                  'lib/app/assets/images/istockphoto.jpg',
-                  fit: BoxFit.cover,
-                );
-              },
-            )
-          : Image.asset('lib/app/assets/images/istockphoto.jpg', fit: BoxFit.cover)
+            ? Image.network(
+                goal.uri!,
+                fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) {
+                  return Image.asset(
+                    'lib/app/assets/images/istockphoto.jpg',
+                    fit: BoxFit.cover,
+                  );
+                },
+              )
+            : Image.asset(
+                'lib/app/assets/images/istockphoto.jpg',
+                fit: BoxFit.cover,
+              ),
       ),
     );
   }
 
   Widget _buildInfo() {
     return Expanded(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _title(),
-            const SizedBox(height: 6),
-            _progressBar(),
-            const SizedBox(height: 6),
-            _amountsRow()
-          ],
-        )
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _title(),
+          const SizedBox(height: 6),
+          _progressBar(),
+          const SizedBox(height: 6),
+          _amountsRow(),
+        ],
+      ),
     );
   }
 
   Text _title() {
     return Text(
-        goal.title,
-        style: TTextTheme.mainTheme.labelMedium?.copyWith(
-          fontSize: 18, fontWeight: FontWeight.bold,
-          color: Colors.white70
-        ),
+      goal.title,
+      style: TTextTheme.mainTheme.labelMedium?.copyWith(
+        fontSize: 18,
+        fontWeight: FontWeight.bold,
+        color: Colors.white70,
+      ),
     );
   }
 
@@ -111,8 +111,9 @@ class GoalListItem extends StatelessWidget {
 
   Widget _amountsRow() {
     final remaining = goal.goalAmount - goal.currentAmount;
-    final percentSaved = ((goal.currentAmount / goal.goalAmount)
-        .clamp(0.0, 1.0) * 100).toStringAsFixed(0);
+    final percentSaved =
+        ((goal.currentAmount / goal.goalAmount).clamp(0.0, 1.0) * 100)
+            .toStringAsFixed(0);
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -121,12 +122,18 @@ class GoalListItem extends StatelessWidget {
           children: [
             Text(
               '${goal.currentAmount.toStringAsFixed(0)} opsparet',
-              style: TTextTheme.mainTheme.bodySmall?.copyWith(letterSpacing: 2, color: Colors.white60),
+              style: TTextTheme.mainTheme.bodySmall?.copyWith(
+                letterSpacing: 2,
+                color: Colors.white60,
+              ),
             ),
             Text(
-             '${remaining.toStringAsFixed(0)} tilbage',
-              style: TTextTheme.mainTheme.bodySmall?.copyWith(letterSpacing: 2, color: Colors.white60),
-            )
+              '${remaining.toStringAsFixed(0)} tilbage',
+              style: TTextTheme.mainTheme.bodySmall?.copyWith(
+                letterSpacing: 2,
+                color: Colors.white60,
+              ),
+            ),
           ],
         ),
         Column(
@@ -134,14 +141,21 @@ class GoalListItem extends StatelessWidget {
           children: [
             Text(
               '$percentSaved% opsparet',
-              style: TTextTheme.mainTheme.bodySmall?.copyWith(color: Colors.green, letterSpacing: 2, fontWeight: FontWeight.bold),
+              style: TTextTheme.mainTheme.bodySmall?.copyWith(
+                color: Colors.green,
+                letterSpacing: 2,
+                fontWeight: FontWeight.bold,
+              ),
             ),
             Text(
               '${goal.goalAmount.toStringAsFixed(0)} i alt',
-              style: TTextTheme.mainTheme.bodySmall?.copyWith(letterSpacing: 2, color: Colors.white60),
-            )
+              style: TTextTheme.mainTheme.bodySmall?.copyWith(
+                letterSpacing: 2,
+                color: Colors.white60,
+              ),
+            ),
           ],
-        )
+        ),
       ],
     );
   }

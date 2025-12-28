@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:expense_tracker/app/config/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -17,8 +19,7 @@ class PopupWidget<T> extends ConsumerStatefulWidget {
     this.headerTitle,
     required this.bodyContent,
     required this.onConfirm,
-    required this.confirmText
-
+    required this.confirmText,
   });
 
   @override
@@ -42,12 +43,12 @@ class _PopupWidgetState extends ConsumerState<PopupWidget> {
     }
 
     return Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(widget.headerTitle!),
-          const SizedBox(height: 4),
-          Divider(thickness: 1, color: AppColors.onPrimary),
-        ]
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(widget.headerTitle!),
+        const SizedBox(height: 4),
+        Divider(thickness: 1, color: AppColors.onPrimary),
+      ],
     );
   }
 
@@ -83,7 +84,7 @@ class _PopupWidgetState extends ConsumerState<PopupWidget> {
             ),
           ),
         ],
-      )
+      ),
     ];
   }
 }

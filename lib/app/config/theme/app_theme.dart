@@ -39,10 +39,8 @@ class AppTheme {
     snackBarTheme: SnackBarThemeData(),
     dialogTheme: DialogThemeData(
       shape: RoundedSuperellipseBorder(
-          borderRadius: BorderRadius.all(Radius.circular(24)),
-          side: BorderSide(
-              color: AppColors.onPrimary
-          )
+        borderRadius: BorderRadius.all(Radius.circular(24)),
+        side: BorderSide(color: AppColors.onPrimary),
       ),
       backgroundColor: AppColors.primary,
       titleTextStyle: TTextTheme.mainTheme.titleLarge,
@@ -51,9 +49,9 @@ class AppTheme {
       iconColor: AppColors.onPrimary,
     ),
     inputDecorationTheme: InputDecorationTheme(
-        border: InputBorder.none,
-        labelStyle: TTextTheme.mainTheme.labelSmall,
-      contentPadding: EdgeInsets.symmetric(horizontal: 8)
+      border: InputBorder.none,
+      labelStyle: TTextTheme.mainTheme.labelSmall,
+      contentPadding: EdgeInsets.symmetric(horizontal: 8),
     ),
     outlinedButtonTheme: OutlinedButtonThemeData(
       style: OutlinedButton.styleFrom(
@@ -84,35 +82,24 @@ class AppTheme {
     tabBarTheme: TabBarThemeData(
       dividerColor: AppColors.primary,
       indicatorSize: TabBarIndicatorSize.tab,
-      indicator: BoxDecoration(
-        color: AppColors.onPrimary
-      ),
+      indicator: BoxDecoration(color: AppColors.onPrimary),
       indicatorColor: AppColors.onPrimary,
-      unselectedLabelColor: AppColors.onPrimary.withAlpha(100)
+      unselectedLabelColor: AppColors.onPrimary.withAlpha(100),
     ),
     chipTheme: ChipThemeData(
-      color: WidgetStateProperty.resolveWith<Color?>(
-            (states) {
-          if (!states.contains(WidgetState.selected)) {
-            return AppColors.primarySecondText;
-          }
-          return AppColors.primaryText;
-        },
-      ),
+      color: WidgetStateProperty.resolveWith<Color?>((states) {
+        if (!states.contains(WidgetState.selected)) {
+          return AppColors.primarySecondText;
+        }
+        return AppColors.primaryText;
+      }),
     ),
     canvasColor: AppColors.primary,
-    bottomSheetTheme: BottomSheetThemeData(
-      backgroundColor: AppColors.primary
-    ),
+    bottomSheetTheme: BottomSheetThemeData(backgroundColor: AppColors.primary),
     checkboxTheme: CheckboxThemeData(
-      side: WidgetStateBorderSide.resolveWith(
-            (Set<WidgetState> states) {
-          return const BorderSide(
-            color: AppColors.primaryText,
-            width: 2,
-          );
-        },
-      ),
-    )
+      side: WidgetStateBorderSide.resolveWith((Set<WidgetState> states) {
+        return const BorderSide(color: AppColors.primaryText, width: 2);
+      }),
+    ),
   );
 }

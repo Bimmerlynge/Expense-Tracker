@@ -17,13 +17,13 @@ class CategoryListScreen extends ConsumerStatefulWidget {
 }
 
 class _CategoryListScreenState extends ConsumerState<CategoryListScreen> {
-
   @override
   Widget build(BuildContext context) {
     final categoriesAsync = ref.watch(categoryListScreenControllerProvider);
 
     return Column(
       children: [
+        Text('hej'),
         SizedBox(height: 16),
         Text(
           'Kategorier i husstanden',
@@ -31,26 +31,26 @@ class _CategoryListScreenState extends ConsumerState<CategoryListScreen> {
         ),
         SizedBox(height: 8),
         OutlinedButton(
-            onPressed: _showCreateCategoryPopup,
-            child: Text('Opret kategori')
+          onPressed: _showCreateCategoryPopup,
+          child: Text('Opret kategori'),
         ),
         SizedBox(height: 8),
         Expanded(
           child: AsyncValueWidget(
             value: categoriesAsync,
-            data: (categories) => _buildList(categories)
-          )
-        )
+            data: (categories) => _buildList(categories),
+          ),
+        ),
       ],
     );
   }
 
   void _showCreateCategoryPopup() async {
     await showDialog(
-        context: context,
-        builder: (context) {
-          return CreateCategoryPopup();
-        }
+      context: context,
+      builder: (context) {
+        return CreateCategoryPopup();
+      },
     );
   }
 
@@ -60,9 +60,9 @@ class _CategoryListScreenState extends ConsumerState<CategoryListScreen> {
     }
 
     return CategoryListTable(
-        categories: categories,
-        onDefaultChange: _toggleDefault,
-        onDeleteCategory: _handleOnDelete,
+      categories: categories,
+      onDefaultChange: _toggleDefault,
+      onDeleteCategory: _handleOnDelete,
     );
   }
 
@@ -77,7 +77,8 @@ class _CategoryListScreenState extends ConsumerState<CategoryListScreen> {
 
   Future<void> _deleteCategory(Category category) async {
     try {
-      await ref.read(categoryListScreenControllerProvider.notifier)
+      await ref
+          .read(categoryListScreenControllerProvider.notifier)
           .removeCategory(category.id!);
       ToastService.showSuccessToast("Kategori blev slettet!");
     } catch (e) {
@@ -87,18 +88,19 @@ class _CategoryListScreenState extends ConsumerState<CategoryListScreen> {
 
   Future<void> _showDeleteConfirmationDialog(Category category) async {
     await showDialog<bool>(
-        context: context,
-        builder: (dialogContext) => DeleteCategoryDialog(
-            category: category,
-            onConfirm: () async {
-              await _deleteCategory(category);
-            },
-        )
+      context: context,
+      builder: (dialogContext) => DeleteCategoryDialog(
+        category: category,
+        onConfirm: () async {
+          await _deleteCategory(category);
+        },
+      ),
     );
   }
 
   Future<void> _toggleDefault(Category category) async {
-    await ref.read(categoryListScreenControllerProvider.notifier)
+    await ref
+        .read(categoryListScreenControllerProvider.notifier)
         .updateDefaultCategory(category);
   }
 }

@@ -16,12 +16,11 @@ class BalanceChartScreenController extends _$BalanceChartScreenController {
     state = AsyncLoading();
 
     final service = ref.read(summaryServiceProvider);
-    final stream = service.getTransactionsCurrentMonth()
-        .map(_toBalanceTotal);
+    final stream = service.getTransactionsCurrentMonth().map(_toBalanceTotal);
 
     _subscription = stream.listen(
-        (balanceTotals) => state = AsyncData(balanceTotals),
-      onError: (error, stack) => state = AsyncError(error, stack)
+      (balanceTotals) => state = AsyncData(balanceTotals),
+      onError: (error, stack) => state = AsyncError(error, stack),
     );
 
     ref.onDispose(() => _subscription.cancel());
@@ -39,14 +38,24 @@ class BalanceChartScreenController extends _$BalanceChartScreenController {
     return totalsByUser.values.toList();
   }
 
-  void _processTransaction(Map<String, BalanceTotal> totalsByUser, Transaction transaction) {
-    final currentTotal = totalsByUser[transaction.user.id] ??
+  void _processTransaction(
+    Map<String, BalanceTotal> totalsByUser,
+    Transaction transaction,
+  ) {
+    final currentTotal =
+        totalsByUser[transaction.user.id] ??
         BalanceTotal(person: transaction.user, income: 0, expense: 0);
 
     final updated = BalanceTotal(
-        person: transaction.user,
-        income: currentTotal.income + (transaction.type == TransactionType.income ? transaction.amount : 0),
-        expense: currentTotal.expense + (transaction.type == TransactionType.expense ? transaction.amount : 0)
+      person: transaction.user,
+      income:
+          currentTotal.income +
+          (transaction.type == TransactionType.income ? transaction.amount : 0),
+      expense:
+          currentTotal.expense +
+          (transaction.type == TransactionType.expense
+              ? transaction.amount
+              : 0),
     );
 
     totalsByUser[transaction.user.id] = updated;

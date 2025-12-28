@@ -9,7 +9,7 @@ class ImageWidget extends StatelessWidget {
     super.key,
     required this.uri,
     required this.width,
-    required this.height
+    required this.height,
   });
 
   @override
@@ -17,11 +17,14 @@ class ImageWidget extends StatelessWidget {
     return ClipRRect(
       borderRadius: BorderRadius.circular(12),
       child: SizedBox(
-          width: width,
-          height: height,
-          child: uri != null && uri != ""
-              ? Image.network(uri!, fit: BoxFit.cover)
-              : Image.asset('lib/app/assets/images/istockphoto.jpg', fit: BoxFit.cover)
+        width: width,
+        height: height,
+        child: uri != null && uri != ""
+            ? Image.network(uri!, fit: BoxFit.cover)
+            : Image.asset(
+                'lib/app/assets/images/istockphoto.jpg',
+                fit: BoxFit.cover,
+              ),
       ),
     );
   }

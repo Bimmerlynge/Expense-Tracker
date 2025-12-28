@@ -7,7 +7,8 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'transaction_list_screen_controller.g.dart';
 
 @Riverpod(keepAlive: true)
-class TransactionListScreenController extends _$TransactionListScreenController {
+class TransactionListScreenController
+    extends _$TransactionListScreenController {
   late final StreamSubscription<List<Transaction>> _subscription;
 
   @override

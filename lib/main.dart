@@ -14,12 +14,7 @@ Future<void> main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await dotenv.load(fileName: Environment.environmentConfig);
 
-  runApp(
-      ProviderScope(
-        overrides: await getOverrides(),
-          child: App()
-      )
-  );
+  runApp(ProviderScope(overrides: await getOverrides(), child: App()));
 }
 
 class App extends StatelessWidget {

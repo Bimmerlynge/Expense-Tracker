@@ -8,7 +8,7 @@ final summaryServiceProvider = Provider<SummaryService>((ref) {
   return SummaryService(
     transactionService: ref.read(transactionServiceProvider),
     categoryService: ref.read(categoryServiceProvider),
-    ref: ref
+    ref: ref,
   );
 });
 
@@ -17,7 +17,11 @@ class SummaryService {
   final CategoryService categoryService;
   final Ref ref;
 
-  SummaryService({required this.transactionService, required this.categoryService, required this.ref});
+  SummaryService({
+    required this.transactionService,
+    required this.categoryService,
+    required this.ref,
+  });
 
   Stream<List<Transaction>> getTransactionsCurrentMonth() {
     final now = DateTime.now();
@@ -27,7 +31,10 @@ class SummaryService {
     return transactionService.getTransactionsInRange(start, end);
   }
 
-  Future<List<Transaction>> getTransactionsInRange(DateTime start, DateTime end) async {
+  Future<List<Transaction>> getTransactionsInRange(
+    DateTime start,
+    DateTime end,
+  ) async {
     return await transactionService.getTransactionInRange(start, end);
   }
 

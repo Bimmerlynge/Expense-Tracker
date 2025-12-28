@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final transactionServiceProvider = Provider<TransactionService>((ref) {
   return TransactionService(
-      transactionRepository: ref.watch(transactionRepositoryProvider)
+    transactionRepository: ref.watch(transactionRepositoryProvider),
   );
 });
 
@@ -17,12 +17,18 @@ class TransactionService {
     return transactionRepository.getTransactionsStream();
   }
 
-  Stream<List<Transaction>> getTransactionsInRange(DateTime start, DateTime end) {
+  Stream<List<Transaction>> getTransactionsInRange(
+    DateTime start,
+    DateTime end,
+  ) {
     return getAllTransactionsStream().map(
-        (transactions) => transactions.where(
-            (t) => !t.transactionTime!.isBefore(start) &&
-                  t.transactionTime!.isBefore(end)
-        ).toList()
+      (transactions) => transactions
+          .where(
+            (t) =>
+                !t.transactionTime!.isBefore(start) &&
+                t.transactionTime!.isBefore(end),
+          )
+          .toList(),
     );
   }
 
@@ -39,8 +45,10 @@ class TransactionService {
     }
   }
 
-  Future<List<Transaction>> getTransactionInRange(DateTime start, DateTime end) async {
+  Future<List<Transaction>> getTransactionInRange(
+    DateTime start,
+    DateTime end,
+  ) async {
     return await transactionRepository.getTransactionsInRange(start, end);
   }
 }
-

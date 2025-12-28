@@ -12,7 +12,9 @@ class CategoryBarChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (categorySpendingList.isEmpty) {
-      return const Center(child: EmptyListText(text: 'Ingen udgifter for perioden'));
+      return const Center(
+        child: EmptyListText(text: 'Ingen udgifter for perioden'),
+      );
     }
 
     return Align(
@@ -22,15 +24,14 @@ class CategoryBarChart extends StatelessWidget {
         width: MediaQuery.of(context).size.width * 0.8,
         child: BarChart(
           BarChartData(
-            borderData: FlBorderData(
-              show: false
-            ),
+            borderData: FlBorderData(show: false),
             rotationQuarterTurns: 1,
             gridData: FlGridData(show: false),
             barGroups: _buildBarGroups(),
             titlesData: _buildTilesData(context),
-            barTouchData: _buildBarTouchData()
-        )),
+            barTouchData: _buildBarTouchData(),
+          ),
+        ),
       ),
     );
   }
@@ -60,7 +61,7 @@ class CategoryBarChart extends StatelessWidget {
           textAlign: TextAlign.end,
           style: TTextTheme.mainTheme.labelSmall!.copyWith(
             letterSpacing: 0,
-            fontSize: 14
+            fontSize: 14,
           ),
         ),
       );
@@ -70,27 +71,27 @@ class CategoryBarChart extends StatelessWidget {
 
   BarTouchData _buildBarTouchData() {
     return BarTouchData(
-        enabled: true,
-        handleBuiltInTouches: false,
-        touchTooltipData: BarTouchTooltipData(
-          getTooltipColor: (group) => Colors.transparent,
-          tooltipMargin: 16,
-          tooltipHorizontalOffset: 2,
-          getTooltipItem: (group, groupIndex, rod, rodIndex) {
-            if (groupIndex < 0 || groupIndex >= categorySpendingList.length) {
-              return null;
-            }
+      enabled: true,
+      handleBuiltInTouches: false,
+      touchTooltipData: BarTouchTooltipData(
+        getTooltipColor: (group) => Colors.transparent,
+        tooltipMargin: 16,
+        tooltipHorizontalOffset: 2,
+        getTooltipItem: (group, groupIndex, rod, rodIndex) {
+          if (groupIndex < 0 || groupIndex >= categorySpendingList.length) {
+            return null;
+          }
 
-            final item = categorySpendingList[groupIndex];
-            return BarTooltipItem(
-              item.total.toStringAsFixed(2),
-              TTextTheme.mainTheme.labelSmall!.copyWith(
-                letterSpacing: 0,
-                fontSize: 14
-              )
-            );
-          },
-        )
+          final item = categorySpendingList[groupIndex];
+          return BarTooltipItem(
+            item.total.toStringAsFixed(2),
+            TTextTheme.mainTheme.labelSmall!.copyWith(
+              letterSpacing: 0,
+              fontSize: 14,
+            ),
+          );
+        },
+      ),
     );
   }
 
@@ -105,7 +106,7 @@ class CategoryBarChart extends StatelessWidget {
             toY: item.total,
             width: 30,
             borderRadius: BorderRadius.zero,
-            color: _getColor(i)
+            color: _getColor(i),
           ),
         ],
       );
@@ -121,6 +122,6 @@ class CategoryBarChart extends StatelessWidget {
   final List<Color> _colorSet = [
     Colors.pink.shade100,
     Colors.pink.shade200,
-    Colors.pink.shade300
+    Colors.pink.shade300,
   ];
 }

@@ -23,7 +23,7 @@ class PersonInput extends ConsumerWidget {
         }
 
         if (persons.length < 2) {
-          return SizedBox(height: 0,);
+          return SizedBox(height: 0);
         }
 
         final twoPersons = persons.take(2).toList();

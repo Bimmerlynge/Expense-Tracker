@@ -16,9 +16,8 @@ class _TransactionPageState extends ConsumerState<FinancePage>
 
   final List<Widget> _tabs = [
     TransactionListScreen(),
-    FixedExpenseListScreen()
+    FixedExpenseListScreen(),
   ];
-
 
   @override
   void initState() {
@@ -28,30 +27,22 @@ class _TransactionPageState extends ConsumerState<FinancePage>
 
   void _setupTabController() {
     _tabController = TabController(length: 2, vsync: this);
-
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: NestedScrollView(
-            headerSliverBuilder: (context, boxIsScrolled) =>
-                _headerSliverBuilder(context, boxIsScrolled),
-            body: _buildTabBarView()
-        )
+      body: NestedScrollView(
+        headerSliverBuilder: (context, boxIsScrolled) =>
+            _headerSliverBuilder(context, boxIsScrolled),
+        body: _buildTabBarView(),
+      ),
     );
   }
 
-  List<Widget> _headerSliverBuilder(
-      BuildContext context,
-      bool boxIsScrolled
-      ) {
+  List<Widget> _headerSliverBuilder(BuildContext context, bool boxIsScrolled) {
     return <Widget>[
-      SliverAppBar(
-        pinned: true,
-        toolbarHeight: 16,
-        bottom: _buildTabBar(),
-      )
+      SliverAppBar(pinned: true, toolbarHeight: 16, bottom: _buildTabBar()),
     ];
   }
 
@@ -59,7 +50,7 @@ class _TransactionPageState extends ConsumerState<FinancePage>
     return TabBar(
       tabs: [
         Tab(child: Icon(Icons.swap_horiz_outlined)),
-        Tab(child: Icon(Icons.event_note_outlined))
+        Tab(child: Icon(Icons.event_note_outlined)),
       ],
       controller: _tabController,
     );
