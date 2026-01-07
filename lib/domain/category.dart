@@ -60,8 +60,13 @@ class Category {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is Category && runtimeType == other.runtimeType && id == other.id;
+      other is Category && runtimeType == other.runtimeType && name == other.name;
 
   @override
   int get hashCode => id.hashCode;
+
+  @override
+  String toString() {
+    return name;
+  }
 }
