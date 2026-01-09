@@ -20,6 +20,20 @@ class _DateInputState extends ConsumerState<DateInput> {
     final selectedDate = ref.watch(selectedDateProvider);
     final selectedDateNotifier = ref.read(selectedDateProvider.notifier);
 
+    final now = DateTime.now();
+
+    final minDate = DateTime(
+      now.year,
+      now.month - 6,
+      now.day,
+    );
+
+    final maxDate = DateTime(
+      now.year,
+      now.month + 6,
+      now.day,
+    );
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -63,8 +77,8 @@ class _DateInputState extends ConsumerState<DateInput> {
                     ),
                 initialDate: selectedDate,
                 context: context,
-                maxDate: DateTime(2026),
-                minDate: DateTime(2025),
+                maxDate: maxDate,
+                minDate: minDate,
               );
 
               if (date != null) {
