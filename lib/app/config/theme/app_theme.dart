@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 class AppTheme {
   static final ThemeData mainTheme = ThemeData(
     iconTheme: IconThemeData(color: AppColors.onPrimary),
-    bottomAppBarTheme: BottomAppBarTheme(
+    bottomAppBarTheme: BottomAppBarThemeData(
       shape: CircularNotchedRectangle(),
       color: AppColors.primary,
     ),
