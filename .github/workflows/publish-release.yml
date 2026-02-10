@@ -84,6 +84,7 @@ jobs:
         with:
           name: release-apk
           path: ${{ steps.rename.outputs.apk_path }}
+          retention-days: 1
 
   commit-version:
     runs-on: ubuntu-latest
