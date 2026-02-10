@@ -1,9 +1,11 @@
 name: Cleanup old releases
 
 on:
-  workflow_dispatch:
-  release:
-    types: [published]
+  workflow_dispatch: {}
+  workflow_run:
+    workflows: ["Publish new release"]
+    types:
+      - completed
 
 permissions:
   contents: write
