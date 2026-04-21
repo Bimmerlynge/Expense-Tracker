@@ -42,6 +42,18 @@ class FirebaseTransactionRepository implements TransactionRepository {
   }
 
   @override
+  Future<void> postTransactionList(List<Transaction> transactionList) async {
+    final batch = FirebaseFirestore.instance.batch();
+
+    for (final transaction in transactionList) {
+      final docRef = _getCollection().doc();
+      batch.set(docRef, transaction.toFirestore());
+    }
+
+    await batch.commit();
+  }
+
+  @override
   Future<List<Transaction>> getTransactionsInRange(
     DateTime start,
     DateTime end,

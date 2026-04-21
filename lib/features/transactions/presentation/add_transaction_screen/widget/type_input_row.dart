@@ -4,8 +4,10 @@ import 'package:expense_tracker/features/transactions/providers/add_transaction_
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class TypeInput extends ConsumerWidget {
-  const TypeInput({super.key});
+class TypeInputRow extends ConsumerWidget {
+  final ValueChanged<TransactionType> onChanged;
+
+  const TypeInputRow({super.key, required this.onChanged});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -20,7 +22,10 @@ class TypeInput extends ConsumerWidget {
             value: TransactionType.expense,
             selectedValue: selected,
             child: Text('Forbrug'),
-            onSelected: (value) => selectedNotifier.state = value,
+            onSelected: (value) {
+              selectedNotifier.state = value;
+              onChanged.call(value);
+            }
           ),
         ),
         SizedBox(width: 16),
@@ -29,7 +34,10 @@ class TypeInput extends ConsumerWidget {
             value: TransactionType.income,
             selectedValue: selected,
             child: Text('Indkomst'),
-            onSelected: (value) => selectedNotifier.state = value,
+            onSelected: (value) {
+              selectedNotifier.state = value;
+              onChanged.call(value);
+            }
           ),
         ),
       ],

@@ -3,6 +3,8 @@
 import 'package:expense_tracker/app/providers/app_providers.dart';
 import 'package:expense_tracker/core/bootstrap/app_lifecycle_service.dart';
 import 'package:expense_tracker/core/presentation/main_screen.dart';
+import 'package:expense_tracker/features/categories/presentation/category_list/category_list_screen_controller.dart';
+import 'package:expense_tracker/features/transactions/providers/receipt_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -27,6 +29,7 @@ class _AppInitializerState extends ConsumerState<AppInitializer> {
       _lifecycleService?.init(context);
     });
   }
+
 
   @override
   Widget build(BuildContext context) {

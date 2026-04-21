@@ -8,6 +8,7 @@ final transactionRepositoryProvider = Provider<TransactionRepository>((ref) {
 abstract class TransactionRepository {
   Stream<List<Transaction>> getTransactionsStream();
   Future<void> postTransaction(Transaction transaction);
+  Future<void> postTransactionList(List<Transaction> transactionList);
   Future<bool> deleteTransactionById(String id);
   Future<List<Transaction>> getTransactionsInRange(
     DateTime start,
