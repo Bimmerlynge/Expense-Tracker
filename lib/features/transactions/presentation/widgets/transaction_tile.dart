@@ -19,8 +19,8 @@ class TransactionTile extends StatelessWidget {
             : Colors.green,
       ),
       title: (transaction.description?.isNotEmpty ?? false)
-          ? Text('${transaction.category.name} - ${transaction.description}')
-          : Text(transaction.category.name),
+          ? Text('${transaction.category!.name} - ${transaction.description}')
+          : Text(transaction.category!.name),
       subtitle: Text(
         '${transaction.transactionTime!.formatDate()} \n${transaction.user.name}',
       ),

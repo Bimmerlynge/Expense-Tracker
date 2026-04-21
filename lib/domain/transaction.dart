@@ -81,4 +81,22 @@ class Transaction {
       'description': description,
     };
   }
+
+  Transaction copyWith({
+    double? amount,
+    DateTime? date,
+    Category? category,
+    Person? person,
+    TransactionType? type,
+    String? description
+  }) {
+    return Transaction(
+        user: person ?? this.user,
+        amount: amount ?? this.amount,
+        transactionTime: date ?? this.transactionTime,
+        category: category ?? this.category,
+        type: type ?? this.type,
+        description: description ?? this.description
+    );
+  }
 }

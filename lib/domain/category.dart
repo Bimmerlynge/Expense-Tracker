@@ -63,7 +63,7 @@ class Category {
       other is Category && runtimeType == other.runtimeType && name == other.name;
 
   @override
-  int get hashCode => id.hashCode;
+  int get hashCode => name.hashCode;
 
   @override
   String toString() {

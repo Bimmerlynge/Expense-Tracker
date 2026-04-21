@@ -25,4 +25,8 @@ class AddTransactionScreenController extends _$AddTransactionScreenController {
       throw ArgumentError('Beløb kan ikke være 0 eller mindre');
     }
   }
+
+  void update(double? amount) {
+
+  }
 }

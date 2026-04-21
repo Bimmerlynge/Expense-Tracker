@@ -6,7 +6,7 @@ import 'package:expense_tracker/features/transactions/components/add_transaction
 import 'package:expense_tracker/features/transactions/components/add_transaction_inputs/date_input.dart';
 import 'package:expense_tracker/features/transactions/components/add_transaction_inputs/description_input.dart';
 import 'package:expense_tracker/features/transactions/components/add_transaction_inputs/person_input.dart';
-import 'package:expense_tracker/features/transactions/components/add_transaction_inputs/type_input.dart';
+import 'package:expense_tracker/features/transactions/presentation/add_transaction_screen/widget/type_input_row.dart';
 import 'package:expense_tracker/features/transactions/presentation/add_transaction_screen/add_transaction_screen_controller.dart';
 import 'package:expense_tracker/features/transactions/providers/add_transaction_providers.dart';
 import 'package:flutter/material.dart';
@@ -100,7 +100,7 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
         DateInput(),
         CategoryInput(),
         PersonInput(),
-        TypeInput(),
+        TypeInputRow(onChanged: (_) {}),
         DescriptionInput(focusNode: _descriptionFocusNode),
       ],
     );

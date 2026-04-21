@@ -16,4 +16,6 @@ class CategorySpending {
 
     total += transaction.amount;
   }
+
+
 }

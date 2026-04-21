@@ -23,11 +23,14 @@ class RadioButton<T> extends StatelessWidget {
       onPressed: () => onSelected(value),
       style: OutlinedButton.styleFrom(
         side: BorderSide(
-          color: isSelected ? AppColors.onPrimary : AppColors.primarySecondText,
+          color: isSelected ? AppColors.primary : Colors.grey.shade300,
         ),
         foregroundColor: isSelected
-            ? AppColors.onPrimary
+            ? AppColors.whiter
             : AppColors.primarySecondText,
+        backgroundColor: isSelected
+          ? AppColors.primary
+          : AppColors.white
       ),
       child: child,
     );

@@ -45,7 +45,7 @@ class AppTheme {
       backgroundColor: AppColors.primary,
       titleTextStyle: TTextTheme.mainTheme.titleLarge,
       contentTextStyle: TTextTheme.mainTheme.bodySmall,
-      alignment: Alignment.centerLeft,
+      alignment: Alignment.center,
       iconColor: AppColors.onPrimary,
     ),
     inputDecorationTheme: InputDecorationTheme(
