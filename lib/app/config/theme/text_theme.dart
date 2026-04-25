@@ -29,5 +29,9 @@ class TTextTheme {
       color: AppColors.primaryText,
       letterSpacing: 2,
     ),
+    headlineLarge: TextStyle(
+      color: AppColors.white,
+      fontSize: 20,
+      fontWeight: FontWeight.w300)
   );
 }
