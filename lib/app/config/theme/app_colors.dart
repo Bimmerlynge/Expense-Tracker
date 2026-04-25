@@ -13,4 +13,5 @@ class AppColors {
   static const Color primaryTertText = Color.fromARGB(255, 72, 150, 180);
 
   static const Color containerOnPrimary = Color.fromARGB(255, 35, 49, 100);
+  static const Color darkBlueAccent = Color(0xCC101C47);
 }
