@@ -53,4 +53,18 @@ class Receipt {
   LineItem getLineItemById(int id) {
     return items.firstWhere((item) => item.id == id);
   }
+  
+  void addLineItem(LineItem lineItem) {
+    lineItem.id = nextId;
+    items.insert(0, lineItem);
+  }
+
+  int get nextId {
+    if (items.isEmpty) return 1;
+    return items.map((e) => e.id!).reduce((a, b) => a > b ? a : b) + 1;
+  }
+
+  bool hasItemById(int id) {
+    return items.any((e) => e.id == id);
+  }
 }

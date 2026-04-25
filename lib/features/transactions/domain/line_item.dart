@@ -1,7 +1,7 @@
 import 'package:expense_tracker/domain/category.dart';
 
 class LineItem {
-  final int? id;
+  int? id;
   final String name;
   double price;
   Category? category;

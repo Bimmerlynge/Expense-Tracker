@@ -1,4 +1,5 @@
 import 'package:expense_tracker/app/providers/app_providers.dart';
+import 'package:expense_tracker/domain/category.dart';
 import 'package:expense_tracker/features/transactions/application/transaction_service.dart';
 import 'package:expense_tracker/features/transactions/domain/discount_item.dart';
 import 'package:expense_tracker/features/transactions/domain/line_item.dart';
@@ -54,8 +55,6 @@ class ReceiptReviewScreenController extends _$ReceiptReviewScreenController {
       updatePreviousDiscount(previousItemWithDiscount);
     }
 
-    // updatePreviousDiscount(updatedLineItem);
-
     discount.appliedTo = updatedLineItem;
     updateUnresolvedDiscount(discount);
   }
@@ -70,5 +69,34 @@ class ReceiptReviewScreenController extends _$ReceiptReviewScreenController {
       return state.unresolvedDiscounts.firstWhere((d) => d != DiscountItem.nullObject() && d.appliedTo?.id == item.id);
     }
     return DiscountItem.nullObject();
+  }
+  
+  void removeLineItem(int id) {
+    final currentList = state.items;
+    final currentDiscounts = state.unresolvedDiscounts;
+
+    DiscountItem? discountApplied;
+
+    for (final e in currentDiscounts) {
+      if (e.appliedTo?.id == id) {
+        discountApplied = e;
+        break;
+      }
+    }
+
+    if (discountApplied != null) {
+      discountApplied.appliedTo = null;
+    }
+
+    currentList.removeWhere((item) => item.id == id);
+    state = state.copyWith(items: currentList, unresolvedDiscounts: currentDiscounts);
+  }
+
+  void addLineItem(String name) {
+    final currentList = state.items;
+    final item = LineItem(id: state.nextId, name: name, price: 0.0, category: Category(name: "Mad"));
+    currentList.insert(0, item);
+
+    state = state.copyWith(items: currentList);
   }
 }
