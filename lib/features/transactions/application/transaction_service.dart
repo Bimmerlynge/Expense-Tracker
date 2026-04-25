@@ -66,7 +66,7 @@ class TransactionService {
   void _applyDiscounts(Receipt receipt) {
     for (var discount in receipt.unresolvedDiscounts) {
       final appliedItem = discount.appliedTo;
-      if (appliedItem == null) continue;
+      if (appliedItem == null || !receipt.hasItemById(appliedItem.id!)) continue;
 
       final item = receipt.getLineItemById(appliedItem.id!);
       item.price = double.parse((item.price - discount.amount).toStringAsFixed(2));

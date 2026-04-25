@@ -1,11 +1,10 @@
-import 'package:date_picker_plus/date_picker_plus.dart';
 import 'package:expense_tracker/app/config/theme/app_colors.dart';
-import 'package:expense_tracker/app/config/theme/text_theme.dart';
+import 'package:expense_tracker/app/shared/widgets/premium_blue.dart';
 import 'package:expense_tracker/app/shared/widgets/white_box.dart';
 import 'package:expense_tracker/features/categories/presentation/category_list/category_list_screen_controller.dart';
 import 'package:expense_tracker/features/common/widget/async_value_widget.dart';
-import 'package:expense_tracker/features/transactions/components/add_transaction_inputs/date_input.dart';
 import 'package:expense_tracker/features/transactions/domain/receipt.dart';
+import 'package:expense_tracker/features/transactions/presentation/receipt_review_screen/receipt_review_screen_controller.dart';
 import 'package:expense_tracker/features/transactions/presentation/widgets/line_item_tile.dart';
 import 'package:expense_tracker/features/transactions/presentation/widgets/receipt_date_row.dart';
 import 'package:flutter/material.dart';
@@ -35,7 +34,6 @@ class _ReceiptWidgetState extends ConsumerState<ReceiptWidget> {
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 12),
         child: Column(
-          // mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             ReceiptDateRow(initialDate: widget.receipt.date, onDateChanged: (_){}),
@@ -45,7 +43,6 @@ class _ReceiptWidgetState extends ConsumerState<ReceiptWidget> {
               Divider()
             },
             _itemListRow()
-      
           ],
         ),
       ),
@@ -61,7 +58,12 @@ class _ReceiptWidgetState extends ConsumerState<ReceiptWidget> {
         children: [
           _addItem(),
           ...widget.receipt.items.map((item) {
-            return LineItemTile(item: item, categories: categories, undeterminedDiscounts: widget.receipt.unresolvedDiscounts);
+            return LineItemTile(
+                item: item,
+                categories: categories,
+                undeterminedDiscounts: widget.receipt.unresolvedDiscounts,
+                onDeleteItem: ref.read(receiptReviewScreenControllerProvider.notifier).removeLineItem,
+            );
           })
         ],
       )
@@ -75,18 +77,74 @@ class _ReceiptWidgetState extends ConsumerState<ReceiptWidget> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text('Scannede varer', style: TextStyle(fontWeight: FontWeight.bold)),
-            Row(
-              children: [
-                IconButton(onPressed: () {}, icon: Icon(Icons.add)),
-                Text('Tilføj vare', style: TextStyle(color: AppColors.onPrimary)),
-                SizedBox(width: 12)
-              ],
-            )
+            GestureDetector(
+              onTap: _addItemModal,
+              child: Row(
+                children: [
+                  Icon(Icons.add),
+                  Text('Tilføj vare', style: TextStyle(color: AppColors.onPrimary)),
+                  SizedBox(width: 12,)
+                ],
+              ),
+            ),
           ],
         ),
         Divider()
       ],
     );
+  }
+
+  Future<void> _addItemModal() async {
+    final name = await showModalBottomSheet<String>(
+      context: context,
+      backgroundColor: AppColors.white,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
+      builder: (context) {
+        final controller = TextEditingController();
+
+        return Padding(
+          padding: EdgeInsets.only(
+            bottom: MediaQuery.of(context).viewInsets.bottom,
+            top: 16,
+            left: 16,
+            right: 16,
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: controller,
+                autofocus: true,
+                decoration: const InputDecoration(
+                  labelStyle: TextStyle(color: AppColors.primarySecondText),
+                  labelText: 'Varenavn',
+                  border: OutlineInputBorder(),
+                ),
+                onSubmitted: (value) => Navigator.pop(context, value),
+              ),
+              const SizedBox(height: 12),
+              SizedBox(
+                width: double.infinity,
+                child: PremiumBlueButton(
+                    text: "Tilføj",
+                    onTap: () => Navigator.pop(context, controller.text),
+                    linearBegin: Alignment.topLeft,
+                    linearEnd: Alignment.bottomRight
+                )
+              ),
+              const SizedBox(height: 12),
+            ],
+          ),
+        );
+      },
+    );
+
+    if (name != null && name.trim().isNotEmpty) {
+      ref.read(receiptReviewScreenControllerProvider.notifier).addLineItem(name);
+    }
   }
 
   Widget _discountListRow() {

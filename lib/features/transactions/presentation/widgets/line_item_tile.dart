@@ -15,8 +15,15 @@ class LineItemTile extends ConsumerStatefulWidget {
   final LineItem item;
   final List<Category> categories;
   final List<DiscountItem> undeterminedDiscounts;
+  final void Function(int) onDeleteItem;
 
-  const LineItemTile({super.key, required this.item, required this.categories, required this.undeterminedDiscounts});
+  const LineItemTile({
+    super.key,
+    required this.item,
+    required this.categories,
+    required this.undeterminedDiscounts,
+    required this.onDeleteItem
+  });
 
   @override
   ConsumerState<LineItemTile> createState() => _LineItemTileState();
@@ -121,13 +128,9 @@ class _LineItemTileState extends ConsumerState<LineItemTile> {
 
   void _onRabatSelected(DiscountItem discount) {
     ref.read(receiptReviewScreenControllerProvider.notifier).update(discount, widget.item);
-
-    // ref.read(receiptReviewScreenControllerProvider.notifier).updatePreviousDiscount(discount, widget.item);
-    // discount.appliedTo = widget.item;
-    // ref.read(receiptReviewScreenControllerProvider.notifier).updateUnresolvedDiscount(discount);
   }
 
   Widget _delete() {
-    return IconButton(onPressed: (){}, icon: Icon(Icons.delete));
+    return IconButton(onPressed: () => widget.onDeleteItem.call(widget.item.id!), icon: Icon(Icons.delete));
   }
 }

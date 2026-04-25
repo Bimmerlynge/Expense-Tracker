@@ -1,3 +1,6 @@
+import 'package:expense_tracker/domain/category.dart';
+import 'package:expense_tracker/features/transactions/domain/discount_item.dart';
+import 'package:expense_tracker/features/transactions/domain/line_item.dart';
 import 'package:expense_tracker/features/transactions/domain/receipt.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
