@@ -11,7 +11,7 @@ class Environment {
   }
 
   static String get apiUrl {
-    return dotenv.env['API_URL'] ?? "Undefined API_URL";
+    return dotenv.env['EXPENSE_TRACKER_API_HOST'] ?? "Undefined API_URL";
   }
 
   static String get gitUrl {

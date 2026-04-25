@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:expense_tracker/app/config/environment/environment.dart';
 import 'package:expense_tracker/app/providers/app_providers.dart';
 import 'package:expense_tracker/features/transactions/domain/receipt.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -14,11 +15,9 @@ class ExpenseTrackerApiClient implements ExpenseTrackerApi {
 
   ExpenseTrackerApiClient({required this.ref});
 
-  static const String BASE_URL = "http://192.168.0.200:8080";
-
   @override
   Future<Receipt> sendImage(File imageFile) async {
-    final uri = Uri.parse('$BASE_URL/uploadImage');
+    final uri = Uri.parse('${Environment.apiUrl}/uploadImage');
 
     final request = http.MultipartRequest("POST", uri);
 
