@@ -96,9 +96,11 @@ class TransactionService {
   }
 
   Transaction _fromLineItem(Person user, LineItem lineItem) {
+    final roundedAmount = (lineItem.price * 100).roundToDouble() / 100;
+
     return Transaction(
         user: user,
-        amount: lineItem.price,
+        amount:roundedAmount,
         category: lineItem.category!,
         type: TransactionType.expense
     );
