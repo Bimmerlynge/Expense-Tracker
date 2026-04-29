@@ -8,6 +8,7 @@ class Toggle extends StatelessWidget {
   final Color backgroundColor;
   final Color activeAccentColor;
   final Color activeBackgroundColor;
+  final Color activeThumbColor;
 
   Toggle({
     super.key,
@@ -17,11 +18,13 @@ class Toggle extends StatelessWidget {
     Color? backgroundColor,
     Color? activeAccentColor,
     Color? activeBackgroundColor,
+    Color? activeThumbColor
   }) : accentColor = accentColor ?? AppColors.onPrimary.withAlpha(150),
        backgroundColor = backgroundColor ?? AppColors.secondary.withAlpha(150),
        activeAccentColor =
            activeAccentColor ?? AppColors.onPrimary.withAlpha(220),
-       activeBackgroundColor = activeBackgroundColor ?? Colors.white70;
+       activeBackgroundColor = activeBackgroundColor ?? Colors.white70,
+       activeThumbColor = activeThumbColor ?? Colors.white70;
 
   @override
   Widget build(BuildContext context) {
@@ -34,9 +37,9 @@ class Toggle extends StatelessWidget {
       activeTrackColor: activeAccentColor,
       thumbColor: WidgetStateProperty.resolveWith<Color>((states) {
         if (states.contains(WidgetState.selected)) {
-          return activeBackgroundColor;
+          return activeThumbColor;
         }
-        return activeAccentColor;
+        return Colors.white70;
       }),
     );
   }
