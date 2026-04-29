@@ -1,16 +1,9 @@
 import 'package:expense_tracker/app/config/theme/app_colors.dart';
-import 'package:expense_tracker/app/config/theme/text_theme.dart';
-import 'package:expense_tracker/app/shared/components/actions_row.dart';
 import 'package:expense_tracker/app/shared/util/toast_service.dart';
 import 'package:expense_tracker/app/shared/widgets/app_bar_gradiant.dart';
-import 'package:expense_tracker/app/shared/widgets/blue_gradient_background.dart';
 import 'package:expense_tracker/app/shared/widgets/premium_blue.dart';
-import 'package:expense_tracker/domain/category.dart';
-import 'package:expense_tracker/features/transactions/domain/line_item.dart';
 import 'package:expense_tracker/features/transactions/presentation/receipt_review_screen/receipt_review_screen_controller.dart';
-import 'package:expense_tracker/features/transactions/presentation/widgets/line_item_tile.dart';
 import 'package:expense_tracker/features/transactions/presentation/widgets/receipt_widget.dart';
-import 'package:expense_tracker/features/transactions/providers/receipt_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

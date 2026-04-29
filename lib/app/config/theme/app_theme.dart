@@ -93,7 +93,7 @@ class AppTheme {
         return AppColors.primaryText;
       }),
     ),
-    canvasColor: AppColors.primary,
+    canvasColor: AppColors.white,
     bottomSheetTheme: BottomSheetThemeData(backgroundColor: AppColors.primary),
     checkboxTheme: CheckboxThemeData(
       side: WidgetStateBorderSide.resolveWith((Set<WidgetState> states) {

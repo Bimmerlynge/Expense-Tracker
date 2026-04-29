@@ -1,8 +1,15 @@
 import 'package:expense_tracker/app/config/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 
-class BlueGradientBackground extends StatelessWidget {
-  const BlueGradientBackground({super.key});
+class BlueLinearGradient extends StatelessWidget {
+  final Alignment begin;
+  final Alignment end;
+
+  const BlueLinearGradient({
+    super.key,
+    this.begin = Alignment.topLeft,
+    this.end = Alignment.bottomRight
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -13,6 +20,8 @@ class BlueGradientBackground extends StatelessWidget {
             AppColors.primary,
             AppColors.secondary,
           ],
+          begin: begin,
+          end: end,
         ),
       ),
     );
