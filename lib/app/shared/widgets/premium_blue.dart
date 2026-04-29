@@ -14,8 +14,8 @@ class PremiumBlueButton extends StatelessWidget {
     super.key,
     required this.text,
     required this.onTap,
-    required this.linearBegin,
-    required this.linearEnd,
+    this.linearBegin = Alignment.topLeft,
+    this.linearEnd = Alignment.bottomRight,
     this.icon,
     this.radialCenter,
   });
