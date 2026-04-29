@@ -40,13 +40,12 @@ class AppTheme {
     dialogTheme: DialogThemeData(
       shape: RoundedSuperellipseBorder(
         borderRadius: BorderRadius.all(Radius.circular(24)),
-        side: BorderSide(color: AppColors.onPrimary),
       ),
-      backgroundColor: AppColors.primary,
+      backgroundColor: AppColors.whiter,
       titleTextStyle: TTextTheme.mainTheme.titleLarge,
       contentTextStyle: TTextTheme.mainTheme.bodySmall,
       alignment: Alignment.center,
-      iconColor: AppColors.onPrimary,
+      iconColor: AppColors.secondary,
     ),
     inputDecorationTheme: InputDecorationTheme(
       border: InputBorder.none,

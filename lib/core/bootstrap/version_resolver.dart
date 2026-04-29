@@ -17,7 +17,7 @@ final versionResolverProvider = Provider<VersionResolver>(
 class VersionResolver {
   VersionResolver();
 
-  Future<bool> checkForUpdate(BuildContext context) async {
+  Future<UpdateInfo> checkForUpdate(BuildContext context) async {
     PackageInfo info = await PackageInfo.fromPlatform();
     String currentVersion = info.version;
 
@@ -33,10 +33,10 @@ class VersionResolver {
 
     bool isOutdated = _isAppOutdated(currentVersion, latestVersion);
 
-    if (!isOutdated) return false;
-
-    _showUpdateDialog(context, downloadUrl);
-    return true;
+    return UpdateInfo(
+      hasUpdate: isOutdated,
+      downloadUrl: downloadUrl,
+    );
   }
 
   bool _isAppOutdated(String current, String latest) {
@@ -50,78 +50,14 @@ class VersionResolver {
 
     return false;
   }
+}
 
-  void _showUpdateDialog(BuildContext context, String downloadUrl) {
-    showDialog(
-      barrierDismissible: false,
-      context: context,
-      builder: (_) => AlertDialog(
-        icon: Icon(Icons.new_releases_outlined, color: AppColors.onPrimary),
-        title: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Text('Ny Opdatering!'),
-            const SizedBox(height: 8),
-            Divider(thickness: 1, color: AppColors.onPrimary),
-          ],
-        ),
-        content: const Text(
-          'En ny opdatering er tilgængelig. Installation påkrævet.',
-          textAlign: TextAlign.center,
-        ),
-        actions: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              TextButton(
-                onPressed: () => _performUpdate(context, downloadUrl),
-                child: Text(
-                  'Download',
-                  style: TextStyle(color: AppColors.onPrimary),
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
+class UpdateInfo {
+  final bool hasUpdate;
+  final String downloadUrl;
 
-  Future<void> _performUpdate(BuildContext context, String url) async {
-    try {
-      await _showProgressDialog(context, 'Downloading update...');
-      await _downloadApk(url);
-      Navigator.pop(context);
-    } catch (e) {
-      Navigator.pop(context);
-      debugPrint('Update failed: $e');
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('Failed to update app')));
-    }
-  }
-
-  Future<void> _downloadApk(String apkUrl) async {
-    final uri = Uri.parse(apkUrl);
-    await launchUrl(uri, mode: LaunchMode.externalApplication);
-  }
-
-  Future<void> _showProgressDialog(BuildContext context, String message) async {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (_) => AlertDialog(
-        title: Text(message),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            CircularProgressIndicator(),
-            SizedBox(height: 10),
-            Text('Please wait...'),
-          ],
-        ),
-      ),
-    );
-  }
+  UpdateInfo({
+    required this.hasUpdate,
+    required this.downloadUrl,
+  });
 }
