@@ -5,10 +5,10 @@ import 'package:expense_tracker/features/summaries/application/summary_service.d
 import 'package:expense_tracker/features/summaries/domain/balance_total.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part 'balance_chart_screen_controller.g.dart';
+part 'balance_totals_list_async_provider.g.dart';
 
 @riverpod
-class BalanceChartScreenController extends _$BalanceChartScreenController {
+class BalanceTotalsAsync extends _$BalanceTotalsAsync {
   late final StreamSubscription<List<BalanceTotal>> _subscription;
 
   @override

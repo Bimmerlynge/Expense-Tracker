@@ -28,11 +28,6 @@ class _GoalsScreenState extends ConsumerState<GoalsScreen> {
 
     return Column(
       children: [
-        SizedBox(height: 16),
-        Text(
-          'Opsparingsmål',
-          style: Theme.of(context).primaryTextTheme.labelMedium,
-        ),
         SizedBox(height: 8),
         _actions(),
         Expanded(

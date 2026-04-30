@@ -1,7 +1,7 @@
 import 'package:expense_tracker/app/config/theme/app_colors.dart';
 import 'package:expense_tracker/app/shared/components/non_scrollable_tab.dart';
 import 'package:expense_tracker/design_system/pages/tab_page.dart';
-import 'package:expense_tracker/features/summaries/presentation/charts/balance_chart/balance_chart_screen.dart';
+import 'package:expense_tracker/features/summaries/presentation/charts/balance_chart/balance_chart_tab.dart';
 import 'package:expense_tracker/features/summaries/presentation/charts/category_chart/category_chart_screen.dart';
 import 'package:expense_tracker/features/summaries/presentation/charts/historic_chart/historic_chart_screen.dart';
 import 'package:flutter/material.dart';
@@ -20,14 +20,20 @@ class _SummaryPageState extends ConsumerState<SummaryPage>
 
   final List<Widget> _screens = [
     CategoryChartScreen(),
-    NonScrollableTab(child: BalanceChartScreen()),
+    NonScrollableTab(child: BalanceChartTab()),
     NonScrollableTab(child: HistoricChartScreen()),
+  ];
+
+  final List<String> _titles = [
+    "Denne måneds forbrug",
+    "Samlet balance overblik",
+    "Kategori historik"
   ];
 
   @override
   Widget build(BuildContext context) {
     return TabPage(
-      title: "Denne måneds forbrug",
+      title: _titles[_screenIndex],
       body: _screens[_screenIndex],
       tabs: [
         Tab(icon: Icon(Icons.bar_chart, color: AppColors.white)),
