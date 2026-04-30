@@ -10,13 +10,15 @@ class TabPage extends ConsumerStatefulWidget {
   final Widget body;
   final List<Widget> tabs;
   final ValueChanged<int> onTabSelected;
+  final double toolbarHeight;
 
   const TabPage({
     super.key,
     required this.title,
     required this.body,
     required this.tabs,
-    required this.onTabSelected
+    required this.onTabSelected,
+    this.toolbarHeight = 50
   });
 
   @override
@@ -47,8 +49,10 @@ class _TabPageState extends ConsumerState<TabPage>
   }
 
   Widget _background() {
+    final topInset = MediaQuery.of(context).padding.top;
+
     return Container(
-      height: MediaQuery.of(context).size.height * 0.2,
+      height: topInset + widget.toolbarHeight + 100,
       child: BlueLinearGradient(),
     );
   }

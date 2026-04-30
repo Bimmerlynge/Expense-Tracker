@@ -32,13 +32,16 @@ class _MainScreenNewState extends ConsumerState<MainScreenNew> {
         index: _currentIndex,
         children: _pages
       ),
-      bottomNavigationBar: BottomNavBar(
-        currentIndex: _currentIndex,
-        onSelect: (index) {
-          setState(() {
-            _currentIndex = index;
-          });
-        },
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.only(bottom: 8.0),
+        child: BottomNavBar(
+          currentIndex: _currentIndex,
+          onSelect: (index) {
+            setState(() {
+              _currentIndex = index;
+            });
+          },
+        ),
       ),
     );
   }
