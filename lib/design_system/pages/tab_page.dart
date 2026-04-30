@@ -65,7 +65,9 @@ class _TabPageState extends ConsumerState<TabPage>
       child: Container(
         child: Column(
           children: [
-            _buildTabBar(),
+            if (widget.tabs.isNotEmpty) ...[
+              _buildTabBar(),
+            ],
             SizedBox(height: 8),
             _header(),
             SizedBox(height: 16,),
