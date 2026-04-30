@@ -3,7 +3,7 @@ import 'package:expense_tracker/app/providers/app_providers.dart';
 import 'package:expense_tracker/app/shared/components/actions_row.dart';
 import 'package:expense_tracker/app/shared/components/toggle.dart';
 import 'package:expense_tracker/domain/transaction.dart';
-import 'package:expense_tracker/features/summaries/components/category_bar_chart_new.dart';
+import 'package:expense_tracker/features/summaries/presentation/charts/category_chart/category_bar_chart.dart';
 import 'package:expense_tracker/features/summaries/components/category_filter_chip_field.dart';
 import 'package:expense_tracker/features/summaries/domain/category_spending_filter_predicates.dart';
 import 'package:expense_tracker/features/summaries/presentation/charts/category_chart/excluded_categories_controller.dart';
@@ -73,10 +73,13 @@ class _CategoryChartScreenNewState extends ConsumerState<CategoryChartScreen> {
       predicates.add(onlyUserPredicate(currentUser.id));
     }
 
-    return CategoryBarChartNew(
-      items: categorySpendingList.filter(predicates).getAll(),
-    );
+    final list = categorySpendingList.filter(predicates).getAll();
+    list.sort((a, b) => b.total.compareTo(a.total));
+
+    return CategoryBarChart(items: list);
   }
+
+
 
   Future<void> _openFilterDialog() async {
     final spendingList = ref.watch(categorySpendingListProvider);

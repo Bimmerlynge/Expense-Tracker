@@ -7,14 +7,14 @@ import 'package:expense_tracker/features/summaries/presentation/charts/historic_
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class SummaryPageNew extends ConsumerStatefulWidget {
-  const SummaryPageNew({super.key});
+class SummaryPage extends ConsumerStatefulWidget {
+  const SummaryPage({super.key});
 
   @override
-  ConsumerState<SummaryPageNew> createState() => _SummaryPageNewState();
+  ConsumerState<SummaryPage> createState() => _SummaryPageNewState();
 }
 
-class _SummaryPageNewState extends ConsumerState<SummaryPageNew>
+class _SummaryPageNewState extends ConsumerState<SummaryPage>
     with SingleTickerProviderStateMixin {
   var _screenIndex = 0;
 

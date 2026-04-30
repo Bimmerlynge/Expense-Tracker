@@ -1,12 +1,12 @@
 import 'package:expense_tracker/app/config/theme/app_colors.dart';
-import 'package:expense_tracker/features/summaries/components/category_list_item.dart';
+import 'package:expense_tracker/features/summaries/presentation/charts/category_chart/category_list_item.dart';
 import 'package:expense_tracker/features/summaries/domain/category_spending.dart';
 import 'package:flutter/material.dart';
 
-class CategoryBarChartNew extends StatelessWidget {
+class CategoryBarChart extends StatelessWidget {
   final List<CategorySpending> items;
 
-  const CategoryBarChartNew({super.key, required this.items});
+  const CategoryBarChart({super.key, required this.items});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +21,7 @@ class CategoryBarChartNew extends StatelessWidget {
       ),
       itemBuilder: (context, index) {
         final item = items[index];
-        return CategoryItem(item: item, nameWidth: _getMaxTextWidth(), maxValue: _getMaxAmount());
+        return CategoryItem(item: item, nameWidth: _getMaxTextWidth(), maxValue: _getMaxAmount(), maxTotalWidth: _getMaxTotalWidth());
       },
     );
   }
@@ -55,5 +55,23 @@ class CategoryBarChartNew extends StatelessWidget {
     }
 
     return maxWidth;
+  }
+
+  double _getMaxTotalWidth() {
+    if (items.isEmpty) 0.0;
+    final maxTotal = _getMaxAmount();
+
+    final painter = TextPainter(
+      maxLines: 1,
+      textDirection: TextDirection.ltr,
+      text: TextSpan(
+          text: maxTotal.toStringAsFixed(2),
+          style: TextStyle(
+            fontWeight: FontWeight.w600,
+          )
+      )
+    )..layout();
+
+    return painter.width;
   }
 }

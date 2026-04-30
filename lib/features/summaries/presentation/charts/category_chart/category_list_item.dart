@@ -6,12 +6,14 @@ class CategoryItem extends StatelessWidget {
   final CategorySpending item;
   final double nameWidth;
   final double maxValue;
+  final double maxTotalWidth;
 
   const CategoryItem({
     super.key,
     required this.item,
     required this.nameWidth,
-    required this.maxValue
+    required this.maxValue,
+    required this.maxTotalWidth
   });
 
   @override
@@ -40,7 +42,6 @@ class CategoryItem extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(width: 12,),
           Expanded(
             child: ClipRRect(
               borderRadius: BorderRadius.circular(6),
@@ -53,10 +54,14 @@ class CategoryItem extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 12),
-          Text(
-            item.total.toStringAsFixed(2),
-            style: const TextStyle(
-              fontWeight: FontWeight.w600,
+          SizedBox(
+            width: maxTotalWidth + 5,
+            child: Text(
+              textAlign: TextAlign.end,
+              item.total.toStringAsFixed(2),
+              style: const TextStyle(
+                fontWeight: FontWeight.w600,
+              ),
             ),
           ),
         ],

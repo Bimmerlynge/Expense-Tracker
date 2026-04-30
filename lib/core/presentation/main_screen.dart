@@ -1,5 +1,5 @@
 import 'package:expense_tracker/app/config/theme/app_colors.dart';
-import 'package:expense_tracker/core/presentation/summary_page/summary_page_new.dart';
+import 'package:expense_tracker/core/presentation/pages/summary_page.dart';
 import 'package:expense_tracker/design_system/navigation/bottom_nav_bar.dart';
 import 'package:expense_tracker/features/categories/presentation/household_page.dart';
 import 'package:expense_tracker/features/finance/presentation/finance_page.dart';
@@ -19,7 +19,7 @@ class _MainScreenNewState extends ConsumerState<MainScreen>
   int _currentIndex = 0;
 
   final List<Widget> _pages = [
-    const SummaryPageNew(),
+    const SummaryPage(),
     const FinancePage(),
     const HouseholdPage(),
     const GoalsPage(),
