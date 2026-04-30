@@ -11,10 +11,10 @@ class SummaryPage extends ConsumerStatefulWidget {
   const SummaryPage({super.key});
 
   @override
-  ConsumerState<SummaryPage> createState() => _SummaryPageNewState();
+  ConsumerState<SummaryPage> createState() => _SummaryPageState();
 }
 
-class _SummaryPageNewState extends ConsumerState<SummaryPage>
+class _SummaryPageState extends ConsumerState<SummaryPage>
     with SingleTickerProviderStateMixin {
   var _screenIndex = 0;
 
