@@ -1,8 +1,8 @@
 import 'package:expense_tracker/app/config/theme/app_colors.dart';
 import 'package:expense_tracker/core/presentation/pages/finance_page.dart';
+import 'package:expense_tracker/core/presentation/pages/household_page.dart';
 import 'package:expense_tracker/core/presentation/pages/summary_page.dart';
 import 'package:expense_tracker/design_system/navigation/bottom_nav_bar.dart';
-import 'package:expense_tracker/features/categories/presentation/household_page.dart';
 import 'package:expense_tracker/features/goals/presentation/goals_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
