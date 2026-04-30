@@ -2,16 +2,21 @@ import 'package:expense_tracker/app/config/theme/app_colors.dart';
 import 'package:expense_tracker/app/shared/widgets/header_title.dart';
 import 'package:expense_tracker/design_system/background/blue_gradient_background.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class TabPage extends ConsumerStatefulWidget {
   final String title;
   final Widget body;
+  final List<Widget> tabs;
+  final ValueChanged<int> onTabSelected;
 
   const TabPage({
     super.key,
     required this.title,
-    required this.body
+    required this.body,
+    required this.tabs,
+    required this.onTabSelected
   });
 
   @override
@@ -22,17 +27,16 @@ class _TabPageState extends ConsumerState<TabPage>
     with SingleTickerProviderStateMixin {
   late TabController _controller;
 
-
   @override
   void initState() {
     super.initState();
-    _controller = TabController(length: 3, vsync: this);
+    _controller = TabController(length: widget.tabs.length, vsync: this);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.white,
+      backgroundColor: Colors.transparent,
       body: Stack(
         children: [
           _background(),
@@ -50,7 +54,10 @@ class _TabPageState extends ConsumerState<TabPage>
   }
 
   Widget _content() {
-    return SafeArea(
+    final inset = MediaQuery.of(context).padding.top;
+
+    return Padding(
+      padding: EdgeInsets.only(top: inset),
       child: Container(
         child: Column(
           children: [
@@ -106,11 +113,8 @@ class _TabPageState extends ConsumerState<TabPage>
             borderRadius: BorderRadius.circular(12),
         ),
         controller: _controller,
-        tabs: [
-          Tab(icon: Icon(Icons.bar_chart, color: AppColors.white)),
-          Tab(icon: Icon(Icons.person, color: AppColors.white)),
-          Tab(icon: Icon(Icons.show_chart, color: AppColors.white)),
-        ],
+        tabs: widget.tabs,
+        onTap: (index) => widget.onTabSelected.call(index),
       ),
     );
   }

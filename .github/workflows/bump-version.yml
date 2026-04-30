@@ -1,0 +1,145 @@
+name: Bump version
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version tag. fx 1.2.3"
+        required: true
+
+jobs:
+  process-input:
+    runs-on: ubuntu-latest
+    outputs:
+      validated_version: ${{ steps.validate.outputs.validated_version }}
+      release_tag: ${{ steps.tag.outputs.release_tag }}
+    steps:
+      - name: Validate input
+        id: validate
+        run: |
+          VERSION="${{ github.event.inputs.version }}"
+          echo "Input: '$VERSION'"
+          
+          if [[ ! $VERSION =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "Error: Version must be in the format x.y.z (e.g., 1.2.3)"
+            exit 1
+          fi
+          
+          echo "validated_version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Version is valid ✅"
+      - name: Prepare release tag
+        id: tag
+        run: |
+          VALIDATED_VERSION="${{ steps.validate.outputs.validated_version }}"
+          RELEASE_TAG="v$VALIDATED_VERSION"
+
+          echo "release_tag=$RELEASE_TAG" >> $GITHUB_OUTPUT
+          echo "Prepared release tag: $RELEASE_TAG"
+
+  setup-and-build:
+    runs-on: ubuntu-latest
+    needs: process-input
+    outputs:
+      apk_path: ${{ steps.rename.outputs.apk_path }}
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+      - name: Apply version to pubspec.yaml (build only)
+        run: |
+          sed -i "s/^[[:space:]]*version:.*/version: ${{ needs.process-input.outputs.validated_version }}/" pubspec.yaml
+          grep "^version:" pubspec.yaml
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: '3.38.6'
+      - name: Get dependencies
+        run: flutter pub get
+      - name: Generate Riverpod files
+        run: dart run build_runner build --delete-conflicting-outputs
+      - name: Prepare keystore
+        run: |
+          echo "${{ secrets.KEYSTORE }}" | base64 --decode > android/${{ secrets.KEYSTORE_ALIAS }}.jks
+      - name: Prepare key.properties
+        run: |
+          echo "storeFile=../${{ secrets.KEYSTORE_ALIAS }}.jks" > android/key.properties
+          echo "storePassword=${{ secrets.KEYSTORE_PASSWORD }}" >> android/key.properties
+          echo "keyAlias=${{ secrets.KEYSTORE_ALIAS }}" >> android/key.properties
+          echo "keyPassword=${{ secrets.KEYSTORE_KEY_PASSWORD }}" >> android/key.properties
+      - name: Prepare environment
+        run: |
+          echo "GIT_URL_DOWNLOAD=${{ secrets.GIT_URL_DOWNLOAD }}" > lib/app/config/environment/.env-prod
+          echo "AUTH_TOKEN=${{ secrets.AUTH_TOKEN }}" >> lib/app/config/environment/.env-prod
+          echo "EXPENSE_TRACKER_API_HOST=${{ secrets.API_HOST }}" >> lib/app/config/environment/.env-prod
+      - name: Build APK
+        run: flutter build apk --release
+      - name: Rename APK
+        id: rename
+        run: |
+          VERSION="${{ needs.process-input.outputs.validated_version }}"
+          NEW_PATH="build/app/outputs/flutter-apk/expense_tracker_${VERSION}.apk"
+          mv build/app/outputs/flutter-apk/app-release.apk "$NEW_PATH"
+          echo "apk_path=$NEW_PATH" >> $GITHUB_OUTPUT
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-apk
+          path: ${{ steps.rename.outputs.apk_path }}
+          retention-days: 1
+
+  commit-version:
+    runs-on: ubuntu-latest
+    permissions: write-all
+    needs: [ process-input, setup-and-build ]
+    steps:
+      - name: Checkout master branch
+        uses: actions/checkout@v4
+        with:
+          ref: master
+          token: ${{ secrets.REPO_PAT }}
+
+      - name: Apply version to pubspec.yaml (master branch)
+        run: |
+          sed -i "s/^[[:space:]]*version:.*/version: ${{ needs.process-input.outputs.validated_version }}/" pubspec.yaml
+          grep "^version:" pubspec.yaml
+      - name: Commit and push changes
+        run: |
+          VERSION="${{ needs.process-input.outputs.validated_version }}"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add pubspec.yaml
+          git commit -m "Bump version to $VERSION"
+          git push origin master
+
+  create-release:
+    runs-on: ubuntu-latest
+    permissions: write-all
+    needs: [process-input, commit-version]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download APK artifact
+        uses: actions/download-artifact@v5
+        with:
+          name: release-apk
+          path: ./release-apk
+
+      - name: Create Git tag
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.git.createRef({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: `refs/tags/${{ needs.process-input.outputs.release_tag }}`,
+              sha: context.sha          
+            })
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ needs.process-input.outputs.release_tag }}
+          name: ${{ needs.process-input.outputs.release_tag }}
+          files: ./release-apk/*.apk
+

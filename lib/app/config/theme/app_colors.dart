@@ -14,5 +14,5 @@ class AppColors {
 
   static const Color containerOnPrimary = Color.fromARGB(255, 35, 49, 100);
   static const Color darkBlueAccent = Color(0xCC101C47);
-  static const Color opaqueBlueAccent = Color.fromARGB(191, 74, 59, 156);
+  static const Color opaqueBlueAccent = Color.fromARGB(191, 59, 78, 156);
 }
