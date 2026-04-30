@@ -18,7 +18,7 @@ class TabPage extends ConsumerStatefulWidget {
     required this.body,
     required this.tabs,
     required this.onTabSelected,
-    this.toolbarHeight = 50
+    this.toolbarHeight = 150
   });
 
   @override
@@ -52,7 +52,7 @@ class _TabPageState extends ConsumerState<TabPage>
     final topInset = MediaQuery.of(context).padding.top;
 
     return Container(
-      height: topInset + widget.toolbarHeight + 100,
+      height: topInset + widget.toolbarHeight,
       child: BlueLinearGradient(),
     );
   }

@@ -5,10 +5,10 @@ import 'package:expense_tracker/features/summaries/application/summary_service.d
 import 'package:expense_tracker/features/summaries/domain/category_spending_list.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part 'category_chart_screen_controller.g.dart';
+part 'category_spending_list_async_provider.g.dart';
 
 @riverpod
-class CategoryChartScreenController extends _$CategoryChartScreenController {
+class CategorySpendingListAsync extends _$CategorySpendingListAsync {
   late final StreamSubscription<CategorySpendingList> _subscription;
 
   @override
