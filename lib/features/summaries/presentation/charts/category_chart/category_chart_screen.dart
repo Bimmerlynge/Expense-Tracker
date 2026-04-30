@@ -1,39 +1,34 @@
-import 'package:expense_tracker/app/config/theme/text_theme.dart';
+import 'package:expense_tracker/app/config/theme/app_colors.dart';
 import 'package:expense_tracker/app/providers/app_providers.dart';
 import 'package:expense_tracker/app/shared/components/actions_row.dart';
 import 'package:expense_tracker/app/shared/components/toggle.dart';
 import 'package:expense_tracker/domain/transaction.dart';
-import 'package:expense_tracker/features/common/widget/async_value_widget.dart';
-import 'package:expense_tracker/features/summaries/components/category_bar_chart.dart';
+import 'package:expense_tracker/features/summaries/components/category_bar_chart_new.dart';
 import 'package:expense_tracker/features/summaries/components/category_filter_chip_field.dart';
 import 'package:expense_tracker/features/summaries/domain/category_spending_filter_predicates.dart';
-import 'package:expense_tracker/features/summaries/presentation/charts/category_chart/category_chart_screen_controller.dart';
 import 'package:expense_tracker/features/summaries/presentation/charts/category_chart/excluded_categories_controller.dart';
-import 'package:expense_tracker/features/summaries/providers/summary_providers.dart';
+import 'package:expense_tracker/features/summaries/providers/category_spending_list_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../../../providers/summary_providers.dart' show showOnlyMineProvider;
 
 class CategoryChartScreen extends ConsumerStatefulWidget {
   const CategoryChartScreen({super.key});
 
   @override
-  ConsumerState<CategoryChartScreen> createState() =>
-      _CategoryChartScreenState();
+  ConsumerState<CategoryChartScreen> createState() => _CategoryChartScreenNewState();
 }
 
-class _CategoryChartScreenState extends ConsumerState<CategoryChartScreen> {
+class _CategoryChartScreenNewState extends ConsumerState<CategoryChartScreen> {
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: Column(
         children: [
-          SizedBox(height: 16),
-          Text(
-            'Denne måneds forbrug',
-            style: Theme.of(context).primaryTextTheme.labelMedium,
-          ),
           _actions(),
-          _buildChart(),
+          Expanded(child: _buildChart()),
         ],
       ),
     );
@@ -46,51 +41,47 @@ class _CategoryChartScreenState extends ConsumerState<CategoryChartScreen> {
         Row(
           children: [
             Toggle(
+              activeAccentColor: AppColors.primary,
+              backgroundColor: AppColors.primaryText,
+              accentColor: AppColors.primaryText,
               value: ref.watch(showOnlyMineProvider),
               onToggled: (val) {
                 ref.read(showOnlyMineProvider.notifier).state = val;
               },
             ),
-            Text('Vis kun mit', style: TTextTheme.mainTheme.labelSmall),
+            Text('Vis kun mit', style: TextStyle(color: AppColors.containerOnPrimary)),
           ],
         ),
-        IconButton(onPressed: _openFilterDialog, icon: Icon(Icons.rule)),
+        IconButton(onPressed: _openFilterDialog, icon: Icon(Icons.rule, color: AppColors.primary,)),
       ],
     );
   }
 
   Widget _buildChart() {
-    final categorySpendingListAsync = ref.watch(
-      categoryChartScreenControllerProvider,
-    );
+    final categorySpendingList = ref.watch(categorySpendingListProvider);
     final showOnlyMine = ref.watch(showOnlyMineProvider);
     final currentUser = ref.watch(currentUserProvider);
     final excludedCategories = ref.watch(excludedCategoriesControllerProvider);
 
     final predicates = <bool Function(Transaction)>[];
 
-    return AsyncValueWidget(
-      value: categorySpendingListAsync,
-      data: (list) {
-        if (excludedCategories.isNotEmpty) {
-          predicates.add(excludeCategoriesPredicate(excludedCategories));
-        }
+    if (excludedCategories.isNotEmpty) {
+      predicates.add(excludeCategoriesPredicate(excludedCategories));
+    }
 
-        if (showOnlyMine) {
-          predicates.add(onlyUserPredicate(currentUser.id));
-        }
+    if (showOnlyMine) {
+      predicates.add(onlyUserPredicate(currentUser.id));
+    }
 
-        return CategoryBarChart(
-          categorySpendingList: list.filter(predicates).getAll(),
-        );
-      },
+    return CategoryBarChartNew(
+      items: categorySpendingList.filter(predicates).getAll(),
     );
   }
 
   Future<void> _openFilterDialog() async {
-    final spendingList = ref.watch(categoryChartScreenControllerProvider);
+    final spendingList = ref.watch(categorySpendingListProvider);
     final excluded = ref.watch(excludedCategoriesControllerProvider);
-    final categories = spendingList.value?.getAllCategories() ?? [];
+    final categories = spendingList.getAllCategories();
 
     showModalBottomSheet(
       context: context,

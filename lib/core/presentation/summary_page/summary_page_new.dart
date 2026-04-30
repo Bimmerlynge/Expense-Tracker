@@ -2,7 +2,7 @@ import 'package:expense_tracker/app/config/theme/app_colors.dart';
 import 'package:expense_tracker/app/shared/components/non_scrollable_tab.dart';
 import 'package:expense_tracker/design_system/pages/tab_page.dart';
 import 'package:expense_tracker/features/summaries/presentation/charts/balance_chart/balance_chart_screen.dart';
-import 'package:expense_tracker/features/summaries/presentation/charts/category_chart/category_chart_screen_new.dart';
+import 'package:expense_tracker/features/summaries/presentation/charts/category_chart/category_chart_screen.dart';
 import 'package:expense_tracker/features/summaries/presentation/charts/historic_chart/historic_chart_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -19,11 +19,10 @@ class _SummaryPageNewState extends ConsumerState<SummaryPageNew>
   var _screenIndex = 0;
 
   final List<Widget> _screens = [
-    CategoryChartScreenNew(),
+    CategoryChartScreen(),
     NonScrollableTab(child: BalanceChartScreen()),
     NonScrollableTab(child: HistoricChartScreen()),
   ];
-
 
   @override
   Widget build(BuildContext context) {
