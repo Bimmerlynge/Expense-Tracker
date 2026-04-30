@@ -24,7 +24,6 @@ class _MainScreenNewState extends ConsumerState<MainScreenNew> {
     const GoalsPage(),
   ];
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

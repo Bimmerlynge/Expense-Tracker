@@ -1,3 +1,4 @@
+import 'package:expense_tracker/app/config/theme/app_colors.dart';
 import 'package:expense_tracker/app/shared/components/non_scrollable_tab.dart';
 import 'package:expense_tracker/design_system/pages/tab_page.dart';
 import 'package:expense_tracker/features/summaries/presentation/charts/balance_chart/balance_chart_screen.dart';
@@ -13,19 +14,32 @@ class SummaryPageNew extends ConsumerStatefulWidget {
   ConsumerState<SummaryPageNew> createState() => _SummaryPageNewState();
 }
 
-class _SummaryPageNewState extends ConsumerState<SummaryPageNew> {
+class _SummaryPageNewState extends ConsumerState<SummaryPageNew>
+    with SingleTickerProviderStateMixin {
+  var _screenIndex = 0;
 
-  final List<Widget> _tabs = [
+  final List<Widget> _screens = [
     CategoryChartScreenNew(),
     NonScrollableTab(child: BalanceChartScreen()),
     NonScrollableTab(child: HistoricChartScreen()),
   ];
 
+
   @override
   Widget build(BuildContext context) {
     return TabPage(
       title: "Denne måneds forbrug",
-      body: _tabs[0],
+      body: _screens[_screenIndex],
+      tabs: [
+        Tab(icon: Icon(Icons.bar_chart, color: AppColors.white)),
+        Tab(icon: Icon(Icons.person, color: AppColors.white)),
+        Tab(icon: Icon(Icons.show_chart, color: AppColors.white)),
+      ],
+      onTabSelected: (index) {
+        setState(() {
+          _screenIndex = index;
+        });
+      },
     );
   }
 }
