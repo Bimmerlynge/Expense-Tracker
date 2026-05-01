@@ -1,24 +1,19 @@
 import 'package:expense_tracker/app/config/theme/app_colors.dart';
-import 'package:expense_tracker/app/shared/widgets/header_title.dart';
 import 'package:expense_tracker/design_system/background/blue_gradient_background.dart';
+import 'package:expense_tracker/design_system/pages/tab_page_section.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class TabPage extends ConsumerStatefulWidget {
-  final String title;
-  final Widget body;
+  final TabPageSection section;
   final List<Widget> tabs;
   final ValueChanged<int> onTabSelected;
-  final double toolbarHeight;
 
   const TabPage({
     super.key,
-    required this.title,
-    required this.body,
+    required this.section,
     required this.tabs,
     required this.onTabSelected,
-    this.toolbarHeight = 150
   });
 
   @override
@@ -28,6 +23,7 @@ class TabPage extends ConsumerStatefulWidget {
 class _TabPageState extends ConsumerState<TabPage>
     with SingleTickerProviderStateMixin {
   late TabController _controller;
+  double headerHeightBuffer = 150;
 
   @override
   void initState() {
@@ -52,7 +48,7 @@ class _TabPageState extends ConsumerState<TabPage>
     final topInset = MediaQuery.of(context).padding.top;
 
     return Container(
-      height: topInset + widget.toolbarHeight,
+      height: topInset + headerHeightBuffer + widget.section.headerHeightExtension,
       child: BlueLinearGradient(),
     );
   }
@@ -69,21 +65,16 @@ class _TabPageState extends ConsumerState<TabPage>
               _buildTabBar(),
             ],
             SizedBox(height: 8),
-            _header(),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24.0),
+              child: widget.section.header,
+            ),
+            // _header(),
             SizedBox(height: 16,),
             Expanded(child: _body())
           ],
         ),
       ),
-    );
-  }
-
-  Widget _header() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24.0),
-      child: Align(
-          alignment: Alignment.centerLeft,
-          child: HeaderTitle(title: widget.title)),
     );
   }
 
@@ -94,7 +85,7 @@ class _TabPageState extends ConsumerState<TabPage>
         borderRadius: BorderRadius.circular(16)
       ),
       margin: EdgeInsets.symmetric(horizontal: 12),
-      child: widget.body,
+      child: widget.section.body,
     );
   }
 

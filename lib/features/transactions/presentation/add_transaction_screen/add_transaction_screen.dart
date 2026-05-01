@@ -1,6 +1,6 @@
 import 'package:expense_tracker/app/config/theme/app_colors.dart';
 import 'package:expense_tracker/app/shared/components/labelled_field.dart';
-import 'package:expense_tracker/app/shared/components/number_editable_field.dart';
+import 'package:expense_tracker/design_system/primitives/number_editable_field.dart';
 import 'package:expense_tracker/app/shared/components/text_editable_field.dart';
 import 'package:expense_tracker/app/shared/util/toast_service.dart';
 import 'package:expense_tracker/app/shared/widgets/app_bar_gradiant.dart';
