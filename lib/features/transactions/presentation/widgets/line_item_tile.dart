@@ -1,9 +1,6 @@
-import 'package:expense_tracker/app/providers/app_providers.dart';
 import 'package:expense_tracker/app/shared/components/number_editable_field.dart';
 import 'package:expense_tracker/app/shared/widgets/gray_box.dart';
 import 'package:expense_tracker/domain/category.dart';
-import 'package:expense_tracker/features/categories/presentation/category_list/category_list_screen_controller.dart';
-import 'package:expense_tracker/features/transactions/components/add_transaction_inputs/category_input.dart';
 import 'package:expense_tracker/features/transactions/domain/discount_item.dart';
 import 'package:expense_tracker/features/transactions/domain/line_item.dart';
 import 'package:expense_tracker/app/shared/components/t_dropdown.dart';
