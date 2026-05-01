@@ -2,21 +2,18 @@ import 'package:expense_tracker/app/config/theme/app_colors.dart';
 import 'package:expense_tracker/design_system/background/blue_gradient_background.dart';
 import 'package:expense_tracker/design_system/pages/tab_page_section.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class TabPage extends ConsumerStatefulWidget {
   final TabPageSection section;
   final List<Widget> tabs;
   final ValueChanged<int> onTabSelected;
-  final double extendHeaderHeight;
 
   const TabPage({
     super.key,
     required this.section,
     required this.tabs,
     required this.onTabSelected,
-    this.extendHeaderHeight = 0
   });
 
   @override
@@ -51,7 +48,7 @@ class _TabPageState extends ConsumerState<TabPage>
     final topInset = MediaQuery.of(context).padding.top;
 
     return Container(
-      height: topInset + headerHeightBuffer + widget.extendHeaderHeight,
+      height: topInset + headerHeightBuffer + widget.section.headerHeightExtension,
       child: BlueLinearGradient(),
     );
   }
