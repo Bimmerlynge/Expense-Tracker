@@ -1,5 +1,5 @@
 import 'package:expense_tracker/design_system/pages/tab_page.dart';
-import 'package:expense_tracker/features/goals/presentation/goals_screen/goals_screen.dart';
+import 'package:expense_tracker/features/goals/presentation/goals_screen/saving_goals_section.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -15,8 +15,7 @@ class _SavingGoalsPageState extends ConsumerState<SavingGoalsPage> {
   @override
   Widget build(BuildContext context) {
     return TabPage(
-        title: "Opsparingsmål",
-        body: GoalsScreen(),
+        section: SavingGoalsSection(),
         tabs: [],
         onTabSelected: (_) {}
     );
