@@ -30,6 +30,8 @@ class AppAlertDialog extends StatelessWidget {
       ),
       content: content,
       actions: [
+        Divider(color: AppColors.secondary.withAlpha(50)),
+        SizedBox(height: 16,),
         actions
       ],
     );

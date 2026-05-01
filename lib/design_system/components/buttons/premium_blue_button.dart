@@ -8,6 +8,7 @@ class PremiumBlueButton extends StatelessWidget {
   final AlignmentGeometry linearEnd;
   final IconData? icon;
   final AlignmentGeometry? radialCenter;
+  final double height;
 
 
   const PremiumBlueButton({
@@ -18,6 +19,7 @@ class PremiumBlueButton extends StatelessWidget {
     this.linearEnd = Alignment.bottomRight,
     this.icon,
     this.radialCenter,
+    this.height = 54
   });
 
   @override
@@ -26,7 +28,7 @@ class PremiumBlueButton extends StatelessWidget {
       onTap: onTap,
       borderRadius: BorderRadius.circular(14),
       child: Container(
-        height: 54,
+        height: height,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(14),
           boxShadow: [

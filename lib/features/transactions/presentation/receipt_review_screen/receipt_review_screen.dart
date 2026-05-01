@@ -1,7 +1,7 @@
 import 'package:expense_tracker/app/config/theme/app_colors.dart';
 import 'package:expense_tracker/app/shared/util/toast_service.dart';
 import 'package:expense_tracker/app/shared/widgets/app_bar_gradiant.dart';
-import 'package:expense_tracker/app/shared/widgets/premium_blue.dart';
+import 'package:expense_tracker/design_system/components/buttons/premium_blue_button.dart';
 import 'package:expense_tracker/features/transactions/presentation/receipt_review_screen/receipt_review_screen_controller.dart';
 import 'package:expense_tracker/features/transactions/presentation/widgets/receipt_widget.dart';
 import 'package:flutter/material.dart';

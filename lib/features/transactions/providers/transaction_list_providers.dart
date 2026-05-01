@@ -33,15 +33,13 @@ final transactionsProvider = StreamProvider<List<Transaction>>((ref) {
       .getTransactionsInRange(start, end);
 });
 
-final filteredTransactionList = Provider<AsyncValue<List<Transaction>>>((ref) {
+final filteredTransactionList = Provider<List<Transaction>>((ref) {
   final transactionsAsync = ref.watch(transactionsProvider);
   final filter = ref.watch(transactionFilterProvider);
   final currentUser = ref.watch(currentUserProvider);
 
-  return transactionsAsync.whenData(
-      (transactions) => transactions
-          .where(
-            (transaction) => filter.matches(transaction, currentUser))
-          .toList()
+  return transactionsAsync.maybeWhen(
+      data: (list) => list.where((t) => filter.matches(t, currentUser)).toList(),
+      orElse: () => []
   );
 });

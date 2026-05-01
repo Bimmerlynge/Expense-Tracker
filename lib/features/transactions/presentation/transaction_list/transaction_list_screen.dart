@@ -1,12 +1,11 @@
-import 'package:expense_tracker/app/config/theme/text_theme.dart';
+import 'package:expense_tracker/app/config/theme/app_colors.dart';
 import 'package:expense_tracker/app/shared/components/actions_row.dart';
 import 'package:expense_tracker/app/shared/components/multi_select_widget.dart';
 import 'package:expense_tracker/app/shared/components/toggle.dart';
 import 'package:expense_tracker/app/shared/util/toast_service.dart';
+import 'package:expense_tracker/design_system/modals/delete_transaction_modal.dart';
 import 'package:expense_tracker/domain/category.dart';
 import 'package:expense_tracker/domain/transaction.dart';
-import 'package:expense_tracker/features/common/widget/async_value_widget.dart';
-import 'package:expense_tracker/features/transactions/components/delete_transaction_dialog.dart';
 import 'package:expense_tracker/features/transactions/domain/transaction_filter.dart';
 import 'package:expense_tracker/features/transactions/presentation/widgets/transaction_list.dart';
 import 'package:expense_tracker/features/transactions/presentation/transaction_list/transaction_list_screen_controller.dart';
@@ -36,25 +35,39 @@ class _TransactionListScreenState extends ConsumerState<TransactionListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        SizedBox(height: 16),
-        Text(
-          'Alle transaktioner',
-          style: Theme.of(context).primaryTextTheme.labelMedium,
-        ),
-        _actions(),
-        _buildList(),
-      ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      child: Column(
+        children: [
+          _actions(),
+          _buildList(),
+        ],
+      ),
     );
   }
 
   Widget _actions() {
+    final filter = ref.watch(transactionFilterProvider);
+
     return ActionsRow(
       alignment: MainAxisAlignment.spaceBetween,
       actions: [
-        _showMineToggle(),
-        IconButton(onPressed: _onFilterEdit, icon: Icon(Icons.rule))
+        Row(
+          children: [
+            Toggle(
+              activeAccentColor: AppColors.primary,
+              backgroundColor: AppColors.primaryText,
+              accentColor: AppColors.primaryText,
+              value: filter.onlyMine,
+              onToggled: (val) {
+                ref.read(transactionFilterProvider.notifier).state =
+                    filter.copyWith(onlyMine: val);
+              },
+            ),
+            Text('Vis kun mit', style: TextStyle(color: AppColors.containerOnPrimary)),
+          ],
+        ),
+        IconButton(onPressed: _onFilterEdit, icon: Icon(Icons.rule, color: AppColors.primary,)),
       ],
     );
   }
@@ -82,45 +95,29 @@ class _TransactionListScreenState extends ConsumerState<TransactionListScreen> {
         filter.copyWith(categories: updatedCategories.whereType<Category>().toSet());
   }
 
-  Widget _showMineToggle() {
-    final filter = ref.watch(transactionFilterProvider);
-
-    return Row(
-      children: [
-        Toggle(
-            value: filter.onlyMine,
-            onToggled: (val) {
-              ref.read(transactionFilterProvider.notifier).state =
-                filter.copyWith(onlyMine: val);
-            }
-        ),
-        Text('Vis kun mine', style: TTextTheme.mainTheme.labelSmall),
-      ],
-    );
-  }
-
   Widget _buildList() {
-    final transactionsAsync = ref.watch(
-      filteredTransactionList,
-    );
+    final transactions = ref.watch(filteredTransactionList);
+
+    if (transactions.isEmpty) {
+      return Center(
+        child: CircularProgressIndicator(),
+      );
+    }
 
     return Expanded(
-      child: AsyncValueWidget(
-        value: transactionsAsync,
-        data: (transactions) => TransactionList(
+      child: TransactionList(
           transactions: transactions,
           onDelete: _handleOnDelete,
-        ),
-      ),
+        )
     );
   }
 
   Future<void> _handleOnDelete(Transaction transaction) async {
     await showDialog(
       context: context,
-      builder: (dialogContext) => DeleteTransactionDialog(
+      builder: (dialogContext) => DeleteTransactionModal(
         transaction: transaction,
-        onConfirm: () async {
+        onDelete: () async {
           await _deleteTransaction(transaction);
         },
       ),
@@ -131,6 +128,9 @@ class _TransactionListScreenState extends ConsumerState<TransactionListScreen> {
     try {
       await controller.deleteTransaction(transaction.id!);
       ToastService.showSuccessToast("Transaction was deleted!");
+      if (mounted) {
+        Navigator.of(context).pop();
+      }
     } catch (e) {
       ToastService.showErrorToast("Failed to delete transaction.");
     }

@@ -5,7 +5,7 @@ import 'package:expense_tracker/app/shared/components/text_editable_field.dart';
 import 'package:expense_tracker/app/shared/util/toast_service.dart';
 import 'package:expense_tracker/app/shared/widgets/app_bar_gradiant.dart';
 import 'package:expense_tracker/app/shared/widgets/gray_box.dart';
-import 'package:expense_tracker/app/shared/widgets/premium_blue.dart';
+import 'package:expense_tracker/design_system/components/buttons/premium_blue_button.dart';
 import 'package:expense_tracker/app/shared/widgets/white_box.dart';
 import 'package:expense_tracker/domain/transaction.dart';
 import 'package:expense_tracker/features/transactions/presentation/add_transaction_screen/add_transaction_screen_controller_v2.dart';
