@@ -1,5 +1,5 @@
 import 'package:expense_tracker/app/config/theme/app_colors.dart';
-import 'package:expense_tracker/features/transactions/presentation/add_transaction_screen/add_transaction_screen_v2.dart';
+import 'package:expense_tracker/features/transactions/presentation/add_transaction_screen/add_transaction_screen.dart';
 import 'package:flutter/material.dart';
 
 class BottomNavBar extends StatelessWidget {
@@ -73,7 +73,7 @@ class BottomNavBar extends StatelessWidget {
     await Navigator.push(
       context,
       PageRouteBuilder(
-        pageBuilder: (_, _, _) => AddTransactionScreenV2(),//CameraScreen(),
+        pageBuilder: (_, _, _) => AddTransactionScreen(),//CameraScreen(),
         transitionDuration: Duration.zero,
         reverseTransitionDuration: Duration.zero,
       ),

@@ -1,14 +1,19 @@
-import 'package:expense_tracker/app/shared/components/app_bar.dart';
+import 'package:expense_tracker/app/config/theme/app_colors.dart';
+import 'package:expense_tracker/app/shared/components/labelled_field.dart';
+import 'package:expense_tracker/app/shared/components/number_editable_field.dart';
+import 'package:expense_tracker/app/shared/components/text_editable_field.dart';
 import 'package:expense_tracker/app/shared/util/toast_service.dart';
+import 'package:expense_tracker/app/shared/widgets/app_bar_gradiant.dart';
+import 'package:expense_tracker/app/shared/widgets/gray_box.dart';
+import 'package:expense_tracker/design_system/components/buttons/premium_blue_button.dart';
+import 'package:expense_tracker/app/shared/widgets/white_box.dart';
 import 'package:expense_tracker/domain/transaction.dart';
-import 'package:expense_tracker/features/transactions/components/add_transaction_inputs/amount_input.dart';
-import 'package:expense_tracker/features/transactions/components/add_transaction_inputs/category_input.dart';
-import 'package:expense_tracker/features/transactions/components/add_transaction_inputs/date_input.dart';
-import 'package:expense_tracker/features/transactions/components/add_transaction_inputs/description_input.dart';
-import 'package:expense_tracker/features/transactions/components/add_transaction_inputs/person_input.dart';
-import 'package:expense_tracker/features/transactions/presentation/add_transaction_screen/widget/type_input_row.dart';
 import 'package:expense_tracker/features/transactions/presentation/add_transaction_screen/add_transaction_screen_controller.dart';
-import 'package:expense_tracker/features/transactions/providers/add_transaction_providers.dart';
+import 'package:expense_tracker/features/transactions/presentation/add_transaction_screen/widget/category_input_row.dart';
+import 'package:expense_tracker/features/transactions/presentation/add_transaction_screen/widget/date_input_row.dart';
+import 'package:expense_tracker/features/transactions/presentation/add_transaction_screen/widget/person_input_row.dart';
+import 'package:expense_tracker/features/transactions/presentation/add_transaction_screen/widget/type_input_row.dart';
+import 'package:expense_tracker/features/transactions/presentation/camera_screen/camera_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -16,156 +21,177 @@ class AddTransactionScreen extends ConsumerStatefulWidget {
   const AddTransactionScreen({super.key});
 
   @override
-  ConsumerState<AddTransactionScreen> createState() =>
-      _AddTransactionScreenState();
+  ConsumerState<AddTransactionScreen> createState() => _AddTransactionScreenState();
 }
 
 class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
-  final GlobalKey _buttonKey = GlobalKey();
-  final ScrollController _scrollController = ScrollController();
-  final FocusNode _descriptionFocusNode = FocusNode();
-  bool _isLoading = false;
 
-  @override
-  void initState() {
-    super.initState();
-
-    _descriptionFocusNode.addListener(() {
-      if (_descriptionFocusNode.hasFocus) {
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          final buttonContext = _buttonKey.currentContext;
-          if (buttonContext != null) {
-            Scrollable.ensureVisible(
-              buttonContext,
-              duration: Duration(milliseconds: 300),
-              curve: Curves.easeInOut,
-              alignment: 0.1,
-            );
-          }
-        });
-      } else {
-        _scrollController.animateTo(
-          0,
-          duration: Duration(milliseconds: 300),
-          curve: Curves.easeInOut,
-        );
-      }
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
+    final transaction = ref.watch(addTransactionScreenControllerProvider);
     return Scaffold(
-      body: CustomScrollView(
-        physics: NeverScrollableScrollPhysics(),
-        controller: _scrollController,
-        slivers: [
-          TAppBar(innerBoxScrolled: true, title: "Ny Overførsel"),
-          SliverFillRemaining(child: _buildForm()),
-        ],
+      backgroundColor: AppColors.scaffoldBackground,
+      appBar: AppBar(
+        title: Text("Ny transaktion", style: TextStyle(color: AppColors.white)),
+        flexibleSpace: AppBarGradiant(),
       ),
+      body: _buildBody(transaction),
     );
   }
 
-  Widget _buildForm() {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        return SingleChildScrollView(
-          physics: BouncingScrollPhysics(),
-          child: ConstrainedBox(
-            constraints: BoxConstraints(minHeight: constraints.maxHeight),
-            child: IntrinsicHeight(
-              child: Padding(
-                padding: const EdgeInsets.only(right: 32, left: 32, bottom: 32),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Expanded(child: _buildInputs()),
-                    _buildButtons(),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        );
-      },
-    );
-  }
-
-  Widget _buildInputs() {
+  Widget _buildBody(Transaction transaction) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        AmountInput(),
-        DateInput(),
-        CategoryInput(),
-        PersonInput(),
-        TypeInputRow(onChanged: (_) {}),
-        DescriptionInput(focusNode: _descriptionFocusNode),
+        SizedBox(height: 12,),
+        _headerButtons(),
+        SizedBox(height: 12,),
+        Expanded(child: _form(transaction))
       ],
     );
   }
 
-  Widget _buildButtons() {
-    return Align(
-      alignment: Alignment.center,
-      child: OutlinedButton(
-        key: _buttonKey,
-        onPressed: _isLoading
-            ? null
-            : () async {
-                setState(() => _isLoading = true);
-                await onAdd();
-                setState(() => _isLoading = false);
-              },
-        child: _isLoading
-            ? CircularProgressIndicator(strokeWidth: 2)
-            : const Text('Tilføj'),
+  Widget _form(Transaction transaction) {
+    return SingleChildScrollView(
+      padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom + 150),
+      child: Container(
+        margin: EdgeInsets.only(bottom: 12, left: 8, right: 8),
+        child: WhiteBox(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+              child: Column(
+                children: [
+                  _amountRow(transaction),
+                  SizedBox(height: 16),
+                  _dateRow(transaction),
+                  SizedBox(height: 16),
+                  _categoryRow(transaction),
+                  SizedBox(height: 16),
+                  _payerRow(transaction),
+                  SizedBox(height: 16),
+                  _transactionTypeRow(transaction),
+                  SizedBox(height: 16),
+                  _descriptionRow(transaction),
+                  SizedBox(height: 16),
+                  _confirmButton()
+                ],
+              ),
+            )
+        ),
       ),
     );
   }
 
-  Future<void> onAdd() async {
-    final controller = ref.read(
-      addTransactionScreenControllerProvider.notifier,
+  Widget _confirmButton() {
+    return PremiumBlueButton(
+        text: "Tilføj",
+        onTap: _createTransaction,
+        linearBegin: Alignment.topLeft,
+        linearEnd: Alignment.bottomRight
     );
-
-    var amount = ref.watch(selectedAmountProvider);
-    var category = ref.watch(selectedCategoryProvider);
-    var person = ref.watch(selectedPersonProvider);
-    var type = ref.watch(selectedTypeProvider);
-    var date = ref.watch(selectedDateProvider);
-    // ignore: unused_local_variable
-    var description = ref.watch(selectedDescriptionProvider);
-
+  }
+  
+  Future<void> _createTransaction() async {
     try {
-      _descriptionFocusNode.unfocus();
-
-      await controller.createTransaction(
-        Transaction(
-          user: person,
-          amount: amount,
-          category: category!,
-          type: type,
-          transactionTime: date,
-          description: description,
-        ),
-      );
-
-      ref.read(selectedAmountProvider.notifier).state = 0.0;
-
-      ToastService.showSuccessToast('Transaction was added!');
+      await ref.read(addTransactionScreenControllerProvider.notifier).createTransactionV2();
+      ToastService.showSuccessToast("Transaktionen blev tilføjet!");
     } catch (e) {
-      ToastService.showErrorToast(
-        'An error occurred trying to add transaction.',
-      );
+      ToastService.showErrorToast("Fejl ved oprettelse af transaktion");
     }
   }
 
-  @override
-  void dispose() {
-    _scrollController.dispose();
-    _descriptionFocusNode.dispose();
-    super.dispose();
+  Widget _headerButtons() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 64),
+      child: PremiumBlueButton(
+          icon: Icons.camera_alt_rounded,
+          text: "Scan kvittering",
+          onTap: toCameraScreen,
+          linearBegin: Alignment.topLeft,
+          linearEnd: Alignment.bottomRight
+      ),
+    );
+  }
+
+  void toCameraScreen() async {
+    await Navigator.push(
+      context,
+      PageRouteBuilder(
+        pageBuilder: (_, _, _) => CameraScreen(),
+        transitionDuration: Duration.zero,
+        reverseTransitionDuration: Duration.zero,
+      ),
+    );
+  }
+
+  Widget _amountRow(Transaction transaction) {
+    return LabelledField(
+        label: "Beløb",
+        child: GrayBox(
+          alignment: Alignment.centerLeft,
+          child: NumberEditableField(
+              fontSize: 16,
+              textAlign: TextAlign.start,
+              initialValue: transaction.amount,
+              onValueChanged: (newValue) {
+                ref.read(addTransactionScreenControllerProvider.notifier).updateAmount(newValue);
+              }
+          ),
+        )
+    );
+  }
+
+  Widget _dateRow(Transaction transaction) {
+    return LabelledField(
+        label: "Dato",
+        child: GrayBox(
+            alignment: Alignment.center,
+            child: DateInputRow(
+                initialDate: transaction.transactionTime!,
+                onChanged: ref.read(addTransactionScreenControllerProvider.notifier).updateDate)
+        )
+    );
+  }
+
+  Widget _categoryRow(Transaction transaction) {
+    return CategoryInputRow(
+      initialValue: transaction.category,
+      onCategoryChanged: (newValue)  {
+        ref.read(addTransactionScreenControllerProvider.notifier).updateCategory(newValue);
+      }
+    );
+  }
+
+  Widget _payerRow(Transaction transaction) {
+    return LabelledField(
+      label: "Betaler",
+      child: PersonInputRow(
+        onChanged: (newValue) => ref.read(addTransactionScreenControllerProvider.notifier).updatePerson(newValue),
+      ),
+    );
+  }
+
+  Widget _transactionTypeRow(Transaction transaction) {
+    return LabelledField(
+      label: "Type",
+        child: TypeInputRow(
+            onChanged: (newValue) => ref.read(addTransactionScreenControllerProvider.notifier).updateType(newValue)
+        )
+    );
+  }
+
+  Widget _descriptionRow(Transaction transaction) {
+    return LabelledField(
+        label: "Beskrivelse",
+        child: GrayBox(
+            alignment: Alignment.centerLeft,
+            child: TextEditableField(
+              textAlign: TextAlign.start,
+              fontSize: 16,
+              initialValue: transaction.description ?? "",
+              onValueChanged: (newValue) => ref.read(addTransactionScreenControllerProvider.notifier).updateDescription(newValue),
+            )
+        )
+    );
   }
 }
