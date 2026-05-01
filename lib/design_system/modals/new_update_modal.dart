@@ -1,5 +1,5 @@
 import 'package:expense_tracker/app/config/theme/app_colors.dart';
-import 'package:expense_tracker/app/shared/widgets/premium_blue.dart';
+import 'package:expense_tracker/design_system/components/buttons/premium_blue_button.dart';
 import 'package:expense_tracker/design_system/modals/app_alert_dialog.dart';
 import 'package:flutter/material.dart';
 

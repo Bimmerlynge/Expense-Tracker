@@ -1,4 +1,4 @@
-import 'package:expense_tracker/features/common/widget/empty_list_text.dart';
+import 'package:expense_tracker/app/config/theme/app_colors.dart';
 import 'package:expense_tracker/features/transactions/presentation/widgets/transaction_tile.dart';
 import 'package:flutter/material.dart';
 
@@ -16,15 +16,12 @@ class TransactionList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (transactions.isEmpty) {
-      return const Center(
-        child: EmptyListText(text: 'Ingen transaktioner for perioden'),
-      );
-    }
-
-    return ListView.builder(
-      padding: EdgeInsets.only(top: 0),
+    return ListView.separated(
       itemCount: transactions.length,
+      separatorBuilder: (_, _) => Padding(
+          padding: EdgeInsets.symmetric(horizontal: 12),
+          child: Divider(color: AppColors.primaryText.withAlpha(80))
+      ),
       itemBuilder: (context, index) {
         final tx = transactions[index];
         return Dismissible(
