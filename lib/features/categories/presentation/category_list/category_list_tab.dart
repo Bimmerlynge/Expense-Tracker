@@ -2,7 +2,7 @@ import 'package:expense_tracker/app/config/theme/app_colors.dart';
 import 'package:expense_tracker/app/shared/components/toggle.dart';
 import 'package:expense_tracker/app/shared/util/toast_service.dart';
 import 'package:expense_tracker/domain/category.dart';
-import 'package:expense_tracker/features/categories/presentation/category_list/category_list_screen_controller.dart';
+import 'package:expense_tracker/features/categories/presentation/category_list/category_list_tab_controller.dart';
 import 'package:expense_tracker/features/categories/widgets/delete_category_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -125,7 +125,7 @@ class _CategoryListTabState extends ConsumerState<CategoryListTab> {
   Future<bool> _deleteCategory(Category category) async {
     try {
       await ref
-          .read(categoryListScreenControllerProvider.notifier)
+          .read(categoryListTabControllerProvider.notifier)
           .removeCategory(category.id!);
       ToastService.showSuccessToast("Kategori blev slettet!");
       return true;
@@ -158,7 +158,7 @@ class _CategoryListTabState extends ConsumerState<CategoryListTab> {
 
   Future<void> _toggleDefault(Category category) async {
     await ref
-        .read(categoryListScreenControllerProvider.notifier)
+        .read(categoryListTabControllerProvider.notifier)
         .updateDefaultCategory(category);
   }
 }
