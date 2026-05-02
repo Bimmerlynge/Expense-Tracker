@@ -5,10 +5,10 @@ import 'package:expense_tracker/features/categories/application/category_service
 import 'package:expense_tracker/features/transactions/providers/add_transaction_providers.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part 'category_list_screen_controller.g.dart';
+part 'category_list_tab_controller.g.dart';
 
 @riverpod
-class CategoryListScreenController extends _$CategoryListScreenController {
+class CategoryListTabController extends _$CategoryListTabController {
   late final StreamSubscription<List<Category>> _subscription;
 
   @override

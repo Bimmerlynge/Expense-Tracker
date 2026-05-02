@@ -19,10 +19,9 @@ class Toggle extends StatelessWidget {
     Color? activeAccentColor,
     Color? activeBackgroundColor,
     Color? activeThumbColor
-  }) : accentColor = accentColor ?? AppColors.onPrimary.withAlpha(150),
-       backgroundColor = backgroundColor ?? AppColors.secondary.withAlpha(150),
-       activeAccentColor =
-           activeAccentColor ?? AppColors.onPrimary.withAlpha(220),
+  }) : accentColor = accentColor ?? AppColors.primary,
+       backgroundColor = backgroundColor ?? AppColors.primaryText.withAlpha(150),
+       activeAccentColor = activeAccentColor ?? AppColors.primary,
        activeBackgroundColor = activeBackgroundColor ?? Colors.white70,
        activeThumbColor = activeThumbColor ?? Colors.white70;
 
@@ -33,13 +32,26 @@ class Toggle extends StatelessWidget {
       onChanged: onToggled,
       inactiveThumbColor: accentColor,
       inactiveTrackColor: backgroundColor,
-      trackOutlineColor: WidgetStateProperty.all(accentColor),
+      trackOutlineColor: WidgetStateProperty.resolveWith<Color>((states) {
+        if (states.contains(WidgetState.selected)) {
+          return activeAccentColor;
+        }
+
+        return Colors.transparent;
+      }),
+      trackColor: WidgetStateProperty.resolveWith<Color>((states) {
+        if (states.contains(WidgetState.selected)) {
+          return activeAccentColor;
+        }
+
+        return backgroundColor;
+      }),
       activeTrackColor: activeAccentColor,
       thumbColor: WidgetStateProperty.resolveWith<Color>((states) {
         if (states.contains(WidgetState.selected)) {
           return activeThumbColor;
         }
-        return Colors.white70;
+        return activeThumbColor;
       }),
     );
   }
