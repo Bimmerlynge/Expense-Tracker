@@ -80,7 +80,10 @@ class _FixedExpenseCardNewState extends ConsumerState<FixedExpenseCardNew> {
         SizedBox(width: 6),
         IconButton(
             onPressed: () => widget.onToggleCollapse.call(widget.fixedExpense.id),
-            icon: Icon(Icons.arrow_drop_down, color: AppColors.primarySecondText)
+            icon: Icon(
+                widget.isExpanded ? Icons.arrow_drop_up : Icons.arrow_drop_down,
+                color: AppColors.primarySecondText
+            )
         ),
       ],
     );
