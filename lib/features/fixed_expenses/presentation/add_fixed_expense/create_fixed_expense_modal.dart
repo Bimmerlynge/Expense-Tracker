@@ -1,5 +1,5 @@
 import 'package:expense_tracker/app/config/theme/app_colors.dart';
-import 'package:expense_tracker/app/shared/components/text_editable_field.dart';
+import 'package:expense_tracker/design_system/primitives/text_editable_field.dart';
 import 'package:expense_tracker/app/shared/util/toast_service.dart';
 import 'package:expense_tracker/app/shared/widgets/white_box.dart';
 import 'package:expense_tracker/design_system/components/dropdown/payment_type_dropdown.dart';
@@ -10,7 +10,7 @@ import 'package:expense_tracker/design_system/modals/app_alert_dialog.dart';
 import 'package:expense_tracker/design_system/primitives/number_editable_field.dart';
 import 'package:expense_tracker/domain/fixed_expense.dart';
 import 'package:expense_tracker/extensions/date_utils_extensions.dart';
-import 'package:expense_tracker/features/fixed_expenses/presentation/add_fixed_expense/add_fixed_expense_popup_controller.dart';
+import 'package:expense_tracker/features/fixed_expenses/presentation/add_fixed_expense/create_fixed_expense_modal_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -25,8 +25,8 @@ class _CreateFixedExpenseModalState extends ConsumerState<CreateFixedExpenseModa
 
   @override
   Widget build(BuildContext context) {
-    final controller = ref.read(addFixedExpensePopupControllerProvider.notifier);
-    final fixedExpense = ref.watch(addFixedExpensePopupControllerProvider);
+    final controller = ref.read(createFixedExpenseModalControllerProvider.notifier);
+    final fixedExpense = ref.watch(createFixedExpenseModalControllerProvider);
 
     return AppAlertDialog(
         iconData: Icons.new_releases_outlined,
@@ -36,7 +36,7 @@ class _CreateFixedExpenseModalState extends ConsumerState<CreateFixedExpenseModa
     );
   }
 
-  Widget _content(AddFixedExpensePopupController controller, FixedExpense fixedExpense) {
+  Widget _content(CreateFixedExpenseModalController controller, FixedExpense fixedExpense) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -51,7 +51,7 @@ class _CreateFixedExpenseModalState extends ConsumerState<CreateFixedExpenseModa
     );
   }
 
-  Widget _title(AddFixedExpensePopupController controller) {
+  Widget _title(CreateFixedExpenseModalController controller) {
     return LabelledField(
         label: 'Titel',
         child: WhiteBox(
@@ -70,7 +70,7 @@ class _CreateFixedExpenseModalState extends ConsumerState<CreateFixedExpenseModa
     );
   }
 
-  Widget _amount(AddFixedExpensePopupController controller) {
+  Widget _amount(CreateFixedExpenseModalController controller) {
     return LabelledField(
         label: 'Beløb',
         child: WhiteBox(
@@ -97,7 +97,7 @@ class _CreateFixedExpenseModalState extends ConsumerState<CreateFixedExpenseModa
     );
   }
 
-  Widget _frequency(AddFixedExpensePopupController controller, FixedExpense fixedExpense) {
+  Widget _frequency(CreateFixedExpenseModalController controller, FixedExpense fixedExpense) {
     return LabelledField(
         label: "Frekvens",
         child: WhiteBox(
@@ -122,7 +122,7 @@ class _CreateFixedExpenseModalState extends ConsumerState<CreateFixedExpenseModa
     );
   }
 
-  Widget _nextPaymentDate(AddFixedExpensePopupController controller, FixedExpense fixedExpense) {
+  Widget _nextPaymentDate(CreateFixedExpenseModalController controller, FixedExpense fixedExpense) {
     return LabelledField(
         label: "Betalingsdato",
         child: WhiteBox(
@@ -142,7 +142,7 @@ class _CreateFixedExpenseModalState extends ConsumerState<CreateFixedExpenseModa
     );
   }
 
-  Widget _dueDatePicker(AddFixedExpensePopupController controller, FixedExpense fixedExpense) {
+  Widget _dueDatePicker(CreateFixedExpenseModalController controller, FixedExpense fixedExpense) {
     return GestureDetector(
       onTap: () async {
         final DateTime? picked = await showDatePicker(
@@ -167,7 +167,7 @@ class _CreateFixedExpenseModalState extends ConsumerState<CreateFixedExpenseModa
     );
   }
 
-  Widget _actions(AddFixedExpensePopupController controller) {
+  Widget _actions(CreateFixedExpenseModalController controller) {
     return Row(
       children: [
         Expanded(
@@ -191,7 +191,7 @@ class _CreateFixedExpenseModalState extends ConsumerState<CreateFixedExpenseModa
     );
   }
 
-  void _onCreate(AddFixedExpensePopupController controller) async {
+  void _onCreate(CreateFixedExpenseModalController controller) async {
     final success = await controller.createFixedExpense();
 
     if (success) {
