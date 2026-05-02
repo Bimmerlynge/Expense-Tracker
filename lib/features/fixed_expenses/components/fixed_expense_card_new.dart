@@ -101,7 +101,10 @@ class _FixedExpenseCardNewState extends ConsumerState<FixedExpenseCardNew> {
                 child: NumberEditableField(
                     textAlign: TextAlign.end,
                     initialValue: widget.fixedExpense.amount,
-                    onValueChanged: (_) {}
+                    onValueChanged: (val) {
+                      widget.fixedExpense.amount = val;
+                      _updateItem();
+                    }
                 ),
               ),
               Align(

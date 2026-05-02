@@ -1,6 +1,6 @@
 import 'package:expense_tracker/app/config/theme/app_colors.dart';
 import 'package:expense_tracker/app/shared/widgets/header_title.dart';
-import 'package:expense_tracker/features/fixed_expenses/presentation/add_fixed_expense/add_fixed_expense_popup.dart';
+import 'package:expense_tracker/features/fixed_expenses/presentation/add_fixed_expense/create_fixed_expense_modal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -46,7 +46,7 @@ class FixedExpenseListHeader extends ConsumerWidget {
     await showDialog(
       context: context,
       builder: (context) {
-        return AddFixedExpensePopup();
+        return CreateFixedExpenseModal();
       },
     );
   }

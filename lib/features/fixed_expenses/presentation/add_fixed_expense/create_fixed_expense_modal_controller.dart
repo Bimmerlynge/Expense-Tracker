@@ -2,10 +2,10 @@ import 'package:expense_tracker/domain/fixed_expense.dart';
 import 'package:expense_tracker/features/fixed_expenses/application/fixed_expenses_service.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part 'add_fixed_expense_popup_controller.g.dart';
+part 'create_fixed_expense_modal_controller.g.dart';
 
 @riverpod
-class AddFixedExpensePopupController extends _$AddFixedExpensePopupController {
+class CreateFixedExpenseModalController extends _$CreateFixedExpenseModalController {
   @override
   FixedExpense build() {
     return FixedExpense(

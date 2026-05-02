@@ -3,8 +3,13 @@ import 'package:flutter/material.dart';
 
 class WhiteBox extends StatelessWidget {
   final Widget child;
+  final double borderRadius;
 
-  const WhiteBox({super.key, required this.child});
+  const WhiteBox({
+    super.key,
+    required this.child,
+    this. borderRadius = 10
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +17,7 @@ class WhiteBox extends StatelessWidget {
       alignment: Alignment.topCenter,
       decoration: BoxDecoration(
         color: AppColors.whiter,
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(borderRadius),
         border: Border.all(color: Colors.grey.shade300),
       ),
       child: child,
