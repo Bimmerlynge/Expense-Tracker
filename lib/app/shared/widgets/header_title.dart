@@ -9,6 +9,7 @@ class HeaderTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
+      maxLines: 1,
       title,
       style: TextStyle(
         color: AppColors.white,

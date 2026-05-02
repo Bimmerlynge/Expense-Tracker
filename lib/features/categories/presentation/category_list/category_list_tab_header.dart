@@ -1,6 +1,6 @@
 import 'package:expense_tracker/app/config/theme/app_colors.dart';
 import 'package:expense_tracker/app/shared/widgets/header_title.dart';
-import 'package:expense_tracker/features/categories/presentation/create_category/create_category_popup.dart';
+import 'package:expense_tracker/features/categories/presentation/create_category/create_category_modal.dart';
 import 'package:flutter/material.dart';
 
 class CategoryListTabHeader extends StatelessWidget {
@@ -14,7 +14,6 @@ class CategoryListTabHeader extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Expanded(child: _title()),
-          SizedBox(width: 50),
           _createButton(context)
         ],
       ),
@@ -29,7 +28,7 @@ class CategoryListTabHeader extends StatelessWidget {
         HeaderTitle(title: "Kategorier i hustanden"),
         SizedBox(height: 4),
         FractionallySizedBox(
-            widthFactor: 0.8,
+            widthFactor: 0.65,
             child: Text(
               'Vælg hvilken kategori appen bruger som standard. \nÆndrer ikonet for en given kategori.',
               style: TextStyle(color: AppColors.white, fontSize: 11),
@@ -98,7 +97,7 @@ class CategoryListTabHeader extends StatelessWidget {
     await showDialog(
       context: context,
       builder: (context) {
-        return CreateCategoryPopup();
+        return CreateCategoryModal();
       },
     );
   }
