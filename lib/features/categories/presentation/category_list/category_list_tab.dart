@@ -3,7 +3,7 @@ import 'package:expense_tracker/app/shared/components/toggle.dart';
 import 'package:expense_tracker/app/shared/util/toast_service.dart';
 import 'package:expense_tracker/domain/category.dart';
 import 'package:expense_tracker/features/categories/presentation/category_list/category_list_tab_controller.dart';
-import 'package:expense_tracker/features/categories/widgets/delete_category_dialog.dart';
+import 'package:expense_tracker/features/categories/widgets/delete_category_modal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -112,10 +112,14 @@ class _CategoryListTabState extends ConsumerState<CategoryListTab> {
   Future<bool> _showDeleteConfirmationDialog(Category category) async {
     final result = await showDialog<bool>(
       context: context,
-      builder: (dialogContext) => DeleteCategoryDialog(
+      builder: (dialogContext) => DeleteCategoryModal(
         category: category,
-        onConfirm: () async {
+        onDelete: () async {
           await _deleteCategory(category);
+
+          if(mounted) {
+            Navigator.of(context).pop();
+          }
         },
       ),
     );
