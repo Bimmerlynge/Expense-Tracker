@@ -11,7 +11,8 @@ class TextEditableField extends StatefulWidget {
     required this.initialValue,
     required this.onValueChanged,
     this.textAlign,
-    this.fontSize});
+    this.fontSize
+  });
 
   @override
   State<TextEditableField> createState() => _TextEditableFieldState();
@@ -60,10 +61,8 @@ class _TextEditableFieldState extends State<TextEditableField> {
   @override
   Widget build(BuildContext context) {
     return TextField(
-
       onSubmitted: _onSubmit,
       onChanged: _onSubmit,
-
       controller: _controller,
       focusNode: _focusNode,
       onTap: _selectAll,
