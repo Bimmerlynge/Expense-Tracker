@@ -1,6 +1,6 @@
 import 'package:expense_tracker/design_system/primitives/labelled_field.dart';
 import 'package:expense_tracker/app/shared/components/t_dropdown.dart';
-import 'package:expense_tracker/app/shared/widgets/gray_box.dart';
+import 'package:expense_tracker/design_system/primitives/gray_box.dart';
 import 'package:expense_tracker/domain/category.dart';
 import 'package:expense_tracker/features/categories/providers/default_category_provider.dart';
 import 'package:expense_tracker/features/categories/providers/household_categories_provider.dart';

@@ -6,18 +6,23 @@ class AppAlertDialog extends StatelessWidget {
   final String title;
   final Widget content;
   final Widget actions;
+  final double? contentPadding;
 
   const AppAlertDialog({
     super.key,
     required this.iconData,
     required this.title,
     required this.content,
-    required this.actions
+    required this.actions,
+    this.contentPadding
   });
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+      contentPadding: contentPadding != null
+          ? EdgeInsets.symmetric(vertical: contentPadding!, horizontal: 24)
+          : null,
       icon: Icon(iconData),
       title: Column(
         crossAxisAlignment: CrossAxisAlignment.center,

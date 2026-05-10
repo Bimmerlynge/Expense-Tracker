@@ -1,5 +1,5 @@
 import 'package:expense_tracker/app/shared/util/toast_service.dart';
-import 'package:expense_tracker/app/shared/widgets/white_box.dart';
+import 'package:expense_tracker/design_system/primitives/white_box.dart';
 import 'package:expense_tracker/design_system/components/buttons/premium_blue_button.dart';
 import 'package:expense_tracker/design_system/components/buttons/premium_blue_button_inverted.dart';
 import 'package:expense_tracker/design_system/modals/app_alert_dialog.dart';

@@ -1,5 +1,5 @@
 import 'package:expense_tracker/design_system/primitives/number_editable_field.dart';
-import 'package:expense_tracker/app/shared/widgets/gray_box.dart';
+import 'package:expense_tracker/design_system/primitives/gray_box.dart';
 import 'package:expense_tracker/domain/category.dart';
 import 'package:expense_tracker/features/transactions/domain/discount_item.dart';
 import 'package:expense_tracker/features/transactions/domain/line_item.dart';
