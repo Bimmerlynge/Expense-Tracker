@@ -2,9 +2,9 @@ import 'package:expense_tracker/app/config/theme/app_colors.dart';
 import 'package:expense_tracker/app/providers/app_providers.dart';
 import 'package:expense_tracker/app/shared/components/actions_row.dart';
 import 'package:expense_tracker/app/shared/components/toggle.dart';
+import 'package:expense_tracker/design_system/modals/category_bottom_sheet.dart';
 import 'package:expense_tracker/domain/transaction.dart';
 import 'package:expense_tracker/features/summaries/presentation/charts/category_chart/category_bar_chart.dart';
-import 'package:expense_tracker/features/summaries/components/category_filter_chip_field.dart';
 import 'package:expense_tracker/features/summaries/domain/category_spending_filter_predicates.dart';
 import 'package:expense_tracker/features/summaries/presentation/charts/category_chart/excluded_categories_controller.dart';
 import 'package:expense_tracker/features/summaries/providers/category_spending_list_provider.dart';
@@ -90,9 +90,12 @@ class _CategoryChartScreenNewState extends ConsumerState<CategoryChartScreen> {
       context: context,
       isScrollControlled: true,
       builder: (context) {
-        return CategoryFilterChipField(
+        return CategoryBottomSheet(
           categories: categories,
-          excluded: excluded,
+          excludedCategories: excluded,
+          onUpdated: (list) {
+            ref.read(excludedCategoriesControllerProvider.notifier).updateExcluded(list);
+          },
         );
       },
     );

@@ -85,16 +85,8 @@ class AppTheme {
       indicatorColor: AppColors.onPrimary,
       unselectedLabelColor: AppColors.onPrimary.withAlpha(100),
     ),
-    chipTheme: ChipThemeData(
-      color: WidgetStateProperty.resolveWith<Color?>((states) {
-        if (!states.contains(WidgetState.selected)) {
-          return AppColors.primarySecondText;
-        }
-        return AppColors.primaryText;
-      }),
-    ),
     canvasColor: AppColors.white,
-    bottomSheetTheme: BottomSheetThemeData(backgroundColor: AppColors.primary),
+    bottomSheetTheme: BottomSheetThemeData(backgroundColor: Colors.transparent),
     checkboxTheme: CheckboxThemeData(
       side: WidgetStateBorderSide.resolveWith((Set<WidgetState> states) {
         return const BorderSide(color: AppColors.primaryText, width: 2);
