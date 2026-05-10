@@ -1,10 +1,9 @@
 import 'package:expense_tracker/app/config/theme/app_colors.dart';
 import 'package:expense_tracker/app/shared/components/actions_row.dart';
-import 'package:expense_tracker/app/shared/components/multi_select_widget.dart';
 import 'package:expense_tracker/app/shared/components/toggle.dart';
 import 'package:expense_tracker/app/shared/util/toast_service.dart';
+import 'package:expense_tracker/design_system/modals/category_bottom_sheet.dart';
 import 'package:expense_tracker/design_system/modals/delete_transaction_modal.dart';
-import 'package:expense_tracker/domain/category.dart';
 import 'package:expense_tracker/domain/transaction.dart';
 import 'package:expense_tracker/features/transactions/domain/transaction_filter.dart';
 import 'package:expense_tracker/features/transactions/presentation/widgets/transaction_list.dart';
@@ -35,12 +34,14 @@ class _TransactionListScreenState extends ConsumerState<TransactionListScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final transactions = ref.watch(filteredTransactionList);
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: Column(
         children: [
           _actions(),
-          _buildList(),
+          _buildList(transactions),
         ],
       ),
     );
@@ -73,31 +74,49 @@ class _TransactionListScreenState extends ConsumerState<TransactionListScreen> {
   }
 
   Future<void> _onFilterEdit() async {
-    final categories = ref.read(transactionCategoriesProvider);
-    final currentFilter = ref.read(transactionFilterProvider);
-
-    showModalBottomSheet(
+    await showModalBottomSheet(
         context: context,
         builder: (builder) {
-          return MultiSelectWidget(
-            items: categories,
-            initialValue: currentFilter.categories.toList(),
-            onUpdated: _onFilterUpdated,
+          return Consumer(
+            builder: (builder, ref, _) {
+              final filter = ref.watch(transactionFilterProvider);
+              final categories = ref.watch(transactionCategoriesProvider);
+
+              final allCategoryNames = categories.map((c) => c.name).toList();
+
+              final excludedCategories = categories
+                  .where((c) => !filter.categories.contains(c))
+                  .map((c) => c.name)
+                  .toList();
+
+              return CategoryBottomSheet(
+                categories: allCategoryNames,
+                excludedCategories: excludedCategories,
+                onUpdated: _onFilterUpdated,
+              );
+            }
           );
         }
     );
   }
 
-  void _onFilterUpdated(List<Category?> updatedCategories) {
+
+
+  void _onFilterUpdated(List<String> updatedCategories) {
     final filter = ref.read(transactionFilterProvider);
+    final allCategories = ref.read(transactionCategoriesProvider);
+
+    final selectedCategories = allCategories
+        .where((category) => !updatedCategories.contains(category.name))
+        .toSet();
 
     ref.read(transactionFilterProvider.notifier).state =
-        filter.copyWith(categories: updatedCategories.whereType<Category>().toSet());
+        filter.copyWith(
+          categories: selectedCategories,
+        );
   }
 
-  Widget _buildList() {
-    final transactions = ref.watch(filteredTransactionList);
-
+  Widget _buildList(List<Transaction> transactions) {
     if (transactions.isEmpty) {
       return Center(
         child: CircularProgressIndicator(),
