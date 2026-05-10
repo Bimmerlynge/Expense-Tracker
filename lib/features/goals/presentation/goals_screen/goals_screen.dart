@@ -6,13 +6,12 @@ import 'package:expense_tracker/domain/goal.dart';
 import 'package:expense_tracker/features/common/widget/async_value_widget.dart';
 import 'package:expense_tracker/features/goals/components/delete_goal_dialog.dart';
 import 'package:expense_tracker/features/goals/components/goal_list_item.dart';
+import 'package:expense_tracker/features/goals/presentation/create_saving_goal/create_saving_goal_modal.dart';
 import 'package:expense_tracker/features/goals/presentation/goal_detail_popup/goal_detail_popup.dart';
 import 'package:expense_tracker/features/goals/presentation/goals_screen/goals_screen_controller.dart';
 import 'package:expense_tracker/features/goals/providers/goal_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import '../create_saving_goal/create_saving_goal_popup.dart';
 
 class GoalsScreen extends ConsumerStatefulWidget {
   const GoalsScreen({super.key});
@@ -71,7 +70,7 @@ class _GoalsScreenState extends ConsumerState<GoalsScreen> {
     await showDialog(
       context: context,
       builder: (context) {
-        return CreateSavingGoalPopup();
+        return CreateSavingGoalModal();
       },
     );
   }

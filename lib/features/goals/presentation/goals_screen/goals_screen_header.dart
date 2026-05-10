@@ -1,7 +1,7 @@
 import 'package:expense_tracker/app/config/theme/app_colors.dart';
 import 'package:expense_tracker/app/shared/components/toggle.dart';
 import 'package:expense_tracker/app/shared/widgets/header_title.dart';
-import 'package:expense_tracker/features/goals/presentation/create_saving_goal/create_saving_goal_popup.dart';
+import 'package:expense_tracker/features/goals/presentation/create_saving_goal/create_saving_goal_modal.dart';
 import 'package:expense_tracker/features/goals/providers/goal_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -81,7 +81,7 @@ class _GoalsScreenHeaderState extends ConsumerState<GoalsScreenHeader> {
     await showDialog(
       context: context,
       builder: (context) {
-        return CreateSavingGoalPopup();
+        return CreateSavingGoalModal();
       },
     );
   }

@@ -3,11 +3,11 @@ import 'package:expense_tracker/domain/goal.dart';
 import 'package:expense_tracker/features/goals/application/goal_service.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part 'create_saving_goal_popup_controller.g.dart';
+part 'create_saving_goal_modal_controller.g.dart';
 
 @riverpod
-class CreateSavingGoalPopupController
-    extends _$CreateSavingGoalPopupController {
+class CreateSavingGoalModalController
+    extends _$CreateSavingGoalModalController {
   @override
   Goal build() {
     return Goal(
