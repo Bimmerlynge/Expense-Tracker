@@ -1,6 +1,7 @@
 import 'package:expense_tracker/app/config/theme/app_colors.dart';
 import 'package:expense_tracker/app/shared/components/toggle.dart';
 import 'package:expense_tracker/app/shared/widgets/header_title.dart';
+import 'package:expense_tracker/features/goals/providers/goal_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -34,7 +35,8 @@ class _GoalsScreenHeaderState extends ConsumerState<GoalsScreenHeader> {
     return Row(
       children: [
         _toggle(),
-        Text('Vis kun mine'),
+        SizedBox(width: 4),
+        Text('Vis kun mine', style: TextStyle(color: AppColors.whiter)),
         Spacer(),
         _createButton()
       ],
@@ -43,8 +45,14 @@ class _GoalsScreenHeaderState extends ConsumerState<GoalsScreenHeader> {
 
   Widget _toggle() {
     return Toggle(
-        value: false,
-        onToggled: (_) {}
+        trackOutlineColor: AppColors.opaqueBlueAccent,
+        accentColor: AppColors.secondary,
+        backgroundColor: AppColors.secondary,
+        activeAccentColor: AppColors.secondary,
+        value: ref.watch(showOnlyMyGoalsProvider),
+        onToggled: (val) {
+          ref.read(showOnlyMyGoalsProvider.notifier).state = val;
+        }
     );
   }
 
