@@ -17,10 +17,10 @@ class GoalListItem extends StatelessWidget {
       children: [
         Card(
           margin: EdgeInsets.symmetric(vertical: 8),
-          color: AppColors.secondary,
+          color: AppColors.whiter,
           elevation: 2,
           child: Padding(
-            padding: const EdgeInsets.all(12.0),
+            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24),
             child: Row(
               children: [
                 _buildImage(),
@@ -31,14 +31,30 @@ class GoalListItem extends StatelessWidget {
           ),
         ),
         Positioned(
-          right: -23,
-          top: -13,
-          child: IconButton(
-            onPressed: () async {
+          right: 10,
+          top: 15,
+          child: InkWell(
+            onTap: () async {
               await onDelete(goal);
             },
-            color: Colors.red,
-            icon: Icon(Icons.delete),
+            child: Container(
+              padding: EdgeInsets.all(4),
+              decoration: BoxDecoration(
+                color: AppColors.whiter,
+                borderRadius: BorderRadius.circular(45),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.08),
+                    blurRadius: 10,
+                    offset: Offset(0, 2),
+                  ),
+                ]
+              ),
+              child: Icon(
+                Icons.delete_outline,
+                color: Colors.red,
+              ),
+            ),
           ),
         ),
       ],
@@ -91,7 +107,7 @@ class GoalListItem extends StatelessWidget {
       style: TTextTheme.mainTheme.labelMedium?.copyWith(
         fontSize: 18,
         fontWeight: FontWeight.bold,
-        color: Colors.white70,
+        color: Colors.black87,
       ),
     );
   }
@@ -123,15 +139,13 @@ class GoalListItem extends StatelessWidget {
             Text(
               '${goal.currentAmount.toStringAsFixed(0)} opsparet',
               style: TTextTheme.mainTheme.bodySmall?.copyWith(
-                letterSpacing: 2,
-                color: Colors.white60,
+                color: Colors.black87,
               ),
             ),
             Text(
               '${remaining.toStringAsFixed(0)} tilbage',
               style: TTextTheme.mainTheme.bodySmall?.copyWith(
-                letterSpacing: 2,
-                color: Colors.white60,
+                color: Colors.black54,
               ),
             ),
           ],
@@ -143,15 +157,13 @@ class GoalListItem extends StatelessWidget {
               '$percentSaved% opsparet',
               style: TTextTheme.mainTheme.bodySmall?.copyWith(
                 color: Colors.green,
-                letterSpacing: 2,
                 fontWeight: FontWeight.bold,
               ),
             ),
             Text(
               '${goal.goalAmount.toStringAsFixed(0)} i alt',
               style: TTextTheme.mainTheme.bodySmall?.copyWith(
-                letterSpacing: 2,
-                color: Colors.white60,
+                color: Colors.black54,
               ),
             ),
           ],

@@ -1,6 +1,6 @@
 import 'package:expense_tracker/app/config/theme/app_colors.dart';
 import 'package:expense_tracker/design_system/primitives/number_editable_field.dart';
-import 'package:expense_tracker/app/shared/widgets/gray_box.dart';
+import 'package:expense_tracker/design_system/primitives/gray_box.dart';
 import 'package:expense_tracker/design_system/components/buttons/premium_blue_button.dart';
 import 'package:expense_tracker/domain/fixed_expense.dart';
 import 'package:expense_tracker/extensions/date_utils_extensions.dart';

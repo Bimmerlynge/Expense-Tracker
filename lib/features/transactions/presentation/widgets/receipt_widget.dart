@@ -1,6 +1,6 @@
 import 'package:expense_tracker/app/config/theme/app_colors.dart';
 import 'package:expense_tracker/design_system/components/buttons/premium_blue_button.dart';
-import 'package:expense_tracker/app/shared/widgets/white_box.dart';
+import 'package:expense_tracker/design_system/primitives/white_box.dart';
 import 'package:expense_tracker/features/categories/presentation/category_list/category_list_tab_controller.dart';
 import 'package:expense_tracker/features/common/widget/async_value_widget.dart';
 import 'package:expense_tracker/features/transactions/domain/receipt.dart';

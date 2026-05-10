@@ -81,7 +81,7 @@ class _TabPageState extends ConsumerState<TabPage>
   Widget _body() {
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.whiter,
+        color: widget.section.transparentBody ? Colors.transparent : AppColors.whiter,
         borderRadius: BorderRadius.circular(16)
       ),
       margin: EdgeInsets.symmetric(horizontal: 12),

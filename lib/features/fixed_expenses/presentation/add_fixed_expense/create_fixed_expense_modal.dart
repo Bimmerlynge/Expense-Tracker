@@ -1,7 +1,7 @@
 import 'package:expense_tracker/app/config/theme/app_colors.dart';
 import 'package:expense_tracker/design_system/primitives/text_editable_field.dart';
 import 'package:expense_tracker/app/shared/util/toast_service.dart';
-import 'package:expense_tracker/app/shared/widgets/white_box.dart';
+import 'package:expense_tracker/design_system/primitives/white_box.dart';
 import 'package:expense_tracker/design_system/components/dropdown/payment_type_dropdown.dart';
 import 'package:expense_tracker/design_system/primitives/labelled_field.dart';
 import 'package:expense_tracker/design_system/components/buttons/premium_blue_button.dart';
