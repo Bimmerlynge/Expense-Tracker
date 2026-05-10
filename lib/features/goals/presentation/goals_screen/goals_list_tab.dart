@@ -1,6 +1,6 @@
 import 'package:expense_tracker/app/shared/util/toast_service.dart';
 import 'package:expense_tracker/domain/goal.dart';
-import 'package:expense_tracker/features/goals/components/delete_goal_dialog.dart';
+import 'package:expense_tracker/features/goals/components/delete_goal_modal.dart';
 import 'package:expense_tracker/features/goals/components/goal_list_item.dart';
 import 'package:expense_tracker/features/goals/presentation/goals_screen/goals_screen_controller.dart';
 import 'package:expense_tracker/features/goals/providers/goal_providers.dart';
@@ -20,15 +20,13 @@ class _GoalsListTabState extends ConsumerState<GoalsListTab> {
   @override
   Widget build(BuildContext context) {
     final goalList = ref.watch(goalListProvider);
-    final list = [...goalList, ...goalList, ...goalList];
-
 
     return ListView.separated(
-      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+        padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
         separatorBuilder: (_,_) => SizedBox(height: 6),
-        itemCount: list.length,
+        itemCount: goalList.length,
         itemBuilder: (context, index) {
-          final goal = list[index];
+          final goal = goalList[index];
 
           return GoalListItem(
               goal: goal,
@@ -39,15 +37,15 @@ class _GoalsListTabState extends ConsumerState<GoalsListTab> {
   }
 
   Future<void> _showDeleteGoalPopup(Goal goal) async {
-    // await showDialog(
-    //   context: context,
-    //   builder: (context) {
-    //     return DeleteGoalDialog(
-    //       goal: goal,
-    //       onConfirm: () => _handleOnDelete(goal.id!),
-    //     );
-    //   },
-    // );
+    await showDialog(
+      context: context,
+      builder: (context) {
+        return DeleteGoalModal(
+          goal: goal,
+          onConfirm: () => _handleOnDelete(goal.id!),
+        );
+      },
+    );
   }
 
   Future<void> _handleOnDelete(String goalId) async {
@@ -57,6 +55,10 @@ class _GoalsListTabState extends ConsumerState<GoalsListTab> {
 
     if (success) {
       ToastService.showSuccessToast("Opsarings mål blev slettet!");
+
+      if(mounted) {
+        Navigator.of(context).pop();
+      }
     } else {
       ToastService.showErrorToast("Kunne ikke slette opsparingsmål");
     }
