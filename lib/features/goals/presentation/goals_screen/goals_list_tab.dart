@@ -2,6 +2,7 @@ import 'package:expense_tracker/app/shared/util/toast_service.dart';
 import 'package:expense_tracker/domain/goal.dart';
 import 'package:expense_tracker/features/goals/components/delete_goal_modal.dart';
 import 'package:expense_tracker/features/goals/components/goal_list_item.dart';
+import 'package:expense_tracker/features/goals/presentation/goal_detail_popup/goal_detail_modal.dart';
 import 'package:expense_tracker/features/goals/presentation/goals_screen/goals_screen_controller.dart';
 import 'package:expense_tracker/features/goals/providers/goal_providers.dart';
 import 'package:flutter/material.dart';
@@ -28,11 +29,23 @@ class _GoalsListTabState extends ConsumerState<GoalsListTab> {
         itemBuilder: (context, index) {
           final goal = goalList[index];
 
-          return GoalListItem(
-              goal: goal,
-              onDelete: _showDeleteGoalPopup
+          return GestureDetector(
+            onTap: () => _showGoalPopup(goal),
+            child: GoalListItem(
+                goal: goal,
+                onDelete: _showDeleteGoalPopup
+            ),
           );
         },
+    );
+  }
+
+  void _showGoalPopup(Goal goal) async {
+    await showDialog(
+      context: context,
+      builder: (context) {
+        return GoalDetailModal(goal: goal);
+      },
     );
   }
 

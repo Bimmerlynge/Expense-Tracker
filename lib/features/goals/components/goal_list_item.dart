@@ -120,7 +120,7 @@ class GoalListItem extends StatelessWidget {
         value: progress,
         minHeight: 8,
         backgroundColor: Colors.grey.shade300,
-        color: Colors.green.shade400,
+        color: AppColors.primary,
       ),
     );
   }
@@ -156,7 +156,7 @@ class GoalListItem extends StatelessWidget {
             Text(
               '$percentSaved% opsparet',
               style: TTextTheme.mainTheme.bodySmall?.copyWith(
-                color: Colors.green,
+                color: AppColors.secondary,
                 fontWeight: FontWeight.bold,
               ),
             ),
