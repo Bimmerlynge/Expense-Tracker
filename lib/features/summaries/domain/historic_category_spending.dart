@@ -20,4 +20,14 @@ class HistoricCategorySpending {
 
     dataKey.insertTransaction(transaction);
   }
+
+  double getTotal() {
+    return dataSet.values.fold(0.0, (sum, spending) => sum + spending.total);
+  }
+
+  double getAverage() {
+    final subSet = dataSet.entries.toList().sublist(0, dataSet.entries.length - 1).asMap();
+    final total = subSet.values.fold(0.0, (sum, entry) => sum + entry.value.total);
+    return total / dataSet.entries.length - 1;
+  }
 }

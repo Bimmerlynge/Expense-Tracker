@@ -35,4 +35,12 @@ class LocalStorageService {
 
     await prefsRepository.updateCollapsedFixedExpenses(collapsed);
   }
+
+  List<String> getSelectedHistoricCategories() {
+    return prefsRepository.selectedHistoricCategories();
+  }
+
+  Future<void> updateSelectedHistoricCategories(List<String> categories) async {
+    await prefsRepository.updateSelectedHistoricCategories(categories);
+  }
 }
