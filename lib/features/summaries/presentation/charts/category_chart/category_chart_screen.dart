@@ -49,6 +49,7 @@ class _CategoryChartScreenNewState extends ConsumerState<CategoryChartScreen> {
                 ref.read(showOnlyMineProvider.notifier).state = val;
               },
             ),
+            SizedBox(width: 4),
             Text('Vis kun mit', style: TextStyle(color: AppColors.containerOnPrimary)),
           ],
         ),

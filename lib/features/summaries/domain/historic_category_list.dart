@@ -14,6 +14,12 @@ class HistoricCategoryList {
     existingCategory.insertTransaction(transaction);
   }
 
+  void addAll(List<Transaction> transactions) {
+    for (final t in transactions) {
+      addToList(t);
+    }
+  }
+
   HistoricCategorySpending _getOrCreate(Transaction transaction) {
     return list.firstWhere(
       (h) => h.category.name == transaction.category.name,

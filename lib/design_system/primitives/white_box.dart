@@ -14,7 +14,6 @@ class WhiteBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      alignment: Alignment.topCenter,
       decoration: BoxDecoration(
         color: AppColors.whiter,
         borderRadius: BorderRadius.circular(borderRadius),
