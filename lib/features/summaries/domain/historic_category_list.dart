@@ -1,5 +1,6 @@
 import 'package:expense_tracker/domain/category.dart';
 import 'package:expense_tracker/domain/transaction.dart';
+import 'package:expense_tracker/features/summaries/domain/category_spending.dart';
 import 'package:expense_tracker/features/summaries/domain/historic_category_spending.dart';
 
 class HistoricCategoryList {
@@ -18,6 +19,7 @@ class HistoricCategoryList {
     for (final t in transactions) {
       addToList(t);
     }
+    populateMissingDates();
   }
 
   HistoricCategorySpending _getOrCreate(Transaction transaction) {
@@ -42,5 +44,21 @@ class HistoricCategoryList {
         .fold<double>(0, (max, amount) => amount > max ? amount : max);
 
     return maxAmount;
+  }
+
+  void populateMissingDates() {
+    final allDates = <DateTime>{};
+    for (final entry in getAll()) {
+      allDates.addAll(entry.dataSet.keys);
+    }
+
+    for (final historic in getAll()) {
+      for (final date in allDates) {
+        historic.dataSet.putIfAbsent(
+          date,
+              () => CategorySpending(name: historic.category.name),
+        );
+      }
+    }
   }
 }

@@ -34,7 +34,7 @@ final historicListAsync = StreamProvider((ref) {
   final end = DateTime(now.year, now.month + 1, 1);
   final start = DateTime(end.year, end.month - 6, 1);
 
-  return ref.watch(summaryServiceProvider).getTransactionsInRange(start, end).asStream();
+  return ref.watch(summaryServiceProvider).getTransactionsInRange(start, end);
 });
 
 final selectListProvider = StateProvider<List<String>>((ref) {

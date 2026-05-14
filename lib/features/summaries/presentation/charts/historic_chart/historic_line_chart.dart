@@ -1,5 +1,4 @@
 import 'package:expense_tracker/app/config/theme/app_colors.dart';
-import 'package:expense_tracker/features/summaries/domain/category_spending.dart';
 import 'package:expense_tracker/features/summaries/domain/historic_category_spending.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
@@ -120,11 +119,7 @@ class HistoricLineChart extends StatelessWidget {
           }
 
           return Padding(
-            padding: EdgeInsets.only(
-                top: 8,
-                // left: index == 0 ? 12 : 0,
-                // right: index == labels.length - 1 ? 24 : 0
-            ),
+            padding: EdgeInsets.only(top: 8),
             child: Text(
               labels[index],
               style: const TextStyle(fontSize: 10),
@@ -135,20 +130,6 @@ class HistoricLineChart extends StatelessWidget {
   }
 
   List<LineChartBarData> _buildLineBarsData() {
-    final allDates = <DateTime>{};
-    for (final entry in lines) {
-      allDates.addAll(entry.dataSet.keys);
-    }
-
-    for (final historic in lines) {
-      for (final date in allDates) {
-        historic.dataSet.putIfAbsent(
-          date,
-              () => CategorySpending(name: historic.category.name),
-        );
-      }
-    }
-
     return lines.asMap().entries.map((entry) {
       final index = entry.key;
       final line = entry.value;
