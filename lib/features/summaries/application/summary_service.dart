@@ -31,11 +31,11 @@ class SummaryService {
     return transactionService.getTransactionsInRange(start, end);
   }
 
-  Future<List<Transaction>> getTransactionsInRange(
+  Stream<List<Transaction>> getTransactionsInRange(
     DateTime start,
     DateTime end,
-  ) async {
-    return await transactionService.getTransactionInRange(start, end);
+  ) {
+    return transactionService.getTransactionsInRange(start, end);
   }
 
   Future<void> updateHistoricLegendColor(Category category) async {
